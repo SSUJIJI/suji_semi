@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<!-- 	author : ¿ëÈÆ -->
 	<h1>·Î±×ÀÎ</h1>
-	¿ëÈÆ
 </body>
 </html>
