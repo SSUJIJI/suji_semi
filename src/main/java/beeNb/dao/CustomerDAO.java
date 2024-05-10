@@ -52,4 +52,30 @@ public class CustomerDAO {
 		return row;
 	}
 	
+	// 설명 : 고객 로그인 Action
+    // 호출 : /customer/customerLoginAction.jsp
+    // return : HashMap(Id,Pw)
+    public static HashMap<String, String> loginCustomer (String customerId, String customerPw)
+          throws Exception {
+       HashMap<String, String > map = null;
+       Connection conn = DBHelper.getConnection();
+       String sql = "SELECT customer_id, customer_pw FROM customer WHERE customer_id =? AND customer_pw =?";
+       PreparedStatement stmt = conn.prepareStatement(sql);
+       stmt.setString(1, customerId);
+       stmt.setString(2, customerPw);
+       // 디버깅
+       System.out.println("stmt :" + stmt);
+       
+       ResultSet rs = stmt.executeQuery();
+       if(rs.next()) {
+          map = new HashMap<String, String>();
+          map.put("customerId", rs.getString("customer_id"));
+          map.put("customerPw", rs.getString("customer_pw"));
+       }
+       conn.close();
+       return map;
+       
+    }
+    
+	
 }
