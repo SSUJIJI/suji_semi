@@ -6,6 +6,10 @@
 <%
 	System.out.println("=====empRoomList.jsp=====");
 
+	// 세션 값 불러오기
+	HashMap<String, Object> loginEmp = (HashMap<String, Object>)(session.getAttribute("loginEmp"));
+	System.out.println("loginEmp : " + loginEmp);
+
 	// 숙소 목록 출력
 	ArrayList<HashMap<String, Object>> selectRoomList = RoomDAO.selectRoomList();
 %>
