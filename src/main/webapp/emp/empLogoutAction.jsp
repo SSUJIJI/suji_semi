@@ -1,15 +1,6 @@
-<%@page import="beeNb.dao.DBHelper"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-	DBHelper.getConnection();
+	System.out.println("=====empLogoutAction.jsp=====");
+	session.invalidate();	
+	response.sendRedirect("/BeeNb/emp/empLoginForm.jsp");
 %>
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="UTF-8">
-	<title></title>
-</head>
-<body>
-	<h1>로그인</h1>
-</body>
-</html>

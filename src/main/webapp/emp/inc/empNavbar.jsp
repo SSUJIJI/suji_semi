@@ -47,7 +47,7 @@
             <li><a class="dropdown-item" href="#">테마관리</a></li>
             <li><a class="dropdown-item" href="#">VOC관리</a></li>
             <hr>
-            <li><a class="dropdown-item" href="#">로그아웃</a></li>
+            <li><a class="dropdown-item" href="/BeeNb/emp/empLogoutAction.jsp">로그아웃</a></li>
           </ul>
         </li>
       </div>
