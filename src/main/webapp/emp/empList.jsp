@@ -20,6 +20,12 @@
 	// currentPage 요청 값이 있을 경우(페이지 이동 시) 요청 값으로 변경
 	if(request.getParameter("currentPage") != null) {
 		currentPage = Integer.parseInt(request.getParameter("currentPage"));
+		// empList 페이지의 currentPage 세션 값 설정
+		session.setAttribute("empListCurrentPage", currentPage);
+	}
+	// currentPage값 세션변수에 저장한 currentPage값으로 변경
+	if(session.getAttribute("empListCurrentPage") != null) {
+		currentPage = (int)session.getAttribute("empListCurrentPage");	
 	}
 	// 디버깅
 	System.out.println("currentPage : " + currentPage);
@@ -31,6 +37,11 @@
 	// rowPerPage 요청 값이 있을 경우(select박스로 선택했을 때) 요청 값으로 변경
 	if(request.getParameter("rowPerPage") != null) {
 		rowPerPage = Integer.parseInt(request.getParameter("rowPerPage"));
+		session.setAttribute("empListRowPerPage", rowPerPage);
+	}
+	// rowPerPage값 세션변수에 저장한 rowPerPage값으로 변경
+	if(session.getAttribute("empListRowPerPage") != null) {
+		rowPerPage = (int)session.getAttribute("empListRowPerPage");
 	}
 	// 디버깅
 	System.out.println("rowPerPage : " + rowPerPage);
@@ -74,15 +85,109 @@
 	<div class="container">
 		<!-- 관리자 네비게이션 바 -->
 		<jsp:include page="/emp/inc/empNavbar.jsp"></jsp:include>
-		<table>
+		
+		<!-- 관리자 이름 검색 -->
+		<form action="/BeeNb/emp/empList.jsp" method="post">
+			<input type="text" name="searchWord" placeholder="사원 이름으로 찾기">
+			<button type="submit">검색</button>
+		</form>
+		
+		<!-- rowPerPage 설정 -->
+		<form action="/BeeNb/emp/empList.jsp" method="post">
+			<select name="rowPerPage">
+				<%
+					for(int i = 10; i <= 50; i = i + 20) {
+						if(rowPerPage == i) {
+				%>
+							<option value="<%=i%>" selected="selected"><%=i%>개씩</option>
+				<%
+						} else {
+				%>
+							<option value="<%=i%>"><%=i%>개씩</option>
+				<%
+						}
+					}
+				%>
+			</select>
+			
+			<button type="submit">보기</button>
+		</form>
+		<!-- 관리자 리스트 출력 -->
+		<table class="table">
 			<tr>
-				<th></th>
-				<th></th>
-				<th></th>
-				<th></th>
-				<th></th>
+				<th>empNo</th>
+				<th>empName</th>
+				<th>empPhone</th>
+				<th>empBirth</th>
+				<th>createDate</th>
 			</tr>
+			<%
+				for(HashMap<String, Object> m : empList) {
+			%>
+					<tr>
+						<td><%=m.get("empNo")%></td>
+						<td><%=m.get("empName")%></td>
+						<td><%=m.get("empPhone")%></td>
+						<td><%=m.get("empBirth")%></td>
+						<td><%=m.get("createDate")%></td>
+					</tr>
+			<%
+				}
+			%>
 		</table>
+		
+		<!-- 페이징 버튼 -->	
+		<div>
+			<%
+				if(!searchWord.equals("")) {
+					if(currentPage > 1) {
+			%>	
+						<a href="/BeeNb/emp/empList.jsp?currentPage=1&searchWord=<%=searchWord%>&rowPerPage=<%=rowPerPage%>">처음페이지</a>
+						<a href="/BeeNb/emp/empList.jsp?currentPage=<%=currentPage-1%>&searchWord=<%=searchWord%>&rowPerPage=<%=rowPerPage%>">이전페이지</a>
+			<%		
+					} else {
+			%>
+						<a href="/BeeNb/emp/empList.jsp?currentPage=1&searchWord=<%=searchWord%>&rowPerPage=<%=rowPerPage%>">처음페이지</a>
+						<a href="/BeeNb/emp/empList.jsp?currentPage=1&searchWord=<%=searchWord%>">이전페이지</a>
+			<%		
+					}
+					if(currentPage < lastPage) {
+			%>
+						<a href="/BeeNb/emp/empList.jsp?currentPage=<%=currentPage+1%>&searchWord=<%=searchWord%>&rowPerPage=<%=rowPerPage%>">다음페이지</a>
+						<a href="/BeeNb/emp/empList.jsp?currentPage=<%=lastPage%>&searchWord=<%=searchWord%>&rowPerPage=<%=rowPerPage%>">마지막페이지</a>
+			<%		
+					} else {
+			%>
+						<a href="/BeeNb/emp/empList.jsp?currentPage=<%=lastPage%>&searchWord=<%=searchWord%>&rowPerPage=<%=rowPerPage%>">다음페이지</a>
+						<a href="/BeeNb/emp/empList.jsp?currentPage=<%=lastPage%>&searchWord=<%=searchWord%>&rowPerPage=<%=rowPerPage%>">마지막페이지</a>
+			<%
+					}
+				} else {
+					if(currentPage > 1) {
+			%>
+						<a href="/BeeNb/emp/empList.jsp?currentPage=1&rowPerPage=<%=rowPerPage%>">처음페이지</a>
+						<a href="/BeeNb/emp/empList.jsp?currentPage=<%=currentPage-1%>&rowPerPage=<%=rowPerPage%>">이전페이지</a>
+			<%		
+					} else {
+			%>
+						<a href="/BeeNb/emp/empList.jsp?currentPage=1&rowPerPage=<%=rowPerPage%>">처음페이지</a>
+						<a href="/BeeNb/emp/empList.jsp?currentPage=1">이전페이지</a>
+			<%		
+					}
+					if(currentPage < lastPage) {
+			%>
+						<a href="/BeeNb/emp/empList.jsp?currentPage=<%=currentPage+1%>&rowPerPage=<%=rowPerPage%>">다음페이지</a>
+						<a href="/BeeNb/emp/empList.jsp?currentPage=<%=lastPage%>&rowPerPage=<%=rowPerPage%>">마지막페이지</a>
+			<%		
+					} else {
+			%>
+						<a href="/BeeNb/emp/empList.jsp?currentPage=<%=lastPage%>&rowPerPage=<%=rowPerPage%>">다음페이지</a>
+						<a href="/BeeNb/emp/empList.jsp?currentPage=<%=lastPage%>&rowPerPage=<%=rowPerPage%>">마지막페이지</a>
+			<%
+					}
+				}
+			%>
+		</div>
 		<!-- 푸터  -->
 		<jsp:include page="/inc/footer.jsp"></jsp:include>
 	</div>

@@ -32,23 +32,37 @@ public class EmpDAO {
 	}
 	
 	// 설명 : emp테이블에서 전체 emp를 출력(페이징 포함, 이름 검색 포함)
+	// 호출 : empList.jsp
+	// return : ArrayList<HashMap<String, Object>> (emp테이블에서 SELECT 조회 값)
 	public static ArrayList<HashMap<String, Object>> selectEmpList(String searchWord, int startRow, int rowPerPage) throws Exception{
 		// SELECT 결과 값을 담을 List
 		ArrayList<HashMap<String, Object>> empList = new ArrayList<>();
 		
 		Connection conn = DBHelper.getConnection();
 		
-		String sql = "";
+		// searchWord가 empName에 포함되는 데이터를 SELECT 조회(단 createDate로 정렬하고, LIMIT문에 해당하는 데이터만)
+		String sql = "SELECT emp_no AS empNo, emp_name AS empName, emp_phone AS empPhone, emp_birth AS empBirth, create_date AS createDate"
+				+ " FROM emp"
+				+ " WHERE emp_name LIKE ?"
+				+ " ORDER BY create_date DESC"
+				+ " LIMIT ?,?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, "%" + searchWord + "%");
+		stmt.setInt(2, startRow);
+		stmt.setInt(3, rowPerPage);
 		ResultSet rs = stmt.executeQuery();
 		
-		while (rs.next()) {
+		// ResultSet의 결과행 개수만큼 반복
+		while(rs.next()) {
+			// HashMap에 행의 컬럼 값을 하나씩 추가
 			HashMap<String, Object> m = new HashMap<>();
 			m.put("empNo", rs.getInt("empNo"));
 			m.put("empName", rs.getString("empName"));
 			m.put("empPhone", rs.getString("empPhone"));
 			m.put("empBirth", rs.getString("empBirth"));
 			m.put("createDate", rs.getString("createDate"));
+			// empList에 값이 들어간 HashMap을 하나씩 추가
+			empList.add(m);
 		}
 		
 		conn.close();
