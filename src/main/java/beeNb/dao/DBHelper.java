@@ -29,4 +29,10 @@ public class DBHelper {
 		
 		return conn;
 	}
+	
+	// getConnection 연결 test를 위한 main
+	public static void main(String[] args) throws Exception {
+		// DBHelper.getConnection()메서드 실행
+		DBHelper.getConnection();
+	}
 }
