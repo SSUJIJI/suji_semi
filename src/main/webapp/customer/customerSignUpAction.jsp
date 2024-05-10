@@ -11,6 +11,7 @@
 	String customerGender = request.getParameter("customerGender");
 	
 	// 디버깅코드
+	System.out.println("=====customerSignUpAction.jsp=====");
 	System.out.println("customerId : " + customerId);
 	System.out.println("customerPw : " + customerPw);
 	System.out.println("customerEmail : " + customerEmail);

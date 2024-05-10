@@ -77,5 +77,25 @@ public class CustomerDAO {
        
     }
     
-	
+	 // 설명 : 고객 회원가입시 아이디 중복 확인 
+	 // 호출 : /customer/customerCheckId.jsp
+	 // return : boolean (사용가능하면 true, 불가능하면 false)
+	 public static boolean customerCheckId(String customerId) throws Exception {
+	 	boolean result = false;
+	 	Connection conn = DBHelper.getConnection();
+	 	String sql = "SELECT customer_id FROM customer WHERE customer_id = ?";
+	 	PreparedStatement stmt = conn.prepareStatement(sql);
+	 	stmt.setString(1,customerId);
+	 	// 디버깅
+	 	System.out.println("stmt :" + stmt);
+	 	ResultSet rs = stmt.executeQuery();
+	 	
+	 	if(!rs.next()) {
+	 		result = true;
+	 	}
+	 	
+	 	conn.close();
+	 	return result;
+
+	 }
 }
