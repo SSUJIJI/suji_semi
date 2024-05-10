@@ -54,4 +54,19 @@ public class EmpDAO {
 		conn.close();
 		return empList;
 	}
+	
+	public static HashMap<String, Object> empLogin(String empNo, String empPw) throws Exception{
+		Connection conn = DBHelper.getConnection();
+		String sql = "select emp_no empNo, emp_pw empPw from emp where emp_no = ? and emp_pw = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, empNo);
+		stmt.setString(2, empPw);
+		ResultSet rs = stmt.executeQuery();
+		HashMap<String, Object> loginEmp = new HashMap<>();
+		if(rs.next()) {
+			loginEmp.put("empNo", rs.getString("empNo"));				
+			loginEmp.put("empPw", rs.getString("empPw"));				
+		}
+		return loginEmp;
+	}
 }
