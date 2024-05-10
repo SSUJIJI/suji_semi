@@ -1,10 +1,7 @@
 package beeNb.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.sql.*;
+import java.util.*;
 
 public class EmpDAO {
 	// 설명 : emp테이블의 전체 행 개수 구하는 메서드(emp 리스트 출력 시 페이징하기 위해)
@@ -32,14 +29,23 @@ public class EmpDAO {
 	}
 	
 	// 설명 : emp테이블에서 전체 emp를 출력(페이징 포함, 이름 검색 포함)
+	// 호출 : empList.jsp
+	// return : ArrayList<HashMap<String, Object>> (emp테이블에서 SELECT 조회 값)
 	public static ArrayList<HashMap<String, Object>> selectEmpList(String searchWord, int startRow, int rowPerPage) throws Exception{
 		// SELECT 결과 값을 담을 List
 		ArrayList<HashMap<String, Object>> empList = new ArrayList<>();
 		
 		Connection conn = DBHelper.getConnection();
 		
-		String sql = "";
+		String sql = "SELECT emp_no AS empNo, emp_name AS empName, emp_phone AS empPhone, emp_birth AS empBirth, create_date AS createDate"
+				+ " FROM emp"
+				+ " WHERE emp_name LIKE ?"
+				+ " ORDER BY create_date DESC"
+				+ " LIMIT ?,?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, "%" + searchWord + "%");
+		stmt.setInt(2, startRow);
+		stmt.setInt(3, rowPerPage);
 		ResultSet rs = stmt.executeQuery();
 		
 		while (rs.next()) {
@@ -49,6 +55,7 @@ public class EmpDAO {
 			m.put("empPhone", rs.getString("empPhone"));
 			m.put("empBirth", rs.getString("empBirth"));
 			m.put("createDate", rs.getString("createDate"));
+			empList.add(m);
 		}
 		
 		conn.close();
