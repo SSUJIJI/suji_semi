@@ -30,16 +30,42 @@ String url = "/BeeNb/emp/empLoginAction.jsp";
 		<jsp:include page="/emp/inc/empNavbar.jsp"></jsp:include>
 		<div class="row mt-5" style="height: 65vh;">
 			<div class="col"></div>
-			<div class="col position-relative">
-				<div class="position-absolute top-50 start-50 translate-middle">
-					<h1>관리자 로그인</h1>
-					<form action="<%=url %>" method="post">
-						<label for="empNo">사번</label>
-						<input type="text" value="" name="empNo" id="empNo" required="required">
-						<label for="empPw">비밀번호</label>
-						<input type="password" value="" name="empPw" id="empPw" required="required">
-						<button type="submit">로그인</button>
-					</form>
+			<div class="col-6 position-relative">
+				<div class="position-absolute top-50 start-50 translate-middle w-100">
+					<div class="row">
+						<h1>관리자 로그인</h1>
+					</div>
+						<form action="<%=url %>" method="post">
+							<div class="row mt-3">
+								<div class="col-3">
+									<label for="empNo" class="form-label">사번</label>
+								</div>
+								<div class="col-6">
+									<input type="text" class="w-100 form-control" value="" name="empNo" id="empNo" required="required">
+								</div>
+								<div class="col">
+								</div>
+							</div>
+							<div class="row mt-3">
+								<div class="col-3">
+									<label for="empPw" class="form-label">비밀번호</label>
+								</div>
+								<div class="col-6">
+									<input type="password" class="w-100 form-control" value="" name="empPw" id="empPw" required="required">
+								</div>
+								<div class="col">
+									<button type="submit" class="btn btn-outline-warning">로그인</button>									
+								</div>
+							</div>
+							<div class="row mt-3">
+								<div class="col">
+									<div class="d-flex justify-content-center">
+										<a class="text-decoration-none me-3" href="/BeeNb/emp/empResetPwForm.jsp">비밀번호 초기화</a>
+										<a class="text-decoration-none" href="/BeeNb/customer/customerLoginForm.jsp">고객 로그인</a>
+									</div>
+								</div>
+							</div>
+						</form>
 				</div>
 			</div>
 			<div class="col"></div>
