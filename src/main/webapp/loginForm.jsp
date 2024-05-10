@@ -6,7 +6,7 @@
 	<title></title>
 </head>
 <body>
-<!-- 	author : 용훈 -->
+	<!-- author : 용훈 -->
 	<h1>로그인</h1>
 </body>
 </html>
