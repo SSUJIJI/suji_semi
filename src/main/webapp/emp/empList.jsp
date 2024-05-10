@@ -1,10 +1,15 @@
+<%@page import="java.util.HashMap"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="beeNb.dao.EmpDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
 	System.out.println("========== empList.jsp ==========");
 	
-	// 이름으로 emp를 검색하기위한 변수(SELECT에서 LIKE 절에 사용하기 위해)
-	String searchWord = request.getParameter("searchWord");
+	// 이름으로 emp를 검색하기위해 searchWord 요청값(SELECT에서 LIKE 절에 사용하기 위해)
+	String searchWord = "";
+    if(request.getParameter("searchWord") != null) {
+    	searchWord = request.getParameter("searchWord");
+    }
 	// 디버깅
 	System.out.println("searchWord : " + searchWord);
 	
@@ -53,7 +58,10 @@
 	System.out.println("lastPage : " + lastPage);
 	
 	
-	
+	// emp 이름 검색, 페이징을 포함한 emp 목록 리스트
+	ArrayList<HashMap<String, Object>> empList = EmpDAO.selectEmpList(searchWord, startRow, rowPerPage);
+	// 디버깅
+	System.out.println("empList : " + empList);
 %>
 <!DOCTYPE html>
 <html>
@@ -66,7 +74,15 @@
 	<div class="container">
 		<!-- 관리자 네비게이션 바 -->
 		<jsp:include page="/emp/inc/empNavbar.jsp"></jsp:include>
-		
+		<table>
+			<tr>
+				<th></th>
+				<th></th>
+				<th></th>
+				<th></th>
+				<th></th>
+			</tr>
+		</table>
 		<!-- 푸터  -->
 		<jsp:include page="/inc/footer.jsp"></jsp:include>
 	</div>
