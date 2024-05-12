@@ -7,6 +7,12 @@
 
 	// 테마리스트 메서드 호출
 	ArrayList<String> selectThemeList = ThemeDAO.selectThemeList();
+	
+    // 테마 추가 에러메세지 호출
+    String errMsg = request.getParameter("errMsg");
+    
+    // 테마 삭제 에러메세지 호출
+    String delErrMsg = request.getParameter("delErrMsg");
 %>
 <!DOCTYPE html>
 <html>
@@ -33,26 +39,42 @@
 						<td>
 							<%= m %>
 							<a href="/BeeNb/emp/deleteThemeAction.jsp?roomTheme=<%= m %>" class="text-decoration-none text-danger">&#128473;</a>
-							</td>
+						    <%
+			                    if(delErrMsg != null){
+			                %>
+			                        <%=delErrMsg %>
+			                <%
+			                    }
+			                %>
+						</td>
 					</tr>
 			<%
 				}
 			%>			
 		</table>
 		
-		<!-- 카테고리 추가 버튼 -->
+		<!-- 테마 추가 버튼 -->
 		<form method="post" action="/BeeNb/emp/addThemeAction.jsp">
 			<table>
 				<tr>
 					<td>
 						<div class="row g-3 align-items-center">
 							<div class="col-auto">
-								<input type="text" class="form-control">
+								<input type="text" class="form-control" name="roomTheme">
 							</div>
 						</div>
 					</td>
 					<td>
 						&nbsp;<button type="submit" class="btn btn-warning">추가</button>
+					</td>
+					<td>
+					    <%
+		                    if(errMsg != null){
+		                %>
+		                        <%=errMsg %>
+		                <%
+		                    }
+		                %>
 					</td>
 				</tr>
 			</table>

@@ -1,9 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.*"%>
+<%@ page import="beeNb.dao.*" %>
 <%
 	// 세션 값 불러오기
 	HashMap<String, Object> loginEmp = (HashMap<String, Object>)(session.getAttribute("loginEmp"));
 	System.out.println("loginEmp : " + loginEmp);
+	
+	// 테마리스트 메서드 호출
+	ArrayList<String> selectThemeList = ThemeDAO.selectThemeList();
 %>
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
@@ -17,26 +21,17 @@
           <a class="nav-link active" aria-current="page" href="/BeeNb/emp/empRoomList.jsp">BeeNb</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">전체보기</a>
+          <a class="nav-link" href="/BeeNb/emp/empRoomList.jsp">전체보기</a>
         </li>
+    	<%
+			for(String m : selectThemeList){
+		%>
         <li class="nav-item">
-          <a class="nav-link" href="#">펜션</a>
+          <a class="nav-link" href="#"><%= m %></a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">호텔</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">리조트</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">카라반</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">글램핑</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">한옥</a>
-        </li>
+		<%
+			}
+		%>
       </ul>
       <div class="d-flex" role="search">
         <li class="navbar-nav me-auto mb-2 mb-lg-0 nav-item dropdown">
@@ -52,18 +47,18 @@
             <%
             	}else{
             %>
-            		로그인하세요.
+            		<a href="/BeeNb/emp/empLoginForm.jsp" class="dropdown-item">로그인하세요.</a>
             <%    		
             	}
             %>
             </a></li>
             <hr>
-            <li><a class="dropdown-item" href="#">관리자리스트</a></li>
-            <li><a class="dropdown-item" href="#">수익현황리스트</a></li>
-            <li><a class="dropdown-item" href="#">회원리스트</a></li>
-            <li><a class="dropdown-item" href="#">숙소심사</a></li>
-            <li><a class="dropdown-item" href="#">테마관리</a></li>
-            <li><a class="dropdown-item" href="#">VOC관리</a></li>
+            <li><a class="dropdown-item" href="/BeeNb/emp/empList.jsp">관리자리스트</a></li>
+            <li><a class="dropdown-item" href="/BeeNb/emp/revenueList.jsp">수익현황리스트</a></li>
+            <li><a class="dropdown-item" href="/BeeNb/emp/customerList.jsp">회원리스트</a></li>
+            <li><a class="dropdown-item" href="/BeeNb/emp/pendingRoomList.jsp">숙소심사</a></li>
+            <li><a class="dropdown-item" href="/BeeNb/emp/themeList.jsp">테마관리</a></li>
+            <li><a class="dropdown-item" href="/BeeNb/emp/vocList.jsp">VOC관리</a></li>
             <hr>
             <li><a class="dropdown-item" href="/BeeNb/emp/empLogoutAction.jsp">로그아웃</a></li>
           </ul>
