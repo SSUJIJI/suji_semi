@@ -28,7 +28,7 @@
 </head>
 <body>
 	<div class="container">
-	<!-- 관리자 네비게이션 바 -->
+	<!-- 고객 네비게이션 바 -->
 		<jsp:include page="/customer/inc/customerNavbar.jsp"></jsp:include>
 		<h1>회원가입</h1>
 		<!-- 아이디 중복 확인 -->
