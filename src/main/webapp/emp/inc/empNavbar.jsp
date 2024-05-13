@@ -39,7 +39,7 @@
             메뉴
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#"> 
+            <li><a class="dropdown-item" href="/BeeNb/emp/empOne.jsp"> 
             <%
             	if(loginEmp != null){
             %>
@@ -59,8 +59,14 @@
             <li><a class="dropdown-item" href="/BeeNb/emp/pendingRoomList.jsp">숙소심사</a></li>
             <li><a class="dropdown-item" href="/BeeNb/emp/themeList.jsp">테마관리</a></li>
             <li><a class="dropdown-item" href="/BeeNb/emp/vocList.jsp">VOC관리</a></li>
-            <hr>
-            <li><a class="dropdown-item" href="/BeeNb/emp/empLogoutAction.jsp">로그아웃</a></li>
+            <%
+            	if(loginEmp!=null){
+            %>
+		            <hr>
+		            <li><a class="dropdown-item" href="/BeeNb/emp/empLogoutAction.jsp">로그아웃</a></li>
+            <%		
+            	}
+            %>
           </ul>
         </li>
       </div>
