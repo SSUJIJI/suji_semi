@@ -210,7 +210,7 @@ public class CustomerDAO {
   		HashMap<String, String> m  = null;	
   		Connection conn = DBHelper.getConnection();
   		String sql = "SELECT customer_id customerId, customer_email customerEmail, customer_name customerName, customer_birth customerBirth, "
-  				+ " customer_phone customerPhone, customer_gender customerGender, create_date createDate, update_date updateDate FROM customer WHERE customer_id = ?";
+  				+ " customer_phone customerPhone, customer_gender customerGender, customer_grade customerGrade, create_date createDate, update_date updateDate FROM customer WHERE customer_id = ?";
   		PreparedStatement stmt = conn.prepareStatement(sql);
   		stmt.setString(1,customerId);
   		// 디버깅
@@ -225,10 +225,79 @@ public class CustomerDAO {
   			m.put("customerBirth", rs.getString("customerBirth"));
   			m.put("customerPhone", rs.getString("customerPhone"));
   			m.put("customerGender", rs.getString("customerGender"));
+  			m.put("customerGrade", rs.getString("customerGrade"));
   			m.put("createDate", rs.getString("createDate"));
   			m.put("updateDate", rs.getString("updateDate"));
   		}
 			conn.close();
 			return m;
-	   }   
+	   } 
+      
+	// 설명 : customer테이블의 전체 행 개수 구하는 메서드(customer 리스트 출력 시 페이징하기 위해)
+	// 호출 : /emp/customerList.jsp
+	// return : int (customer 테이블 행 개수)
+	public static int selectCustomerListCnt() throws Exception {
+		// customer테이블의 전체 행 개수를 담을 변수
+		int cnt = 0;
+		
+		Connection conn = DBHelper.getConnection();
+		
+		// customer 테이블로부터 전체 행 COUNT하는 쿼리
+		String sql = "SELECT COUNT(*) cnt FROM customer";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		ResultSet rs = stmt.executeQuery();
+		
+		// SELECT 결과가 있다면
+		if(rs.next()) {
+			// SELECT 결과 값 담기
+			cnt = rs.getInt("cnt");
+		}
+			
+		conn.close();
+		return cnt;
+	}
+	
+	// 설명 : customer테이블에서 전체 customer를 출력(페이징 포함, grade 선택)
+	// 호출 : /emp/customerList.jsp
+	// return : ArrayList<HashMap<String, Object>> (customer테이블에서 SELECT 조회 값)
+	public static ArrayList<HashMap<String, Object>> selectCustomerList(String grade, int startRow, int rowPerPage) throws Exception{
+		// SELECT 결과 값을 담을 List
+		ArrayList<HashMap<String, Object>> customerList = new ArrayList<>();
+		
+		Connection conn = DBHelper.getConnection();
+		
+		// grade를 조건으로 customer SELECT 조회(단 createDate로 정렬하고, LIMIT문에 해당하는 데이터만)
+		String sql = "SELECT customer_id AS customerId, customer_email AS customerEmail, customer_name AS customerName,"
+				+ " customer_birth AS customerBirth, customer_phone AS customerPhone, customer_gender AS customerGender,"
+				+ " customer_grade AS customerGrade, create_date AS createDate, update_date AS updateDate"
+				+ " FROM customer"
+				+ " WHERE customer_grade = ?"
+				+ " ORDER BY create_date DESC"
+				+ " LIMIT ?,?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, grade);
+		stmt.setInt(2, startRow);
+		stmt.setInt(3, rowPerPage);
+		ResultSet rs = stmt.executeQuery();
+		
+		// ResultSet의 결과행 개수만큼 반복
+		while(rs.next()) {
+			// HashMap에 행의 컬럼 값을 하나씩 추가
+			HashMap<String, Object> m = new HashMap<>();
+			m.put("customerId", rs.getString("customerId"));
+			m.put("customerEmail", rs.getString("customerEmail"));
+			m.put("customerName", rs.getString("customerName"));
+			m.put("customerBirth", rs.getString("customerBirth"));
+			m.put("customerPhone", rs.getString("customerPhone"));
+			m.put("customerGender", rs.getString("customerGender"));
+			m.put("customerGrade", rs.getString("customerGrade"));
+			m.put("createDate", rs.getString("createDate"));
+			m.put("updateDate", rs.getString("updateDate"));
+			// customerList에 값이 들어간 HashMap을 하나씩 추가
+			customerList.add(m);
+			}
+		
+		conn.close();
+		return customerList;
+	}
 }

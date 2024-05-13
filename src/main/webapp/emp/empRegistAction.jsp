@@ -1,7 +1,7 @@
 <%@page import="beeNb.dao.EmpDAO"%>
 <%@page import="java.net.URLEncoder"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%-- <%@ include file="/emp/inc/empSessionIsNull.jsp" %> --%>
+<%@ include file="/emp/inc/empSessionIsNull.jsp" %>
 <%
 	System.out.println("========== empRegistAction.jsp ==========");
 	// 요청 값

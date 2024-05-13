@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%-- <%@ include file="/emp/inc/empSessionIsNull.jsp" %> --%>
+<%@ include file="/emp/inc/empSessionIsNull.jsp" %>
 <%
+	System.out.println("========== empRegistForm.jsp ==========");
 	// err메시지 요청 값
 	String errMsg = request.getParameter("errMsg");
 %>

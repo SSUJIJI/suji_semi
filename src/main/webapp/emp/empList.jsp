@@ -1,7 +1,7 @@
-<%@page import="java.util.HashMap"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="beeNb.dao.EmpDAO"%>
+<%@page import="java.util.*"%>
+<%@page import="beeNb.dao.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="/emp/inc/empSessionIsNull.jsp" %>
 <%
 	System.out.println("========== empList.jsp ==========");
 	
@@ -86,6 +86,8 @@
 	<div class="container">
 		<!-- 관리자 네비게이션 바 -->
 		<jsp:include page="/emp/inc/empNavbar.jsp"></jsp:include>
+		
+		<h1>관리자 리스트</h1>
 		
 		<!-- 관리자 이름 검색 -->
 		<form action="/BeeNb/emp/empList.jsp" method="post">
