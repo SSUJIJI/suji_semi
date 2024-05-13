@@ -2,6 +2,7 @@
 <%@ page import="beeNb.dao.*" %>
 <%@page import="java.net.*"%>
 
+
 <%
 
 	System.out.println("=====customerFindIdAction.jsp=====");
@@ -19,11 +20,11 @@
 		// 디버깅코드
 		System.out.println("ID찾기 실패");
 		String errMsg = URLEncoder.encode("입력하신 정보를 재확인 해주세요", "utf-8");
-		response.sendRedirect("/BeeNb/customer/customerFindIdForm.jsp?errMsg"+errMsg);
+		response.sendRedirect("/BeeNb/customer/customerFindIdForm.jsp?errMsg="+errMsg);
 	} else {
 		// 디버깅코드
 		System.out.println("ID찾기 성공");
-		response.sendRedirect("/BeeNb/customer/customerResultIdOne.jsp");
+		response.sendRedirect("/BeeNb/customer/customerResultIdOne.jsp?result="+result);
 		
 	}
 

@@ -2,6 +2,7 @@
 <%@page import="java.net.URLEncoder"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="beeNb.dao.*" %>
+
 <%
 	System.out.println("=====customerLoginAction.jsp=====");
 	// 로그인 인증분기 

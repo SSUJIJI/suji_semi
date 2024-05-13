@@ -2,6 +2,10 @@
 <%
 	System.out.println("=====customerFindIdForm.jsp=====");
 	
+	// ID찾기 실패시 에러메세지 
+	String errMsg = request.getParameter("errMsg");
+	// 디버깅
+	System.out.println("에러메세지 :" + errMsg);
 	
 %>
 <!DOCTYPE html>
@@ -17,6 +21,15 @@
 		<!-- 고객 네비게이션 바 -->
 		<jsp:include page="/customer/inc/customerNavbar.jsp"></jsp:include>
 		<h1>ID찾기</h1>
+		<%
+			if(errMsg != null) {
+		%>
+			<div class="alert alert-danger" role="alert">
+				<%= errMsg %>
+			</div>	
+		<%	
+			}
+		%>
 		<form action="/BeeNb/customer/customerFindIdAction.jsp" method="post">
 			<table>
 				<tr>

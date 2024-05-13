@@ -1,16 +1,11 @@
 <%@page import="java.util.HashMap"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="/customer/inc/customerSessionNotNull.jsp" %>
 <%
 	
 	System.out.println("=====customerLoginForm.jsp=====");
 
-	// 사용자 인증 분기 
-	HashMap<String, Object> loginCustomer = (HashMap<String, Object>)(session.getAttribute("loginCustomer"));
-			
-	if(loginCustomer != null) {
-		response.sendRedirect("/BeeNb/customer/roomList.jsp");
-		return;
-	}
+	
 	String errMsg = request.getParameter("errMsg");
 	String logoutMsg = request.getParameter("logoutMsg");
 	// 디버깅  

@@ -202,4 +202,33 @@ public class CustomerDAO {
     	  conn.close();
     	  return row;
       }
+      
+	   // 설명 : 고객(customer)정보 상세보기 & 정보수정
+	   // 호출 : customerOne.jsp / customerUpdateForm.jsp
+	   // return : HashMap
+      public static HashMap<String, String> selectCustomerOne (String customerId) throws Exception {
+  		HashMap<String, String> m  = null;	
+  		Connection conn = DBHelper.getConnection();
+  		String sql = "SELECT customer_id customerId, customer_email customerEmail, customer_name customerName, customer_birth customerBirth, "
+  				+ " customer_phone customerPhone, customer_gender customerGender, create_date createDate, update_date updateDate FROM customer WHERE customer_id = ?";
+  		PreparedStatement stmt = conn.prepareStatement(sql);
+  		stmt.setString(1,customerId);
+  		// 디버깅
+  		System.out.println("stmt :" + stmt);
+  		ResultSet rs = stmt.executeQuery();
+  		
+  		while(rs.next()){
+  			m = new HashMap<String,String>();
+  			m.put("customerId", rs.getString("customerId"));
+  			m.put("customerEmail", rs.getString("customerEmail"));
+  			m.put("customerName", rs.getString("customerName"));
+  			m.put("customerBirth", rs.getString("customerBirth"));
+  			m.put("customerPhone", rs.getString("customerPhone"));
+  			m.put("customerGender", rs.getString("customerGender"));
+  			m.put("createDate", rs.getString("createDate"));
+  			m.put("updateDate", rs.getString("updateDate"));
+  		}
+			conn.close();
+			return m;
+	   }   
 }
