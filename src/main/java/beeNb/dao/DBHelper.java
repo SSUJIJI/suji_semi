@@ -12,7 +12,7 @@ public class DBHelper {
 		// maria DB 접근 클래스 로딩
 		Class.forName("org.mariadb.jdbc.Driver");
 		// 디버깅 
-		System.out.println("db클래스 로딩 성공");
+		//System.out.println("db클래스 로딩 성공");
 		
 		// 로컬 PC의 Properties 파일 읽어오기
 		FileReader fr = new FileReader("C:\\beeNb_properties\\beeNb.properties");
@@ -25,7 +25,7 @@ public class DBHelper {
 		
 		Connection conn = DriverManager.getConnection(url, id, pw);
 		// 디버깅
-		System.out.println("db접근 성공");
+		//System.out.println("db접근 성공");
 		
 		return conn;
 	}

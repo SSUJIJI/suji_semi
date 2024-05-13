@@ -80,6 +80,7 @@
 	<meta charset="UTF-8">
 	<title></title>
 	<jsp:include page="/inc/bootstrapCDN.jsp"></jsp:include>
+	<link href="/BeeNb/css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<div class="container">
@@ -91,7 +92,7 @@
 			<input type="text" name="searchWord" placeholder="사원 이름으로 찾기">
 			<button type="submit">검색</button>
 		</form>
-		
+	
 		<!-- rowPerPage 설정 -->
 		<form action="/BeeNb/emp/empList.jsp" method="post">
 			<select name="rowPerPage">
@@ -109,9 +110,12 @@
 					}
 				%>
 			</select>
-			
 			<button type="submit">보기</button>
 		</form>
+		
+		<!-- 관리자 등록 -->
+		<a class="text-decoration-none" href="/BeeNb/emp/empRegistForm.jsp">관리자 등록</a>
+		
 		<!-- 관리자 리스트 출력 -->
 		<table class="table">
 			<tr>

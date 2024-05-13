@@ -32,7 +32,7 @@ public class EmpDAO {
 	}
 	
 	// 설명 : emp테이블에서 전체 emp를 출력(페이징 포함, 이름 검색 포함)
-	// 호출 : empList.jsp
+	// 호출 : /emp/empList.jsp
 	// return : ArrayList<HashMap<String, Object>> (emp테이블에서 SELECT 조회 값)
 	public static ArrayList<HashMap<String, Object>> selectEmpList(String searchWord, int startRow, int rowPerPage) throws Exception{
 		// SELECT 결과 값을 담을 List
@@ -68,7 +68,7 @@ public class EmpDAO {
 		conn.close();
 		return empList;
 	}
-	
+
 	public static HashMap<String, Object> empLogin(String empNo, String empPw) throws Exception{
 		Connection conn = DBHelper.getConnection();
 		String sql = "SELECT emp_no AS empNo, emp_name AS empName, emp_phone AS empPhone, emp_Birth AS empBirth "
@@ -86,5 +86,73 @@ public class EmpDAO {
 			loginEmp.put("empBirth", rs.getString("empBirth"));
 		}
 		return loginEmp;
+	}
+	
+	// 설명 : 관리자 등록하는 메서드
+	// 호출 : /emp/empRegistAction.jsp
+	// return : int (성공시 1, 실패시 0)
+	public static int insertEmp(String empName, String empPhone, String empBirth) throws Exception{
+		// 쿼리 실행시 반환된 행의 개수를 담을 변수
+		int row = 0;
+		
+		Connection conn = DBHelper.getConnection();
+		// emp테이블에 emp를 등록하는 INSERT 쿼리
+		String sql = "INSERT INTO emp(emp_name, emp_pw, emp_phone, emp_birth) VALUES(?, ?, ?, ?)";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, empName);
+		stmt.setString(2, empBirth);
+		stmt.setString(3, empPhone);
+		stmt.setString(4, empBirth);
+		row = stmt.executeUpdate();
+		
+		conn.close();
+		return row;
+	}
+	
+	// 설명 : emp등록시 epw_history에 pw를 등록하기위해 가장 최근 생성된 emp의 empNo를 가져오는 메서드
+	// 호출 : /emp/empRegistAction.jsp
+	// return : int (emp의 empNo)
+	public static int selectRecentRegistEmp(String empName, String empPhone, String empBirth) throws Exception{
+		// SELECT된 empNo가 담길 변수
+		int empNo = 0;
+		
+		Connection conn = DBHelper.getConnection();	
+		String sql = "SELECT emp_no AS empNo"
+				+ " FROM emp"
+				+ " WHERE emp_name = ? AND emp_phone = ? AND emp_Birth = ?"
+				+ " ORDER BY create_date DESC"
+				+ " LIMIT 0,1";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, empName);
+		stmt.setString(2, empPhone);
+		stmt.setString(3, empBirth);
+		ResultSet rs = stmt.executeQuery();
+		
+		// 가장 최근 생성된 empNo가 있다면 empNo변수에 담기
+		if(rs.next()) {
+			empNo = rs.getInt("empNo");
+		}
+		
+		conn.close();
+		return empNo;
+	}
+	
+	// 설명 : emp_pw_history에 pw INSERT하는 메서드
+	// 호출 : /emp/empRegistAction.jsp
+	// return : int (성공시 1, 실패시 0)
+	public static int insertEmpPwHistory(int empNo, String empPw) throws Exception{
+		// 쿼리 실행시 반환된 행의 개수를 담을 변수
+		int row = 0;
+		
+		Connection conn = DBHelper.getConnection();
+		// emp_pw_history테이블에 pw를 입력하는 INSERT 쿼리
+		String sql = "INSERT INTO emp_pw_history(emp_no, emp_pw) VALUES(?, ?)";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, empNo);
+		stmt.setString(2, empPw);
+		row = stmt.executeUpdate();
+		
+		conn.close();
+		return row;
 	}
 }
