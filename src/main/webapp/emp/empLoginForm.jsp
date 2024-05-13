@@ -1,12 +1,10 @@
 <%@page import="java.util.HashMap"%>
-<%@page import="org.mariadb.jdbc.export.HaMode"%>
-<%@page import="beeNb.dao.DBHelper"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<!-- 사용자 인증 코드 -->
 <%@ include file="/emp/inc/empSessionNotNull.jsp" %>
 <%
 	System.out.println("=====empLoginForm.jsp=====");
-	// 사용자 인증 코드
 	String errMsg = request.getParameter("errMsg");
 	String logoutMsg = request.getParameter("logoutMsg");
 	//디버깅 코드
