@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import = "beeNb.dao.*" %>
 <%@ page import = "java.net.*" %>
+<% System.out.println("=====customerSignUpAction.jsp====="); %>
 <%	
 	String customerId = request.getParameter("customerId");
 	String customerPw = request.getParameter("customerPw");
@@ -11,7 +12,6 @@
 	String customerGender = request.getParameter("customerGender");
 	
 	// 디버깅코드
-	System.out.println("=====customerSignUpAction.jsp=====");
 	System.out.println("customerId : " + customerId);
 	System.out.println("customerPw : " + customerPw);
 	System.out.println("customerEmail : " + customerEmail);

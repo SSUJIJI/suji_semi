@@ -98,4 +98,28 @@ public class CustomerDAO {
 	 	return result;
 
 	 }
+	 
+      // 설명 : 비밀번호 재설정시 본인인증   
+      // 호출 : /customer/customerAuthAction.jsp
+      // return : boolean(일치하면 true, 불일치하면 false)
+      public static boolean selectCustomerOne (String customerId, String customerName, String customerPhone)throws Exception {
+         boolean result = false; 
+         Connection conn = DBHelper.getConnection();
+         String sql = "SELECT customer_id, customer_name, customer_phone FROM customer WHERE customer_id = ? AND customer_name = ? And customer_phone = ?";
+         PreparedStatement stmt = conn.prepareStatement(sql);
+         stmt.setString(1, customerId);
+         stmt.setString(2, customerName);
+	     stmt.setString(3, customerPhone);
+         // 디버깅
+         System.out.println("stmt :" + stmt);
+       
+         ResultSet rs = stmt.executeQuery();
+         if(!rs.next()) {
+	     result = true;
+	     }
+	 	
+	 	 conn.close();
+	 	 return result;
+       
+     }
 }
