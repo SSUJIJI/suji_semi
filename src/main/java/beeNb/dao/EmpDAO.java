@@ -69,6 +69,9 @@ public class EmpDAO {
 		return empList;
 	}
 
+	// 설명 : 관리자 로그인하는 메서드
+	// 호출 : /emp/empLoginAction.jsp
+	// return : HashMap<String, Object> (loginEmp)
 	public static HashMap<String, Object> empLogin(String empNo, String empPw) throws Exception{
 		Connection conn = DBHelper.getConnection();
 		String sql = "SELECT emp_no AS empNo, emp_name AS empName, emp_phone AS empPhone, emp_Birth AS empBirth "
@@ -153,6 +156,37 @@ public class EmpDAO {
 		row = stmt.executeUpdate();
 		
 		conn.close();
+		return row;
+	}
+	
+	// 설명 : emp 테이블에 사번과 본인 휴대폰 번호로 본인인증을 하는 메서드
+	// 호출 : /emp/empResetPwAction.jsp
+	// return : boolean(성공시 true, 실패시 false)
+	public static boolean selectEmpOne(int empNo, String empPhone) throws Exception {
+		boolean resultBool = false;
+		Connection conn = DBHelper.getConnection();
+		String sql = "SELECT * FROM emp WHERE emp_no = ? AND emp_phone = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, empNo);
+		stmt.setString(2, empPhone);
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) {
+			resultBool = true;
+		}
+		return resultBool;
+	}
+	
+	// 설명 : emp 테이블에 emp_pw를 사번으로 초기화하는 메서드
+	// 호출 : /emp/empResetPwAction.jsp
+	// return : int(성공시 1, 실패시 0)
+	public static int empResetPw(int empNo) throws Exception {
+		int row = 0;
+		Connection conn = DBHelper.getConnection();
+		String sql = "UPDATE emp SET emp_pw = ? WHERE emp_no = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, ""+empNo);
+		stmt.setInt(2, empNo);
+		row = stmt.executeUpdate();
 		return row;
 	}
 }
