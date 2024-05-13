@@ -3,9 +3,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="beeNb.dao.*" %>
 <%
+	System.out.println("=====customerLoginAction.jsp=====");
 	// 로그인 인증분기 
 	if(session.getAttribute("loginCustomer") != null) {
-		response.sendRedirect("/BeeNb/customer/roomList.jsp");
+		response.sendRedirect("/BeeNb/customer/customerRoomList.jsp");
 		return;
 	}
 %>
@@ -13,7 +14,6 @@
 	String customerId = request.getParameter("customerId");
 	String customerPw = request.getParameter("customerPw");
 	// 디버깅
-	System.out.println("=====customerLoginAction.jsp=====");
 	System.out.println("로그인 ID :" + customerId);
 	System.out.println("로그인 Pw :" + customerPw);
 	
@@ -28,7 +28,7 @@
 		// 디버깅
 		System.out.println("customer 로그인 성공");
 		session.setAttribute("loginCustomer", loginCustomer);
-		response.sendRedirect("/BeeNb/customer/roomList.jsp");
+		response.sendRedirect("/BeeNb/customer/customerRoomList.jsp");
 	}
 	
 %>
