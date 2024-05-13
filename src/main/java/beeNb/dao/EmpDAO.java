@@ -71,7 +71,7 @@ public class EmpDAO {
 	
 	public static HashMap<String, Object> empLogin(String empNo, String empPw) throws Exception{
 		Connection conn = DBHelper.getConnection();
-		String sql = "SELECT emp_no AS empNo, emp_pw AS empPw "
+		String sql = "SELECT emp_no AS empNo, emp_name AS empName, emp_phone AS empPhone, emp_Birth AS empBirth "
 				+ "FROM emp WHERE emp_no = ? AND emp_pw = ?";
 		
 		PreparedStatement stmt = conn.prepareStatement(sql);
@@ -80,8 +80,10 @@ public class EmpDAO {
 		ResultSet rs = stmt.executeQuery();
 		HashMap<String, Object> loginEmp = new HashMap<>();
 		if(rs.next()) {
-			loginEmp.put("empNo", rs.getInt("empNo"));				
-			loginEmp.put("empPw", rs.getString("empPw"));				
+			loginEmp.put("empNo", rs.getInt("empNo"));
+			loginEmp.put("empName", rs.getString("empName"));
+			loginEmp.put("empPhone", rs.getString("empPhone"));
+			loginEmp.put("empBirth", rs.getString("empBirth"));
 		}
 		return loginEmp;
 	}

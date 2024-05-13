@@ -3,26 +3,22 @@
 <%@page import="beeNb.dao.DBHelper"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ include file="/emp/inc/empSessionNotNull.jsp" %>
 <%
-System.out.println("=====empLoginForm.jsp=====");
-// 사용자 인증 코드
-HashMap<String, Object> loginEmp = (HashMap<String, Object>) session.getAttribute("loginEmp");
-System.out.println("loginEmp : " + loginEmp);
-if (loginEmp != null) {
-	System.out.println("이미 로그인되어 있으므로 첫 페이지로 이동합니다.");
-	response.sendRedirect("/BeeNb/emp/roomList.jsp");
-	return;
-}
-String errMsg = request.getParameter("errMsg");
-//디버깅 코드
-String url = "/BeeNb/emp/empLoginAction.jsp";
+	System.out.println("=====empLoginForm.jsp=====");
+	// 사용자 인증 코드
+	String errMsg = request.getParameter("errMsg");
+	String logoutMsg = request.getParameter("logoutMsg");
+	//디버깅 코드
+	String url = "/BeeNb/emp/empLoginAction.jsp";
 %>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<jsp:include page="/inc/bootstrapCDN.jsp"></jsp:include>
-<title></title>
+	<meta charset="UTF-8">
+	<jsp:include page="/inc/bootstrapCDN.jsp"></jsp:include>
+	<title>관리자 로그인</title>
+	<link href="/BeeNb/css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<div class="container">
@@ -35,13 +31,30 @@ String url = "/BeeNb/emp/empLoginAction.jsp";
 					<div class="row">
 						<h1>관리자 로그인</h1>
 					</div>
+					<%
+						// 로그인 실패시 메세지
+						if(errMsg != null) {
+					%>
+						 <div class="alert alert-danger" role="alert">
+							<%= errMsg %>
+						</div>
+					<% 	
+						// 로그아웃 메세지 
+						} else if (logoutMsg != null) {
+					%>		
+						<div class="alert alert-success" role="alert">
+							<%= logoutMsg %>
+						</div>
+					<%	
+						}
+					%>
 						<form action="<%=url %>" method="post">
 							<div class="row mt-3">
 								<div class="col-3">
 									<label for="empNo" class="form-label">사번</label>
 								</div>
 								<div class="col-6">
-									<input type="text" class="w-100 form-control" value="" name="empNo" id="empNo" required="required">
+									<input type="number" class="w-100 form-control" value="" name="empNo" id="empNo" required="required">
 								</div>
 								<div class="col">
 								</div>
