@@ -99,7 +99,7 @@ public class CustomerDAO {
 
 	 }
 	 
-      // 설명 : 비밀번호 재설정시 본인인증   
+      // 설명 : 비밀번호 재설정시 본인인증    
       // 호출 : /customer/customerAuthAction.jsp
       // return : boolean(일치하면 true, 불일치하면 false)
       public static boolean selectCustomerOne (String customerId, String customerName, String customerPhone)throws Exception {
@@ -122,4 +122,29 @@ public class CustomerDAO {
 	 	 return result;
        
      }
+      
+     // 설명 : 회원 ID 찾기
+     // 호출 : /customer/customerFindIdAction.jsp
+     // return : String(일치하면 회원ID, 불일치하면 공백)
+      public static String customerCheckId(String customerName, String customerEmail) throws Exception {
+		String result = "";
+		Connection conn = DBHelper.getConnection();
+		String sql = "SELECT customer_id customerId FROM customer WHERE customer_name =? AND customer_email=?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1,customerName);
+		stmt.setString(2,customerEmail);
+
+		// 디버깅
+		System.out.println("customerCheckId stmt :" + stmt);
+		ResultSet rs = stmt.executeQuery();
+		
+		if(rs.next()) {
+			result = rs.getString("customerId");
+		}
+		
+		conn.close();
+		return result;
+		
+		}
+ 
 }
