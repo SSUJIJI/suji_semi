@@ -24,7 +24,7 @@
 		return;
 	}
 	
-	// EmpDAO.insertEmpPwHistory()가 받는 값이 empPw 이기 때문에 newEmpPw라는 변수의 값을 newEmpPw 라고 선언.
+	// EmpDAO.insertEmpPwHistory()가 받는 값이 empPw 이기 때문에 newEmpPw라는 변수의 값을 empPw 라고 선언.
 	String empPw = newEmpPw;
 	// 변경할 비밀번호를 히스토리에 insert
 	// return : insert 성공시 1 
@@ -45,7 +45,7 @@
 	if(updateEmpPw == 1){
 		System.out.println("비밀번호 업데이트 성공");
 		String updatePwMsg = URLEncoder.encode("비밀번호 변경 성공.", "UTF-8");
-		response.sendRedirect("/BeeNb/emp/empEditPwForm.jsp?updatePwMsg="+updatePwMsg);
+		response.sendRedirect("/BeeNb/emp/empOne.jsp?updatePwMsg="+updatePwMsg);
 		return;
 	}else{
 		System.out.println("비밀번호 업데이트 실패");

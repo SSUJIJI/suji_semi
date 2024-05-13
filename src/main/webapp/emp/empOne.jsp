@@ -5,6 +5,9 @@
 <%@ include file="/emp/inc/empSessionIsNull.jsp"%>
 <%
 	System.out.println("=====empOne.jsp=====");
+
+	// 비밀번호 변경 성공 Msg
+	String updatePwMsg = request.getParameter("updatePwMsg");
 %>
 <!DOCTYPE html>
 <html>
@@ -27,13 +30,25 @@
 				<th>전화번호</th>
 				<th>생년월일</th>
 				<th>비밀번호수정</th>
+				<th>비고</th>
 			</tr>
 			<tr>
 				<td><%= loginEmp.get("empNo") %></td>
 				<td><%= loginEmp.get("empName") %></td>
 				<td><%= loginEmp.get("empPhone") %></td>
 				<td><%= loginEmp.get("empBirth") %></td>
-				<td><a href="/BeeNb/emp/empEditPwForm.jsp" class="btn btn-warning">수정</a></td>
+				<td>
+					<a href="/BeeNb/emp/empEditPwForm.jsp" class="btn btn-warning">수정</a>
+				</td>
+				<td>
+					<%
+	                    if(updatePwMsg != null){
+	                %>
+	                        &nbsp;<%=updatePwMsg %>
+	                <%
+	                    }
+	                %>
+				</td>
 			</tr>
 		</table>
 		

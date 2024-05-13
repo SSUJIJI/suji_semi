@@ -6,11 +6,11 @@
 <% 
 	System.out.println("=====empEditPwForm.jsp=====");
 
-	// 이미 사용했던 비밀번호 errMsg
+	// 비밀번호 중복 체크 결과 메세지
 	String usedPwMsg = request.getParameter("usedPwMsg");
-	// 비밀번호 히스토리 등록 실패 errMsg
+	// 비밀번호 히스토리 등록 결과 메세지
 	String pwHistoryErrMsg = request.getParameter("pwHistoryErrMsg");
-	// 비밀번호 변경 성공 Msg
+	// 비밀번호 변경 실패 메세지
 	String updatePwMsg = request.getParameter("updatePwMsg");
 %>
 <!DOCTYPE html>
@@ -49,16 +49,16 @@
 			                    }
 			                %>
 							<%
-			                    if(updatePwMsg != null){
+			                    if(pwHistoryErrMsg != null){
 			                %>
-			                        &nbsp;<%=updatePwMsg %>
+			                        &nbsp;<%=pwHistoryErrMsg %>
 			                <%
 			                    }
 			                %>
 							<%
-			                    if(pwHistoryErrMsg != null){
+			                    if(updatePwMsg != null){
 			                %>
-			                        &nbsp;<%=pwHistoryErrMsg %>
+			                        &nbsp;<%=updatePwMsg %>
 			                <%
 			                    }
 			                %>
