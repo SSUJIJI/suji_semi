@@ -1,8 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%
+	// 회원가입 실패시 오류 메시지
 	String errMsg = request.getParameter("errMsg");
-	
+	// 전화번호 입력 오류 메시지
+	String errMsgP = request.getParameter("errMsgP");
+	if(errMsgP == null){
+		errMsgP = "";
+	}
 	String customerId = request.getParameter("customerId");
 	if(customerId == null){
 		customerId = "";
@@ -17,6 +22,7 @@
 	} else if(check.equals("F")){
 		msg = "이미 존재하는 아이디입니다.";
 	}
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -35,13 +41,12 @@
 		<form method="post" action="/BeeNb/customer/customerCheckIdAction.jsp">
 			<table>
 				<tr>
-					<th>검증 아이디 : <%=customerId %></th>
-					<td><%=msg %></td>
+					<th>아이디 : </th>
+					<td><input type = "text" name = "customerId" required="required" value="<%=customerId %>"></td>
+					<td><button type = "submit">중복확인</button></td>
 				</tr>
 				<tr>
-					<th>아이디 : </th>
-					<td><input type = "text" name = "customerId" required="required"></td>
-					<td><button type = "submit">중복확인</button></td>
+					<td colspan="3"><%=msg %></td>
 				</tr>
 			</table>
 		</form>
@@ -78,7 +83,15 @@
 				</tr>
 				<tr>
 					<th>전화번호 : </th>
-					<td><input type="tel" name="customerPhone" placeholder="123-456-7890"></td>
+					<td><input type="tel" name="customerPhone" placeholder="123-456-7890">
+					<%
+						if(errMsgP != null) {
+					%>
+							<%= errMsgP%>
+					<%
+						}
+					%>
+					</td>
 				</tr>
 				<tr>
 					<th>성별 : </th>
