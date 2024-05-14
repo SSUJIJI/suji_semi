@@ -240,6 +240,7 @@ public class EmpDAO {
 		stmt.setString(1, ""+empNo);
 		stmt.setInt(2, empNo);
 		row = stmt.executeUpdate();
+		conn.close();
 		return row;
 	}
 	

@@ -110,4 +110,26 @@ public class RoomDAO {
 		conn.close();
 		return hostRoomOne;
 	}
+	
+	// 설명 : 숙소 삭제
+	// 호출 : empRoomDeleteAction.jsp, customerDeleteAction.jsp
+	// return int
+	public static int deleteRoom(int roomNo) throws Exception{
+		int row = 0;
+		Connection conn = DBHelper.getConnection();
+		
+		String sql="DELETE FROM room WHERE room_no = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, roomNo);
+		
+		// 쿼리 디버깅
+		System.out.println("stmt : " + stmt);
+		
+		// 쿼리 실행
+		row = stmt.executeUpdate();
+		
+		// 자원반납
+		conn.close();
+		return row;
+	}
 }

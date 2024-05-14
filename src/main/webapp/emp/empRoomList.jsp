@@ -7,6 +7,9 @@
 	System.out.println("=====empRoomList.jsp=====");
 	// 숙소 목록 출력
 	ArrayList<HashMap<String, Object>> selectRoomList = RoomDAO.selectRoomList();
+	
+	// 메세지 호출
+	String msg = request.getParameter("msg");
 %>
 <!DOCTYPE html>
 <html>
@@ -30,6 +33,14 @@
 		
 		<!-- 메인작업 -->
 		<!-- 숙소 목록 출력 -->
+		<!-- 메세지 출력 -->
+		<%
+			if (msg != null) {
+		%>
+				&nbsp;<%=msg%>
+		<%
+			}
+		%>
 		<div class="row row-cols-1 row-cols-md-3 g-4">
 		<%
 		for (HashMap<String, Object> m : selectRoomList) {

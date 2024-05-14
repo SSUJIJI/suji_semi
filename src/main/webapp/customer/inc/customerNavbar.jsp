@@ -61,6 +61,7 @@
             <li><a class="dropdown-item" href="/BeeNb/customer/customerRoomList.jsp">숙소리스트</a></li>
             <hr>
             <li><a class="dropdown-item" href="#">[호스트메뉴]</a></li>
+            <li><a class="dropdown-item" href="/BeeNb/customer/addRoomForm.jsp">숙소추가</a></li>
             <li><a class="dropdown-item" href="/BeeNb/customer/hostRoomList.jsp">나의숙소</a></li>
             <li><a class="dropdown-item" href="/BeeNb/customer/hostBookingList.jsp">예약관리</a></li>
             <%
