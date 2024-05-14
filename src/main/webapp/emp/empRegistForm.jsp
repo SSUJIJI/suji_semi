@@ -20,6 +20,17 @@
 		
 		<!-- 관리자 등록 폼 -->
 		<h1>관리자 등록</h1>
+		<!-- err 메시지 출력 -->
+		<%
+			if(errMsg != null) {
+		%>
+				<div class="alert alert-danger" role="alert">
+					<%= errMsg%>
+				</div>
+		<%
+			}
+		%>
+		
 		<form action="/BeeNb/emp/empRegistAction.jsp" method="post">
 			<div>
 				<label>이름</label>
@@ -30,20 +41,11 @@
 			<div>
 				<label>휴대전화</label>
 				<input type="tel" name="empPhone" required="required" placeholder="예시) 010-1234-5678">
-				<!-- errMsg 표시 -->
-				<%
-					if(errMsg != null) {
-				%>
-						<%= errMsg%>
-				<%
-					}
-				%>
-				<br>
 			</div>
 			
 			<div>
 				<label>생년월일</label>
-				<input type="text" name="empBirth" required="required" minlength = "8" maxlength="8" placeholder="예시) 19990101">
+				<input type="date" name="empBirth" required="required" >
 				<br>
 			</div>
 			

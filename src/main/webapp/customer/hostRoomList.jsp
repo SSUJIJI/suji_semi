@@ -1,5 +1,5 @@
-<%@page import="beeNb.dao.RoomDAO"%>
-<%@page import="java.util.ArrayList"%>
+<%@page import="beeNb.dao.*"%>
+<%@page import="java.util.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/customer/inc/customerSessionIsNull.jsp" %>
 <%
@@ -45,17 +45,17 @@
 					<div class="card">
 						<a class="text-decoration-none" style="color: #000000" href="/BeeNb/customer/hostRoomOne.jsp?roomNo=<%=m.get("roomNo")%>">
 							<img src="/BeeNb/upload/<%=(String)(m.get("roomImg"))%>" class="card-img-top room-image" alt="...">
-							<div class="card-body">
-								<h5 class="card-title"><%=(String) (m.get("roomName"))%></h5>
-								<p class="card-text">
-									<b>숙소 타입 : <%=(String) (m.get("roomCategory"))%></b>
-									<br>
-									<b>위치 : <%=(String) (m.get("roomAddress"))%></b>
-									<br>
-									<b>운용기간 : <%=m.get("operationStart") %> ~ <%=m.get("operationEnd") %> </b>
-								</p>
-							</div>
 						</a>
+						<div class="card-body">
+							<h5 class="card-title"><%=(String) (m.get("roomName"))%></h5>
+							<p class="card-text">
+								<b>숙소 타입 : </b><%=(String) (m.get("roomCategory"))%>
+								<br>
+								<b>위치 : </b><%=(String) (m.get("roomAddress"))%>
+								<br>
+								<b>운용기간 : </b><%=m.get("operationStart") %> ~ <%=m.get("operationEnd") %> 
+							</p>
+						</div>
 					</div>
 				</div>
 		<%		
