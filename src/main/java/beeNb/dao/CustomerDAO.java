@@ -151,19 +151,20 @@ public class CustomerDAO {
 	  
 	// 설명 : 고객 비밀번호 변경시 이전 비밀번호와 일치되는지 확인
 	// 호출 : /customer/customerEditPwAction.jsp, customerUpdateAction.jsp
-	// return : boolean(불일치하면 true, 일치하면 false)
-	public static boolean selectCustomerPwHistory(String customerId) throws Exception {
+	// return : boolean(기존에 있던 비밀번호면 true, 없으면 false)
+	public static boolean selectCustomerPwHistory(String customerId, String newCustomerPw) throws Exception {
 		boolean result = false;
 		Connection conn = DBHelper.getConnection();
-		String sql = "SELECT customer_pw FROM customer_pw_history WHERE customer_id = ?";
+		String sql = "SELECT customer_pw FROM customer_pw_history WHERE customer_id =? AND customer_pw = ?";
 	    PreparedStatement stmt = conn.prepareStatement(sql);
 	    stmt.setString(1,customerId);
+	    stmt.setString(2,newCustomerPw);
 	    // 디버깅
 	    System.out.println("stmt :" + stmt);
 		ResultSet rs = stmt.executeQuery();
 		  
 	    if(rs.next()) {
-			result = false;
+			result = true;
 		}
 		  
 	    conn.close();
@@ -177,7 +178,7 @@ public class CustomerDAO {
 	public static int updateCustomerPw(String newCustomerPw, String customerId) throws Exception {
 		int row = 0;
 		Connection conn = DBHelper.getConnection();
-		String sql = "UPDATE customer SET customer_pw = ? WHERE customer_id = ?";
+		String sql = "UPDATE customer SET customer_pw = ?, update_date = now() WHERE customer_id = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, newCustomerPw);
 		stmt.setString(2, customerId);

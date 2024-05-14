@@ -9,6 +9,7 @@
 	String errMsg = request.getParameter("errMsg");
 	String logoutMsg = request.getParameter("logoutMsg");
 	String signMsg = request.getParameter("signMsg");
+	String editMsg = request.getParameter("editMsg");
 	// 디버깅  
 	System.out.println("에러 메세지 : "+ errMsg);
 	
@@ -49,9 +50,20 @@
 				<%= signMsg %>
 			</div>
 		<%		
-			} 
+			// 비밀번호 변경 성공시 메세지
+			} else if (editMsg != null) {
 		%>
-		
+			<div class="alert alert-success" role="alert">
+				<%= editMsg %>
+			</div>
+		<%		
+			} else{
+		%>	
+			
+		<%
+			}
+		%>	
+
 		<form action="/BeeNb/customer/customerLoginAction.jsp" method="post">
 			<table>
 				<tr>
