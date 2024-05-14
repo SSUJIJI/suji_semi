@@ -7,7 +7,7 @@
 	System.out.println("=====empOne.jsp=====");
 
 	// 비밀번호 변경 성공 Msg
-	String updatePwMsg = request.getParameter("updatePwMsg");
+	String msg = request.getParameter("msg");
 %>
 <!DOCTYPE html>
 <html>
@@ -30,6 +30,7 @@
 				<th>전화번호</th>
 				<th>생년월일</th>
 				<th>비밀번호수정</th>
+				<th>탈퇴</th>
 				<th>비고</th>
 			</tr>
 			<tr>
@@ -41,10 +42,13 @@
 					<a href="/BeeNb/emp/empEditPwForm.jsp" class="btn btn-warning">수정</a>
 				</td>
 				<td>
+					<a href="/BeeNb/emp/empDropCheckPwForm.jsp" class="btn btn-warning">탈퇴</a>
+				</td>
+				<td>
 					<%
-	                    if(updatePwMsg != null){
+	                    if(msg != null){
 	                %>
-	                        &nbsp;<%=updatePwMsg %>
+	                        &nbsp;<%=msg %>
 	                <%
 	                    }
 	                %>

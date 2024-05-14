@@ -93,8 +93,6 @@ public class ThemeDAO {
 	// return : int(삭제완료 : 1, 실패 : 0)
 	public static int deleteTheme(String roomTheme) throws Exception{
 		int deleteTheme = 0;
-
-		// DB연결		
 		Connection conn = DBHelper.getConnection();
 		
 		// 테마 삭제 쿼리

@@ -43,7 +43,7 @@
             <%
             	if(loginEmp != null){
             %>
-            		사번 : <%= loginEmp.get("empNo") %> 님
+            		<%= loginEmp.get("empName") %> 님
             <%
             	}else{
             %>

@@ -44,7 +44,7 @@
             	if(loginCustomer != null){
             %>
             		<a class="dropdown-item" href="/BeeNb/customer/customerOne.jsp">
-            			<%= loginCustomer.get("customerId") %> 님
+            			<%= loginCustomer.get("customerName") %> 님
             		</a>
             <%
             	}else{

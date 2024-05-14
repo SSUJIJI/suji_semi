@@ -68,7 +68,10 @@ public class EmpDAO {
 		conn.close();
 		return empList;
 	}
-
+	
+	// 설명 : emp 로그인, 비밀번호 확인용으로도 쓸 수 있음
+	// 호출 : empLoginAction.jsp, empDropCheckPwAction.jsp
+	// return : HashMap<String, Object>
 	public static HashMap<String, Object> empLogin(String empNo, String empPw) throws Exception{
 		Connection conn = DBHelper.getConnection();
 		String sql = "SELECT emp_no AS empNo, emp_name AS empName, emp_phone AS empPhone, emp_Birth AS empBirth "
@@ -237,6 +240,29 @@ public class EmpDAO {
 		stmt.setString(1, ""+empNo);
 		stmt.setInt(2, empNo);
 		row = stmt.executeUpdate();
+		return row;
+	}
+	
+	// 설명 : 관리자 탈퇴
+	// 호출 : /emp/empDropCheckPwAction.jsp
+	// return : int(삭제 성공시 1, 실패시 0)
+	public static int deleteEmp(String empNo) throws Exception{
+		int row = 0;
+		Connection conn = DBHelper.getConnection();
+		
+		// emp 테이블 한 행 삭제하는 쿼리
+		String sql="DELETE FROM emp WHERE emp_no = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, empNo);
+		
+		// 쿼리 디버깅
+		System.out.println("stmt : " + stmt);
+		
+		// 쿼리 실행
+		row = stmt.executeUpdate();
+		
+		// 자원반납
+		conn.close();
 		return row;
 	}
 }
