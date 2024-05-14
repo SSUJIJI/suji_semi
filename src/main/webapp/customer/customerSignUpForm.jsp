@@ -42,14 +42,14 @@
 		<form method="post" action="/BeeNb/customer/customerCheckIdAction.jsp">
 			<table>
 				<tr>
+					<td colspan="3"><%=msg %></td>
+				</tr>
+				<tr>
 					<th>아이디 : </th>
 					<td><input type = "text" name = "customerId" required="required" value="<%=customerId %>"></td>
 					<td><button type = "submit">중복확인</button></td>
 				</tr>
-				<tr>
-					<td colspan="3"><%=msg %></td>
-				</tr>
-			</table>
+							</table>
 		</form>
 		<form method = "post" action = "/BeeNb/customer/customerSignUpAction.jsp">
 			<table>
@@ -62,7 +62,7 @@
 						}else{ // check가 F면 아이디가 입력되지 않게
 					%>
 							<td><input type = "text" name="customerId" hidden = "hidden"></td>
-						<%		
+					<%		
 							}
 					%>
 				</tr>
@@ -84,7 +84,7 @@
 				</tr>
 				<tr>
 					<th>전화번호 : </th>
-					<td><input type="tel" name="customerPhone" placeholder="123-456-7890">
+					<td><input type="tel" name="customerPhone" placeholder="010-1234-7890">
 					<%
 						if(errMsgP != null) {
 					%>
@@ -96,8 +96,7 @@
 				</tr>
 				<tr>
 					<th>성별 : </th>
-					<td><input type = "radio" name="customerGender" value = "F">여자</td>
-					<td><input type = "radio" name="customerGender" value = "M">남자</td>
+					<td><input type = "radio" name="customerGender" value = "F">여자<input type = "radio" name="customerGender" value = "M">남자</td>
 				</tr>
 				<tr>
 					<td><button type="submit">가입하기</button></td>
