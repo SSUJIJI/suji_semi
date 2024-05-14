@@ -3,6 +3,7 @@
 	System.out.println("=====customerEditPwForm.jsp=====");
 	String customerId = request.getParameter("customerId");
 	String errMsg = request.getParameter("errMsg");
+	String authMsg = request.getParameter("authMsg");
 	
 	// 디버깅 코드
 	System.out.println("customerId :" + customerId);
@@ -21,6 +22,23 @@
 	<!-- 고객 네비게이션 바 -->
 		<jsp:include page="/customer/inc/customerNavbar.jsp"></jsp:include>
 		<h1> 비밀번호 변경 </h1>
+		<%
+			// 비밀번호 변경 실패 시 메세지
+			if(errMsg != null) {
+		%>
+			 <div class="alert alert-danger" role="alert">
+				<%= errMsg %>
+			</div>
+		<% 	
+			// 본인인증 성공 메세지
+			} else if (authMsg != null) {
+		%>		
+			<div class="alert alert-success" role="alert">
+				<%= authMsg %>
+			</div>
+		<%	
+			}
+		%>
 			<form method = "post" action = "/BeeNb/customer/customerEditPwAction.jsp">
 				<table>
 					<tr>
@@ -38,6 +56,8 @@
 				</table>
 				<button type="submit">변경하기</button>
 			</form>
+		<!-- 푸터 -->
+		<jsp:include page="/inc/footer.jsp"></jsp:include>
 	</div>
 </body>
 </html>

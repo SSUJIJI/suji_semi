@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
 	System.out.println("=====customerAuthForm.jsp=====");
+	// 본인인증 오류 메시지
 	String errMsg = request.getParameter("errMsg");
 	System.out.println("errMsg : "+ errMsg);
 %>
@@ -34,6 +35,8 @@
 				</table>
 				<button type="submit">확인하기</button>
 			</form>
+			<!-- 푸터 -->
+		<jsp:include page="/inc/footer.jsp"></jsp:include>
 	</div>
 </body>
 </html>

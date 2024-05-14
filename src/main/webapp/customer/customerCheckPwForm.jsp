@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="/customer/inc/customerSessionNotNull.jsp" %>
+<%@ include file="/customer/inc/customerSessionIsNull.jsp" %>
 <%
 	System.out.println("=====customerCheckPwForm.jsp=====");
 	// 로그인 인증 

@@ -3,6 +3,7 @@
 <%
 	// 회원가입 실패시 오류 메시지
 	String errMsg = request.getParameter("errMsg");
+
 	// 전화번호 입력 오류 메시지
 	String errMsgP = request.getParameter("errMsgP");
 	if(errMsgP == null){

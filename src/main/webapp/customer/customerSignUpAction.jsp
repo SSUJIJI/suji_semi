@@ -38,14 +38,16 @@
        return;
     }
 	
-	
+	// customer table에 정보 넣기
 	int row = CustomerDAO.insertCustomer(customerId, customerPw, customerEmail, customerName, customerBirth, customerPhone,customerGender);
+	// customer_pw_history에 비밀번호 넣기 
 	int row2 = CustomerDAO.insertCustomerPwHistory(customerId, customerPw);
 	
 	if(row == 1 && row2 == 1){
 		// 디버깅코드
 		System.out.println("입력성공");
-		response.sendRedirect("/BeeNb/customer/customerLoginForm.jsp");
+		String signMsg = URLEncoder.encode("회원가입성공입니다.","utf-8");
+		response.sendRedirect("/BeeNb/customer/customerLoginForm.jsp?signMsg="+signMsg);
 	}else{
 		// 디버깅코드
 		System.out.println("입력실패");

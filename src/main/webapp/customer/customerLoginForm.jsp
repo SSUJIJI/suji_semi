@@ -8,6 +8,7 @@
 	
 	String errMsg = request.getParameter("errMsg");
 	String logoutMsg = request.getParameter("logoutMsg");
+	String signMsg = request.getParameter("signMsg");
 	// 디버깅  
 	System.out.println("에러 메세지 : "+ errMsg);
 	
@@ -41,8 +42,16 @@
 				<%= logoutMsg %>
 			</div>
 		<%	
-			}
+			// 회원가입 메세지
+			} else if (signMsg != null) {
 		%>
+			<div class="alert alert-success" role="alert">
+				<%= signMsg %>
+			</div>
+		<%		
+			} 
+		%>
+		
 		<form action="/BeeNb/customer/customerLoginAction.jsp" method="post">
 			<table>
 				<tr>
