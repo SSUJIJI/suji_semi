@@ -22,7 +22,7 @@
 	<div class="container">
 		<!-- 관리자 네비게이션 바 -->
 		<jsp:include page="/emp/inc/empNavbar.jsp"></jsp:include>
-		<div class="row mt-5" style="height: 65vh;">
+		
 			<div class="col"></div>
 			<div class="col-6 position-relative">
 				<div class="position-absolute top-50 start-50 translate-middle w-100">
