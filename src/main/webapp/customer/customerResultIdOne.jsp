@@ -26,6 +26,7 @@
 				</tr>				
 			</table>
 			<a class="text-decoration-none" href="/BeeNb/customer/customerLoginForm.jsp">로그인하러가기</a>
+			<a class="text-decoration-none" href="/BeeNb/customer/customerAuthForm.jsp">비밀번호변경</a>			
 		<!-- 푸터  -->
 		<jsp:include page="/inc/footer.jsp"></jsp:include>
 	</div>		

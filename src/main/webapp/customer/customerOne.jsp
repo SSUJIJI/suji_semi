@@ -7,6 +7,8 @@
 	System.out.println("=====customerOne.jsp=====");
 	
 	String customerId = (String)(loginCustomer.get("customerId"));
+	// 고객정보수정 성공 메세지 
+	String succMsg = request.getParameter("succMsg");
 	//디버깅
 	System.out.println("고객ID :" + customerId);
 	
@@ -26,6 +28,16 @@
 		<!-- 고객 네비게이션 바 -->
 		<jsp:include page="/customer/inc/customerNavbar.jsp"></jsp:include>
 	<h1>회원정보</h1>
+	<%
+		// 고객정보 수정 성공 메세지 
+		if(succMsg != null) {
+	%>
+		<div class="alert alert-success" role="alert">
+				<%= succMsg %>
+		</div>
+	<%		
+		}
+	%>
 		<div class="col-md-6">
                 <div class="card">
                     <div class="card-body">

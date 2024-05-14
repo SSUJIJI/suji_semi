@@ -335,7 +335,7 @@ public class CustomerDAO {
 									String newCustomerPw, String customerId) throws Exception {
 		int row = 0;
 		Connection conn = DBHelper.getConnection();
-		String sql = "UPDATE customer SET customer_pw = ?, customer_email = ?, customer_phone = ?"
+		String sql = "UPDATE customer SET customer_pw = ?, customer_email = ?, customer_phone = ?, update_date=NOW()"
 				+ " WHERE customer_id = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, newCustomerPw);

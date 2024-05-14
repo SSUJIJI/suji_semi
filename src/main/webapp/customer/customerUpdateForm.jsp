@@ -8,8 +8,11 @@
 	String customerPw = request.getParameter("customerPw");
 	String customerPhone = (String)(loginCustomer.get("customerPhone"));
 	String customerEmail =(String)(loginCustomer.get("customerEmail"));
-	String errMsg = request.getParameter("errMsg");
 	
+	
+	// 에러메세지
+	String errMsg = request.getParameter("errMsg");
+	String usedPwMsg = request.getParameter("usedPwMsg");
 	
 	// 디버깅코드
 	System.out.println("customerId :"+ customerId);
@@ -17,6 +20,8 @@
 	System.out.println("customerPw :"+ customerPw);
 	System.out.println("customerPhone :"+ customerPhone);
 	System.out.println("customerEmail :"+ customerEmail);
+	
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -31,6 +36,23 @@
 		<!-- 고객 네비게이션 바 -->
 		<jsp:include page="/customer/inc/customerNavbar.jsp"></jsp:include>
 		<h1>개인정보 수정</h1>
+		<%
+			// 비밀번호 변경시 기존 사용 비번으로 변경불가
+			if(usedPwMsg != null) {
+		%>
+			<div class="alert alert-danger" role="alert">
+				<%= usedPwMsg %>
+			</div>
+		<%	
+			// 고객 정보변경 실패시 에러 메세지 
+			}else if(errMsg != null){
+		%>
+			<div class="alert alert-danger" role="alert">
+				<%= errMsg %>
+			</div>
+		<% 		
+			}
+		%>
 		<form method = "post" action = "/BeeNb/customer/customerUpdateAction.jsp">
 			<table>
 				<tr>
