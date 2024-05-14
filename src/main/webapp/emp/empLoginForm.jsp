@@ -27,7 +27,7 @@
 			<div class="col-6 position-relative">
 				<div class="position-absolute top-50 start-50 translate-middle w-100">
 					<div class="row">
-						<h1>관리자 로그인</h1>
+						<h1>관리자 로그인 </h1>
 					</div>
 					<%
 						// 로그인 실패시 메세지
