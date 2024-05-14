@@ -60,7 +60,7 @@ public class CustomerDAO {
           throws Exception {
        HashMap<String, String > map = null;
        Connection conn = DBHelper.getConnection();
-       String sql = "SELECT customer_id, customer_pw FROM customer WHERE customer_id =? AND customer_pw =?";
+       String sql = "SELECT * FROM customer WHERE customer_id =? AND customer_pw =?";
        PreparedStatement stmt = conn.prepareStatement(sql);
        stmt.setString(1, customerId);
        stmt.setString(2, customerPw);
@@ -71,7 +71,12 @@ public class CustomerDAO {
        if(rs.next()) {
           map = new HashMap<String, String>();
           map.put("customerId", rs.getString("customer_id"));
-          map.put("customerPw", rs.getString("customer_pw"));
+          map.put("customerEmail", rs.getString("customer_email"));
+          map.put("customerName", rs.getString("customer_name"));
+          map.put("customerBirth", rs.getString("customer_birth"));
+          map.put("customerPhone", rs.getString("customer_phone"));
+          map.put("customerGender", rs.getString("customer_gender"));
+          
        }
        conn.close();
        return map;
@@ -145,7 +150,7 @@ public class CustomerDAO {
 	}
 	  
 	// 설명 : 고객 비밀번호 변경시 이전 비밀번호와 일치되는지 확인
-	// 호출 : /customer/customerEditPwAction.jsp
+	// 호출 : /customer/customerEditPwAction.jsp, customerUpdateAction.jsp
 	// return : boolean(불일치하면 true, 일치하면 false)
 	public static boolean selectCustomerPwHistory(String customerId) throws Exception {
 		boolean result = false;
@@ -185,7 +190,7 @@ public class CustomerDAO {
 	}
   
 	// 설명 : 고객 비밀번호 변경시 비밀번호 이력테이블에 변경비밀번호 추가
-	// 호출 : /customer/customerEditPwAction.jsp
+	// 호출 : /customer/customerEditPwAction.jsp, /customer/customerUpdateAction.jsp
 	// return : int
 	public static int insertCustomerNewPwHistory(String newCustomerPw, String customerId) throws Exception{
 		int row = 0;
@@ -298,5 +303,50 @@ public class CustomerDAO {
 		
 		conn.close();
 		return customerList;
+	}
+	
+	// 설명 : 회원정보 수정시 비밀번호 확인
+	// 호출 : customerCheckPwAction.jsp
+	// return : boolean (일치하면 true , 불일치시 false)
+	public static boolean selectCustomerPw(String customerId, String customerPw) throws Exception {
+		boolean result = false;
+		Connection conn = DBHelper.getConnection();
+		String sql = "SELECT customer_pw AS customerPw FROM customer WHERE customer_id = ? And customer_pw = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, customerId);
+		stmt.setString(2, customerPw);
+		//디버깅코드
+		System.out.println("stmt: "+stmt);
+		
+		ResultSet rs = stmt.executeQuery();
+		
+		if(rs.next()) {
+			result = true;
+		}
+		
+		conn.close();
+		return result;
+	}
+	// 설명 : 회원정보 수정
+	// 호출 : customerUpdateAction.jsp
+	// return : int 
+	public static int updateCustomer(String customerEmail, String customerPhone,
+									String newCustomerPw, String customerId) throws Exception {
+		int row = 0;
+		Connection conn = DBHelper.getConnection();
+		String sql = "UPDATE customer SET customer_pw = ?, customer_email = ?, customer_phone = ?"
+				+ " WHERE customer_id = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, newCustomerPw);
+		stmt.setString(2, customerEmail);
+		stmt.setString(3, customerPhone);
+		stmt.setString(4, customerId);
+		// 디버깅코드
+		System.out.println("stmt :" + stmt);
+		
+		row = stmt.executeUpdate();
+		
+		conn.close();
+		return row;
 	}
 }

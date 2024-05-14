@@ -46,5 +46,7 @@
 		<a href="/BeeNb/customer/customerCheckPwForm.jsp">정보수정</a>
 		<a href="/BeeNb/customer/customerDropCheckPwForm.jsp">회원탈퇴</a>
 	</div>
+	<!-- 푸터  -->
+	<jsp:include page="/inc/footer.jsp"></jsp:include>
 </body>
 </html>
