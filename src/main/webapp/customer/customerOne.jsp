@@ -60,5 +60,6 @@
 	</div>
 	<!-- 푸터  -->
 	<jsp:include page="/inc/footer.jsp"></jsp:include>
+	</div>
 </body>
 </html>

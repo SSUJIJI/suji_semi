@@ -20,7 +20,7 @@
 	if(result = true){//true면 본인인증 성공
 		// 디버깅코드
 		System.out.println("본인인증 성공");
-		String authMsg = URLEncoder.encode("본인인증 성공입니다.", "utf-8");
+		String authMsg = URLEncoder.encode("본인인증 성공입니다.", "utf-8");	
 		response.sendRedirect("/BeeNb/customer/customerEditPwForm.jsp?customerId="+customerId+"&authMsg="+authMsg);
 	}else{ // false면 본인인증 실패
 		// 디버깅코드
