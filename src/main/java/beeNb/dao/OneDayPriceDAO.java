@@ -34,4 +34,28 @@ public class OneDayPriceDAO {
 		conn.close();
 		return oneDayPriceList;
 	}
+	
+	// 설명 : 해당 숙소의 해당 날짜에 요금 등록
+	// 호출 : addOneDayPriceAction.jsp
+	// return : int (등록 성공시 등록 개수만큼, 실패시 0)
+	public static int insertOneDayPrice(int roomNo, String[] roomDate, int roomPrice) throws Exception {
+		int row = 0;
+		
+		Connection conn = DBHelper.getConnection();
+		
+		// oneday_price 테이블에 INSERT 쿼리
+		String sql = "INSERT INTO oneday_price(room_no, room_date, room_price) VALUES(?, ?, ?)";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		// roomDate의 개수만큼 INSERT 쿼리 반복실행
+		for(int i = 0; i < roomDate.length; i++) {
+			stmt.setInt(1, roomNo);
+			stmt.setString(2, roomDate[i]);
+			stmt.setInt(3, roomPrice);
+			// 실행된 쿼리 수 계산
+			row += stmt.executeUpdate();
+		}
+		
+		conn.close();
+		return row;
+	}
 }

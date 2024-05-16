@@ -144,92 +144,92 @@
 		
 		<!-- 페이징 버튼 -->	
 		<div>
-    <nav>
-        <ul class="pagination">
-            <%
-                if (!searchWord.equals("")) {
-                    if (currentPage > 1) {
-            %>
-                        <li class="page-item">
-                            <a class="page-link" href="/BeeNb/emp/empList.jsp?currentPage=1&searchWord=<%=searchWord%>&rowPerPage=<%=rowPerPage%>">처음페이지</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="/BeeNb/emp/empList.jsp?currentPage=<%=currentPage-1%>&searchWord=<%=searchWord%>&rowPerPage=<%=rowPerPage%>">이전페이지</a>
-                        </li>
-            <%
-                    } else {
-            %>
-                        <li class="page-item disabled">
-                            <a class="page-link" href="/BeeNb/emp/empList.jsp?currentPage=1&searchWord=<%=searchWord%>&rowPerPage=<%=rowPerPage%>">처음페이지</a>
-                        </li>
-                        <li class="page-item disabled">
-                            <a class="page-link" href="/BeeNb/emp/empList.jsp?currentPage=1&searchWord=<%=searchWord%>">이전페이지</a>
-                        </li>
-            <%
-                    }
-                    if (currentPage < lastPage) {
-            %>
-                        <li class="page-item">
-                            <a class="page-link" href="/BeeNb/emp/empList.jsp?currentPage=<%=currentPage+1%>&searchWord=<%=searchWord%>&rowPerPage=<%=rowPerPage%>">다음페이지</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="/BeeNb/emp/empList.jsp?currentPage=<%=lastPage%>&searchWord=<%=searchWord%>&rowPerPage=<%=rowPerPage%>">마지막페이지</a>
-                        </li>
-            <%
-                    } else {
-            %>
-                        <li class="page-item disabled">
-                            <a class="page-link" href="/BeeNb/emp/empList.jsp?currentPage=<%=lastPage%>&searchWord=<%=searchWord%>&rowPerPage=<%=rowPerPage%>">다음페이지</a>
-                        </li>
-                        <li class="page-item disabled">
-                            <a class="page-link" href="/BeeNb/emp/empList.jsp?currentPage=<%=lastPage%>&searchWord=<%=searchWord%>&rowPerPage=<%=rowPerPage%>">마지막페이지</a>
-                        </li>
-            <%
-                    }
-                } else {
-                    if (currentPage > 1) {
-            %>
-                        <li class="page-item">
-                            <a class="page-link" href="/BeeNb/emp/empList.jsp?currentPage=1&rowPerPage=<%=rowPerPage%>">처음페이지</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="/BeeNb/emp/empList.jsp?currentPage=<%=currentPage-1%>&rowPerPage=<%=rowPerPage%>">이전페이지</a>
-                        </li>
-            <%
-                    } else {
-            %>
-                        <li class="page-item disabled">
-                            <a class="page-link" href="/BeeNb/emp/empList.jsp?currentPage=1&rowPerPage=<%=rowPerPage%>">처음페이지</a>
-                        </li>
-                        <li class="page-item disabled">
-                            <a class="page-link" href="/BeeNb/emp/empList.jsp?currentPage=1">이전페이지</a>
-                        </li>
-            <%
-                    }
-                    if (currentPage < lastPage) {
-            %>
-                        <li class="page-item">
-                            <a class="page-link" href="/BeeNb/emp/empList.jsp?currentPage=<%=currentPage+1%>&rowPerPage=<%=rowPerPage%>">다음페이지</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="/BeeNb/emp/empList.jsp?currentPage=<%=lastPage%>&rowPerPage=<%=rowPerPage%>">마지막페이지</a>
-                        </li>
-            <%
-                    } else {
-            %>
-                        <li class="page-item disabled">
-                            <a class="page-link" href="/BeeNb/emp/empList.jsp?currentPage=<%=lastPage%>&searchWord=<%=searchWord%>&rowPerPage=<%=rowPerPage%>">다음페이지</a>
-                        </li>
-                        <li class="page-item disabled">
-                            <a class="page-link" href="/BeeNb/emp/empList.jsp?currentPage=<%=lastPage%>&searchWord=<%=searchWord%>&rowPerPage=<%=rowPerPage%>">마지막페이지</a>
-                        </li>
-            <%
-                    }
-                }
-            %>
-        </ul>
-    </nav>
-</div>
+		    <nav>
+		        <ul class="pagination">
+		            <%
+		                if (!searchWord.equals("")) {
+		                    if (currentPage > 1) {
+		            %>
+		                        <li class="page-item">
+		                            <a class="page-link" href="/BeeNb/emp/empList.jsp?currentPage=1&searchWord=<%=searchWord%>&rowPerPage=<%=rowPerPage%>">처음페이지</a>
+		                        </li>
+		                        <li class="page-item">
+		                            <a class="page-link" href="/BeeNb/emp/empList.jsp?currentPage=<%=currentPage-1%>&searchWord=<%=searchWord%>&rowPerPage=<%=rowPerPage%>">이전페이지</a>
+		                        </li>
+		            <%
+		                    } else {
+		            %>
+		                        <li class="page-item disabled">
+		                            <a class="page-link" href="/BeeNb/emp/empList.jsp?currentPage=1&searchWord=<%=searchWord%>&rowPerPage=<%=rowPerPage%>">처음페이지</a>
+		                        </li>
+		                        <li class="page-item disabled">
+		                            <a class="page-link" href="/BeeNb/emp/empList.jsp?currentPage=1&searchWord=<%=searchWord%>">이전페이지</a>
+		                        </li>
+		            <%
+		                    }
+		                    if (currentPage < lastPage) {
+		            %>
+		                        <li class="page-item">
+		                            <a class="page-link" href="/BeeNb/emp/empList.jsp?currentPage=<%=currentPage+1%>&searchWord=<%=searchWord%>&rowPerPage=<%=rowPerPage%>">다음페이지</a>
+		                        </li>
+		                        <li class="page-item">
+		                            <a class="page-link" href="/BeeNb/emp/empList.jsp?currentPage=<%=lastPage%>&searchWord=<%=searchWord%>&rowPerPage=<%=rowPerPage%>">마지막페이지</a>
+		                        </li>
+		            <%
+		                    } else {
+		            %>
+		                        <li class="page-item disabled">
+		                            <a class="page-link" href="/BeeNb/emp/empList.jsp?currentPage=<%=lastPage%>&searchWord=<%=searchWord%>&rowPerPage=<%=rowPerPage%>">다음페이지</a>
+		                        </li>
+		                        <li class="page-item disabled">
+		                            <a class="page-link" href="/BeeNb/emp/empList.jsp?currentPage=<%=lastPage%>&searchWord=<%=searchWord%>&rowPerPage=<%=rowPerPage%>">마지막페이지</a>
+		                        </li>
+		            <%
+		                    }
+		                } else {
+		                    if (currentPage > 1) {
+		            %>
+		                        <li class="page-item">
+		                            <a class="page-link" href="/BeeNb/emp/empList.jsp?currentPage=1&rowPerPage=<%=rowPerPage%>">처음페이지</a>
+		                        </li>
+		                        <li class="page-item">
+		                            <a class="page-link" href="/BeeNb/emp/empList.jsp?currentPage=<%=currentPage-1%>&rowPerPage=<%=rowPerPage%>">이전페이지</a>
+		                        </li>
+		            <%
+		                    } else {
+		            %>
+		                        <li class="page-item disabled">
+		                            <a class="page-link" href="/BeeNb/emp/empList.jsp?currentPage=1&rowPerPage=<%=rowPerPage%>">처음페이지</a>
+		                        </li>
+		                        <li class="page-item disabled">
+		                            <a class="page-link" href="/BeeNb/emp/empList.jsp?currentPage=1">이전페이지</a>
+		                        </li>
+		            <%
+		                    }
+		                    if (currentPage < lastPage) {
+		            %>
+		                        <li class="page-item">
+		                            <a class="page-link" href="/BeeNb/emp/empList.jsp?currentPage=<%=currentPage+1%>&rowPerPage=<%=rowPerPage%>">다음페이지</a>
+		                        </li>
+		                        <li class="page-item">
+		                            <a class="page-link" href="/BeeNb/emp/empList.jsp?currentPage=<%=lastPage%>&rowPerPage=<%=rowPerPage%>">마지막페이지</a>
+		                        </li>
+		            <%
+		                    } else {
+		            %>
+		                        <li class="page-item disabled">
+		                            <a class="page-link" href="/BeeNb/emp/empList.jsp?currentPage=<%=lastPage%>&searchWord=<%=searchWord%>&rowPerPage=<%=rowPerPage%>">다음페이지</a>
+		                        </li>
+		                        <li class="page-item disabled">
+		                            <a class="page-link" href="/BeeNb/emp/empList.jsp?currentPage=<%=lastPage%>&searchWord=<%=searchWord%>&rowPerPage=<%=rowPerPage%>">마지막페이지</a>
+		                        </li>
+		            <%
+		                    }
+		                }
+		            %>
+		        </ul>
+		    </nav>
+		</div>
 
 		<!-- 푸터  -->
 		<jsp:include page="/inc/footer.jsp"></jsp:include>

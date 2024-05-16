@@ -70,10 +70,12 @@
 	//디버깅
 	System.out.println("hostRoomOne : " + hostRoomOne);
 	
+	
 	// 호스팅한 숙소의 하루 가격 및 정보(가격, 예약 상태)리스트
 	ArrayList<HashMap<String, Object>> oneDayPriceList = OneDayPriceDAO.selectOneDayPriceList(roomNo);
 	// 디버깅
 	System.out.println("oneDayPriceList : " + oneDayPriceList);
+	
 	
 	// 호스팅한 숙소의 리뷰 리스트
 	ArrayList<HashMap<String, Object>> reviewList = ReviewDAO.selectHostRoomReviewList(roomNo, startRow, rowPerPage);
@@ -138,7 +140,7 @@
 		<div>
 			<!-- 숙소 이미지 -->
 			<div>
-				<img alt="..." src="/BeeNb/upload/<%=hostRoomOne.get("roomImg") %>">
+				<img alt="..." src="/BeeNb/upload/<%=hostRoomOne.get("roomImg") %>" width="500px;">
 			</div>
 			<!-- 나머지 상세정보 -->
 			<div>
@@ -194,9 +196,10 @@
 			</div>
 		</div>
 
-		<!-- 숙소 예약일 -->
+		<!-- 숙소 예약일 표시 및 가격 등록 버튼-->
 		<div>
 			<hr>
+			<a class="text-decoration-none" href="/BeeNb/customer/addOneDayPriceForm.jsp?roomNo=<%=roomNo%>">가격 등록</a>
 			<div class="row">
 				<div class="col">
 					<a href="/BeeNb/customer/hostRoomOne.jsp?roomNo=<%=roomNo %>&targetYear=<%=calendarYear%>&targetMonth=<%=calendarMonth - 1%>">
@@ -221,29 +224,56 @@
 			<table class="table">
 				<thead>
 					<tr>
+						<th>일</th>
 						<th>월</th>
 						<th>화</th>
 						<th>수</th>
 						<th>목</th>
 						<th>금</th>
 						<th>토</th>
-						<th>일</th>
 					</tr>
 				</thead>
-				
 				<tbody>
+					<tr>
 					<%
-						for(int i = 1; i <= 6; i++) {
-							for(int j = 1; j <= 7; j++) {
-								
+						for(int i = 1; i <= calendarTotalDiv; i ++) {
+							// 공백 숫자를 뺀 실제 달력에 표시되야하는 날짜
+							int realDay = i - firstDayBeforeBlank;
+					%>
+							<td>
+					<%
+							// realDay가 실제 달력의 날짜 안에 있어야만 달력에 출력
+							if((realDay >= 1) && (i -firstDayBeforeBlank <= lastDay)) {
+					%>
+								<%=realDay %>
+					<%
+								// 리스트의 요소들 중 요금이 책정된 날짜가 있다면 페이지에 출력
+								for(HashMap<String, Object> m : oneDayPriceList) {
+									int oneDayPriceYear = Integer.parseInt((((String)(m.get("roomDate"))).substring(0, 4)));
+									int oneDayPriceMonth = Integer.parseInt((((String)(m.get("roomDate"))).substring(5, 7)));
+									int oneDayPriceDay = Integer.parseInt((((String)(m.get("roomDate"))).substring(8, 10)));
+									if(calendarYear == oneDayPriceYear && (calendarMonth + 1) == oneDayPriceMonth && (realDay) == oneDayPriceDay) {
+					%>
+										<br>예약 상태 : <b><%=m.get("roomState")%></b>
+										<br>등록 가격 : <b><%=m.get("roomPrice")%>원</b>
+					<%
+									}
+								}
+					%>
+							</td>
+					<%
+							}
+							// 한줄에 칸이 7개가 되면 행을 닫기
+							if(i % 7 == 0) {
+					%>
+								</tr>
+					<%
 							}
 						}
 					%>
 				</tbody>
 			</table>
 		</div>
-		
-		
 		
 		<!-- 숙소 리뷰 -->
 		<div>
