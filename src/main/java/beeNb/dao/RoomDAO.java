@@ -211,5 +211,30 @@ public class RoomDAO {
 		return row;
 	}
 	
-	
+	// 설명 : room중에서 state가 미승인, 재승인 목록 불러오기
+	// 호출 : pendingRoomList.jsp
+	// return ArrayList<HashMap<String, Object>>
+	public static ArrayList<HashMap<String, Object>> selectPendingRoomList() throws Exception {
+		ArrayList<HashMap<String, Object>> selectPendingRoomList = new ArrayList<HashMap<String, Object>>();
+		Connection conn = DBHelper.getConnection();
+		
+		String sql = "SELECT room_no AS roomNo, customer_id AS customerId,"
+				+ " room_name AS roomName, approve_state AS approveState"
+				+ " FROM room"
+				+ " WHERE approve_state = '미승인' OR"
+				+ " approve_state = '재승인'";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		ResultSet rs = stmt.executeQuery();
+		while(rs.next()) {
+			HashMap<String, Object> m = new HashMap<String, Object>();
+			m.put("roomNo",rs.getInt("roomNo"));
+			m.put("customerId",rs.getString("customerId"));
+			m.put("roomName",rs.getString("roomName"));
+			m.put("approveState",rs.getString("approveState"));
+			selectPendingRoomList.add(m);
+		}
+		
+		conn.close();
+		return selectPendingRoomList;
+	}
 }

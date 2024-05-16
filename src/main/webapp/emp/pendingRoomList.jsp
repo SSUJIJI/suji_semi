@@ -8,6 +8,9 @@
 
 	// 메시지 호출
 	String msg = request.getParameter("msg");
+	
+	// 미승인 숙소 리스트 메서드(미승인이란 : 미승인+재승인)
+	ArrayList<HashMap<String, Object>> selectPendingRoomList = RoomDAO.selectPendingRoomList();
 %>
 <!DOCTYPE html>
 <html>
@@ -23,6 +26,32 @@
 		<jsp:include page="/emp/inc/empNavbar.jsp"></jsp:include>
 		
 		<!-- 메인작업 -->
+		<h1>숙소심사</h1>
+		<table class="table">
+			<tr>
+				<th>숙소번호</th>
+				<th>호스트ID</th>
+				<th>숙소이름</th>
+				<th>현재상태</th>
+				<th>상세보기</th>
+			</tr>
+			
+				<%
+					for (HashMap<String, Object> m : selectPendingRoomList) {
+				%>
+						<tr>
+							<td><%=(Integer) (m.get("roomNo"))%></td>
+							<td><%=(String) (m.get("customerId"))%></td>
+							<td><%=(String) (m.get("roomName"))%></td>
+							<td><%=(String) (m.get("approveState"))%></td>
+							<td><a href="/BeeNb/emp/pendingRoomOne.jsp?roomNo=<%=(Integer) (m.get("roomNo"))%>" class="btn btn-warning">상세보기</a></td>
+							
+						</tr>
+				<%
+					}
+				%>
+			
+		</table>
 		
 		<!-- 푸터  -->
 		<jsp:include page="/inc/footer.jsp"></jsp:include>	
