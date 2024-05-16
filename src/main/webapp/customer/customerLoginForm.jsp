@@ -12,7 +12,9 @@
 	String editMsg = request.getParameter("editMsg");
 	// 디버깅  
 	System.out.println("에러 메세지 : "+ errMsg);
-	
+	System.out.println("로그아웃 메세지 : "+ logoutMsg);
+	System.out.println("회원가입 메시지 : "+ signMsg);
+	System.out.println("회원정보 수정 메세지 : "+ editMsg);
 	
 %>
 <!DOCTYPE html>
