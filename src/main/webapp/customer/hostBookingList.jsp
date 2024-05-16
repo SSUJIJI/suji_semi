@@ -1,14 +1,124 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="beeNb.dao.BookingDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="/customer/inc/customerSessionIsNull.jsp" %>
+<%
+	System.out.println("========== hostBookingList.jsp ==========");
+	
+	// 고객 ID(호스트) 가져오기(session)
+	String customerId = (String)loginCustomer.get("customerId");
+	System.out.println("customerId : " + customerId);
+	
+	// 현재 페이지 구하기
+	// 처음 실행시 1페이지로 설정
+	int currentPage = 1;
+	// currentPage 요청 값이 있을 경우(페이지 이동 시) 요청 값으로 변경
+	if(request.getParameter("currentPage") != null) {
+		currentPage = Integer.parseInt(request.getParameter("currentPage"));
+		// hostBookingList 페이지의 currentPage 세션 값 설정
+		session.setAttribute("hostBookingListCurrentPage", currentPage);
+	}
+	// currentPage값 세션변수에 저장한 currentPage값으로 변경
+	if(session.getAttribute("hostBookingListCurrentPage") != null) {
+		currentPage = (int)session.getAttribute("hostBookingListCurrentPage");	
+	}
+	// 디버깅
+	System.out.println("currentPage : " + currentPage);
+	
+	
+	// 페이지당 보여줄 hostBookingList 행의 개수
+	// 기본 30개로 설정
+	int rowPerPage = 30;
+	// rowPerPage 요청 값이 있을 경우(select박스로 선택했을 때) 요청 값으로 변경
+	if(request.getParameter("rowPerPage") != null) {
+		rowPerPage = Integer.parseInt(request.getParameter("rowPerPage"));
+		session.setAttribute("hostBookingListRowPerPage", rowPerPage);
+	}
+	// rowPerPage값 세션변수에 저장한 rowPerPage값으로 변경
+	if(session.getAttribute("hostBookingListRowPerPage") != null) {
+		rowPerPage = (int)session.getAttribute("hostBookingListRowPerPage");
+	}
+	// 디버깅
+	System.out.println("rowPerPage : " + rowPerPage);
+	
+	
+	// (해당 호스트의)booking 테이블의 전체 행 개수
+	int hostBookingListTotalRow = BookingDAO.selectHostBookingListCnt(customerId);
+	// 디버깅
+	System.out.println("hostBookingListTotalRow : " + hostBookingListTotalRow);
+	
+	
+	// 페이지당 시작할 row
+	int startRow = (currentPage - 1) * rowPerPage;
+	// 디버깅
+	System.out.println("startRow : " + startRow);
+	
+	
+	// 마지막 페이지 구하기 - (해당 호스트의)booking 테이블 전체 행을 페이지당 보여줄 (해당 호스트의)booking 행의 개수로 나눈 값
+	int lastPage = hostBookingListTotalRow / rowPerPage;
+	// 나머지가 생길 경우 남은 (해당 호스트의)booking 행을 보여주기 위해 lastPage 에 + 1하기
+	if(hostBookingListTotalRow % rowPerPage != 0) {
+		lastPage += 1;
+	}
+	// 디버깅
+	System.out.println("lastPage : " + lastPage);
+	
+	// 해당 호스트의 호스팅한 숙소들의 예약 목록
+	ArrayList<HashMap<String, Object>> hostBookingList = BookingDAO.selectHostBookingList(customerId, startRow, rowPerPage);
+	// 디버깅
+	System.out.println("hostBookingList : " + hostBookingList);
+	
+%>
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
 	<title></title>
 	<jsp:include page="/inc/bootstrapCDN.jsp"></jsp:include>
+	<link href="/BeeNb/css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<div class="container">
-	
+		<!-- 고객 네비게이션 바 -->
+		<jsp:include page="/customer/inc/customerNavbar.jsp"></jsp:include>
+		
+		<h1>에약 관리</h1>
+		<!-- 예약 리스트 -->
+		<table class="table">
+			<thead>
+				<tr>
+					<th>예약 번호</th>
+					<th>숙소</th>
+					<th>고객 ID</th>
+					<th>고객 이름</th>
+					<th>예약 상태</th>
+					<th>예약 인원</th>
+					<th>예약일</th>
+					<th>예약 상태 변경일</th>
+				</tr>
+			</thead>
+			<tbody>
+				<%
+					for(HashMap<String, Object> m : hostBookingList) {
+				%>
+						<tr>
+							<td><%=m.get("bookingNo") %></td>
+							<td><%=m.get("roomName") %></td>
+							<td><%=m.get("customerId") %></td>
+							<td><%=m.get("customerName") %></td>
+							<td><%=m.get("bookingState") %></td>
+							<td><%=m.get("usePeople") %></td>
+							<td><%=m.get("createDate") %></td>
+							<td><%=m.get("updateDate") %></td>
+						</tr>
+				<%
+					}
+				%>
+			</tbody>
+		</table>
+		
+		<!-- 푸터 -->
+		<jsp:include page="/inc/footer.jsp"></jsp:include>
 	</div>
 </body>
 </html>
