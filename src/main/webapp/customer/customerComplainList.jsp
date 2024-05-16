@@ -7,7 +7,7 @@
 	System.out.println("=====customerComplainList.jsp=====");
 	String customerId = (String)(loginCustomer.get("customerId"));
 	
-	ArrayList<HashMap<String,Object>> complainList = BookingDAO.selectComplainList(customerId);
+	ArrayList<HashMap<String,Object>> complainList = ComplainDAO.selectComplainList(customerId);
 %>
 <!DOCTYPE html>
 <html>
@@ -39,7 +39,7 @@
 				<tr>
 					<td><%=(Integer)(m.get("bookingNo")) %></td>
 					<td>
-						<a href = "/BeeNb/customer/complainOne.jsp?complainNo=<%=m.get("complainNo")%>"><%=(Integer)(m.get("complainNo")) %></a>
+						<a href = "/BeeNb/customer/customerComplainOne.jsp?complainNo=<%=m.get("complainNo")%>"><%=(Integer)(m.get("complainNo")) %></a>
 					</td>
 					<td><%=(String)(m.get("complainType")) %></td>
 					<td><%=(String)(m.get("complainContent")) %></td>
