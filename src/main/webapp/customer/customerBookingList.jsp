@@ -51,7 +51,11 @@
 	ArrayList<HashMap<String,Object>> beforeList = BookingDAO.selectBeforeList(customerId);
 	// 이용 후 리스트 
 	ArrayList<HashMap<String,Object>> afterList = BookingDAO.selectAfterList(customerId, startRow, rowPerPage);
-
+	
+	// 예약 취소 성공 메세지 
+	String succMsg = request.getParameter("succMsg");
+	//디버깅
+	System.out.println("succMsg: "+ succMsg);
 %>
 <!DOCTYPE html>
 <html>
@@ -66,6 +70,16 @@
 	<!-- 고객 네비게이션 바 -->
 	<jsp:include page="/customer/inc/customerNavbar.jsp"></jsp:include>
 		<h1>이용 전 예약리스트</h1>
+		<%
+			// 예약 취소 성공시 메세지
+			if(succMsg != null) {
+		%>
+			 <div class="alert alert-success" role="alert">
+				<%= succMsg %>
+			</div>
+		<%
+			}
+		%>
 		<!-- 이용 전 예약 리스트 출력 -->
 		<table class="table table-striped">
 			<tr>
@@ -77,12 +91,13 @@
 				<th>결제일자</th>
 				<th>입실날짜</th>
 				<th>퇴실날짜</th>
+				<th>예약취소</th>
 			</tr>
 			<%
 				for(HashMap<String,Object> m : beforeList){
 			%>
 				<tr>
-					<td><%=(int)(m.get("bookingNo"))%></td>
+					<td><%=(Integer)(m.get("bookingNo"))%></td>
 					<td><%=(String)(m.get("customerId"))%></td>
 					<td><%=(String)(m.get("roomName"))%></td>
 					<td><%=(String)(m.get("roomAddress"))%></td>
@@ -90,6 +105,11 @@
 					<td><%=(String)(m.get("createDate"))%></td>
 					<td><%=(String)(m.get("startRoomDate"))%></td>
 					<td><%=(String)(m.get("endRoomDate"))%></td>
+					<td>
+						<a href = "/BeeNb/customer/customerCancelBookingAction.jsp?bookingNo=<%=m.get("bookingNo") %>" onclick="return confirm('예약을 취소하시겠습니까?')">
+							예약취소
+						</a>
+					</td>
 				</tr>
 			<%
 				}
@@ -114,7 +134,7 @@
 					for(HashMap<String,Object> m : afterList){
 				%>
 					<tr>
-						<td><%=(int)(m.get("bookingNo"))%></td>
+						<td><%=(Integer)(m.get("bookingNo"))%></td>
 						<td><%=(String)(m.get("customerId"))%></td>
 						<td><%=(String)(m.get("roomName"))%></td>
 						<td><%=(String)(m.get("roomAddress"))%></td>

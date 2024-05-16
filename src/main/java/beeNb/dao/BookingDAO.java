@@ -113,4 +113,27 @@ public class BookingDAO {
 		conn.close();
 		return total;
 	}
+	// 설명 : 고객이 이용 전 예약 취소 기능
+	// 호출 : /customer/customerBookingList.jsp
+	// return : int
+	public static int deleteBooking(int bookingNo, String customerId) throws Exception {
+		int row = 0;
+		Connection conn = DBHelper.getConnection();
+		String sql = "DELETE booking, booking_list "
+				+ "FROM booking "
+				+ "INNER JOIN booking_list ON booking.booking_no = booking_list.booking_no "
+				+ "WHERE booking.customer_id = ? "
+				+ "AND booking.booking_state = '전' "
+				+ "AND booking.booking_no = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1,customerId);
+		stmt.setInt(2, bookingNo);
+		
+		System.out.println("stmt : " + stmt);
+		
+		row = stmt.executeUpdate();
+	
+		conn.close();
+		return row;
+	}
 }
