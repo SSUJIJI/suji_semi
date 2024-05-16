@@ -156,30 +156,50 @@
 		
 		<!-- 페이징 버튼 -->	
 		<div>
-			<%
-				if(currentPage > 1) {
-			%>	
-					<a href="/BeeNb/emp/customerList.jsp?currentPage=1&grade=<%=grade%>&rowPerPage=<%=rowPerPage%>">처음페이지</a>
-					<a href="/BeeNb/emp/customerList.jsp?currentPage=<%=currentPage-1%>&grade=<%=grade%>&rowPerPage=<%=rowPerPage%>">이전페이지</a>
-			<%		
-				} else {
-			%>
-					<a href="/BeeNb/emp/customerList.jsp?currentPage=1&grade=<%=grade%>&rowPerPage=<%=rowPerPage%>">처음페이지</a>
-					<a href="/BeeNb/emp/customerList.jsp?currentPage=1&grade=<%=grade%>">이전페이지</a>
-			<%		
-				}
-				if(currentPage < lastPage) {
-			%>
-					<a href="/BeeNb/emp/customerList.jsp?currentPage=<%=currentPage+1%>&grade=<%=grade%>&rowPerPage=<%=rowPerPage%>">다음페이지</a>
-					<a href="/BeeNb/emp/customerList.jsp?currentPage=<%=lastPage%>&grade=<%=grade%>&rowPerPage=<%=rowPerPage%>">마지막페이지</a>
-			<%		
-				} else {
-			%>
-					<a href="/BeeNb/emp/customerList.jsp?currentPage=<%=lastPage%>&grade=<%=grade%>&rowPerPage=<%=rowPerPage%>">다음페이지</a>
-					<a href="/BeeNb/emp/customerList.jsp?currentPage=<%=lastPage%>&grade=<%=grade%>&rowPerPage=<%=rowPerPage%>">마지막페이지</a>
-			<%
-				}
-			%>
+			<nav>
+		        <ul class="pagination">
+					<%
+						if(currentPage > 1) {
+					%>	
+							<li class="page-item">
+								<a class="page-link" href="/BeeNb/emp/customerList.jsp?currentPage=1&grade=<%=grade%>&rowPerPage=<%=rowPerPage%>">처음페이지</a>
+							</li>
+							<li class="page-item">
+								<a class="page-link" href="/BeeNb/emp/customerList.jsp?currentPage=<%=currentPage-1%>&grade=<%=grade%>&rowPerPage=<%=rowPerPage%>">이전페이지</a>
+							</li>
+					<%		
+						} else {
+					%>
+							<li class="page-item">
+								<a class="page-link disabled" href="/BeeNb/emp/customerList.jsp?currentPage=1&grade=<%=grade%>&rowPerPage=<%=rowPerPage%>">처음페이지</a>
+							</li>
+							<li class="page-item">
+								<a class="page-link disabled" href="/BeeNb/emp/customerList.jsp?currentPage=1&grade=<%=grade%>">이전페이지</a>
+							</li>
+					<%		
+						}
+						if(currentPage < lastPage) {
+					%>
+							<li class="page-item">
+								<a class="page-link" href="/BeeNb/emp/customerList.jsp?currentPage=<%=currentPage+1%>&grade=<%=grade%>&rowPerPage=<%=rowPerPage%>">다음페이지</a>
+							</li>
+							<li class="page-item">
+								<a class="page-link" href="/BeeNb/emp/customerList.jsp?currentPage=<%=lastPage%>&grade=<%=grade%>&rowPerPage=<%=rowPerPage%>">마지막페이지</a>
+							</li>
+					<%		
+						} else {
+					%>
+							<li class="page-item">
+								<a class="page-link disabled" href="/BeeNb/emp/customerList.jsp?currentPage=<%=lastPage%>&grade=<%=grade%>&rowPerPage=<%=rowPerPage%>">다음페이지</a>
+							</li>
+							<li class="page-item">
+								<a class="page-link disabled" href="/BeeNb/emp/customerList.jsp?currentPage=<%=lastPage%>&grade=<%=grade%>&rowPerPage=<%=rowPerPage%>">마지막페이지</a>
+							</li>
+					<%
+						}
+					%>
+				</ul>
+		    </nav>
 		</div>
 		<!-- 푸터  -->
 		<jsp:include page="/inc/footer.jsp"></jsp:include>

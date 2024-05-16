@@ -17,11 +17,11 @@
 	if(request.getParameter("currentPage") != null) {
 		currentPage = Integer.parseInt(request.getParameter("currentPage"));
 		// hostRoomOne의 리뷰부분 currentPage 세션 값 설정
-		session.setAttribute("hostRoomcurrentPage", currentPage);
+		session.setAttribute("hostRoomCurrentPage", currentPage);
 	}
 	// currentPage값 세션변수에 저장한 currentPage값으로 변경
-	if(session.getAttribute("hostRoomcurrentPage") != null) {
-		currentPage = (int)session.getAttribute("hostRoomcurrentPage");	
+	if(session.getAttribute("hostRoomCurrentPage") != null) {
+		currentPage = (int)session.getAttribute("hostRoomCurrentPage");	
 	}
 	// 디버깅
 	System.out.println("currentPage : " + currentPage);
@@ -122,6 +122,10 @@
 	// 달력 칸의 개수
 	int calendarTotalDiv = 42;	
 %>
+<%
+	// err메시지 요청 값
+	String msg = request.getParameter("msg");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -136,6 +140,18 @@
 		<jsp:include page="/customer/inc/customerNavbar.jsp"></jsp:include>
 		
 		<h1><%=hostRoomOne.get("roomName") %></h1>
+		<!-- msg 출력 -->
+		<%
+			if(msg != null) {
+		%>
+				<div class="alert alert-danger" role="alert">
+					<%= msg%>
+				</div>
+		<%
+			}
+		%>
+		<!-- 숙소 삭제버튼 -->
+		<a class="btn btn-warning" href="/BeeNb/customer/customerRoomDeleteAction.jsp?roomNo=<%=roomNo%>">숙소 삭제</a>
 		<!-- 숙소 상세정보 출력 -->
 		<div>
 			<!-- 숙소 이미지 -->
@@ -199,7 +215,7 @@
 		<!-- 숙소 예약일 표시 및 가격 등록 버튼-->
 		<div>
 			<hr>
-			<a class="text-decoration-none" href="/BeeNb/customer/addOneDayPriceForm.jsp?roomNo=<%=roomNo%>">가격 등록</a>
+			<a class="btn btn-warning" href="/BeeNb/customer/addOneDayPriceForm.jsp?roomNo=<%=roomNo%>">가격 등록</a>
 			<div class="row">
 				<div class="col">
 					<a href="/BeeNb/customer/hostRoomOne.jsp?roomNo=<%=roomNo %>&targetYear=<%=calendarYear%>&targetMonth=<%=calendarMonth - 1%>">
@@ -257,6 +273,11 @@
 										<br>예약 상태 : <b><%=m.get("roomState")%></b>
 										<br>등록 가격 : <b><%=m.get("roomPrice")%>원</b>
 					<%
+										if(((String)m.get("roomState")).equals("예약 가능")) {
+					%>
+										<br><a href="/BeeNb/customer/deleteOneDayPriceAction.jsp?roomNo=<%=roomNo%>&roomDate=<%=m.get("roomDate")%>">가격 삭제</a>
+					<%
+										}
 									}
 								}
 					%>
@@ -307,31 +328,51 @@
 				
 			<!-- 숙소 리뷰 페이징 -->	
 			<div>
-				<%
-					if(currentPage > 1) {
-				%>	
-						<a href="/BeeNb/customer/hostRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=1">처음페이지</a>
-						<a href="/BeeNb/customer/hostRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=<%=currentPage-1%>">이전페이지</a>
-				<%		
-					} else {
-				%>
-						<a href="/BeeNb/customer/hostRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=1">처음페이지</a>
-						<a href="/BeeNb/customer/hostRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=1">이전페이지</a>
-				<%		
-					}
-		
-					if(currentPage < lastPage) {
-				%>
-						<a href="/BeeNb/customer/hostRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=<%=currentPage+1%>">다음페이지</a>
-						<a href="/BeeNb/customer/hostRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=<%=lastPage%>">마지막페이지</a>
-				<%		
-					} else {
-				%>
-						<a href="/BeeNb/customer/hostRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=<%=lastPage%>">다음페이지</a>
-						<a href="/BeeNb/customer/hostRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=<%=lastPage%>">마지막페이지</a>
-				<%
-					}
-				%>
+				<nav>
+		        	<ul class="pagination">
+						<%
+							if(currentPage > 1) {
+						%>	
+								<li class="page-item">
+									<a class="page-link" href="/BeeNb/customer/hostRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=1">처음페이지</a>
+								</li>
+								<li class="page-item">
+									<a class="page-link" href="/BeeNb/customer/hostRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=<%=currentPage-1%>">이전페이지</a>
+								</li>
+						<%		
+							} else {
+						%>
+								<li class="page-item disabled">
+									<a class="page-link" href="/BeeNb/customer/hostRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=1">처음페이지</a>
+								</li>
+								<li class="page-item disabled">
+									<a class="page-link" href="/BeeNb/customer/hostRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=1">이전페이지</a>
+								</li>
+						<%		
+							}
+				
+							if(currentPage < lastPage) {
+						%>
+								<li class="page-item">
+									<a class="page-link" href="/BeeNb/customer/hostRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=<%=currentPage+1%>">다음페이지</a>
+								</li>
+								<li class="page-item">
+									<a class="page-link" href="/BeeNb/customer/hostRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=<%=lastPage%>">마지막페이지</a>
+								</li>
+						<%		
+							} else {
+						%>
+								<li class="page-item disabled">
+									<a class="page-link" href="/BeeNb/customer/hostRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=<%=lastPage%>">다음페이지</a>
+								</li>
+								<li class="page-item disabled">
+									<a class="page-link" href="/BeeNb/customer/hostRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=<%=lastPage%>">마지막페이지</a>
+								</li>
+						<%
+							}
+						%>
+					</ul>
+		    	</nav>
 			</div>
 		</div>
 		

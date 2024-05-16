@@ -28,7 +28,7 @@
 	if(deleteRoom==1){
 		System.out.println("숙소 삭제 완료");
 		String msg = URLEncoder.encode("숙소삭제완료.", "UTF-8");
-		response.sendRedirect("/BeeNb/customer/hostBookingList.jsp?msg="+msg);
+		response.sendRedirect("/BeeNb/customer/hostRoomList.jsp?msg="+msg);
 		return;
 	}else{
 		System.out.println("숙소 삭제 실패");

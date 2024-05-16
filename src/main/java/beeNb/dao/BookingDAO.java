@@ -137,4 +137,75 @@ public class BookingDAO {
 		conn.close();
 		return row;
 	}
+	
+	// 설명 : 호스트가 호스팅한 숙소의 예약을 조회하는 페이지(hostBookingList.jsp)의 페이징 기능을 위한 전체 행 개수 구하기
+	// 호출 : hostBookingList.jsp
+	// return : int(해당 숙소의 예약 개수)
+	public static int selectHostBookingListCnt(String customerId) throws Exception{
+		int cnt = 0;
+		
+		Connection conn = DBHelper.getConnection();
+		
+		// 해당 숙소의 예약 개수 SELECT
+		String sql = "SELECT COUNT(*) AS cnt"
+				+ " FROM booking b"
+				+ " INNER JOIN room r"
+				+ " ON b.room_no = r.room_no"
+				+ " WHERE r.customer_id = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, customerId);
+		ResultSet rs = stmt.executeQuery();
+		
+		// 해당 숙소의 예약(booking)이 있다면
+		if(rs.next()) {
+			// 예약 개수 cnt에 담기
+			cnt = rs.getInt("cnt");
+		}
+		
+		conn.close();
+		return cnt;
+	}
+	
+	// 설명 : 호스트가 호스팅한 숙소의 예약을 조회
+	// 호출 : hostBookingList.jsp
+	// return : int(해당 숙소의 예약 개수)
+	public static ArrayList<HashMap<String, Object>> selectHostBookingList(String customerId, int startRow, int rowPerPage) throws Exception{
+		ArrayList<HashMap<String, Object>> hostBookingList = new ArrayList<>();
+		
+		Connection conn = DBHelper.getConnection();
+		
+		// 해당 숙소의 예약 목록 SELECT
+		String sql = "SELECT b.booking_no AS bookingNo, b.customer_id AS customerId, c.customer_name AS customerName, b.booking_state AS bookingState,"
+				+ " b.use_people AS usePeople, b.create_date AS createDate, b.update_date AS updateDate, r.room_name AS roomName "
+				+ " FROM booking b"
+				+ " INNER JOIN room r"
+				+ " ON b.room_no = r.room_no"
+				+ " INNER JOIN customer c"
+				+ " ON b.customer_id = c.customer_id"
+				+ " WHERE r.customer_id = ?"
+				+ " ORDER BY b.create_date DESC, bookingNo DESC"
+				+ " LIMIT ?,?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, customerId);
+		stmt.setInt(2, startRow);
+		stmt.setInt(3, rowPerPage);
+		ResultSet rs = stmt.executeQuery();
+		
+		// 해당 숙소의 목록 list에 담기
+		while(rs.next()) {
+			HashMap<String, Object> m = new HashMap<>();
+			m.put("bookingNo", rs.getInt("bookingNo"));
+			m.put("roomName", rs.getString("roomName"));
+			m.put("customerId", rs.getString("customerId"));
+			m.put("customerName", rs.getString("customerName"));
+			m.put("bookingState", rs.getString("bookingState"));
+			m.put("usePeople", rs.getInt("usePeople"));
+			m.put("createDate", rs.getString("createDate"));
+			m.put("updateDate", rs.getString("updateDate"));
+			hostBookingList.add(m);
+		}
+		
+		conn.close();
+		return hostBookingList;
+	}
 }

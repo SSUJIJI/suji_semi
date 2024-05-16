@@ -55,7 +55,6 @@
 	int calendarTotalDiv = 42;	
 %>
 <%
-	System.out.println("========== empRegistForm.jsp ==========");
 	// err메시지 요청 값
 	String errMsg = request.getParameter("errMsg");
 %>

@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.util.*;
 
 public class OneDayPriceDAO {
-	// 설명 : 해당 숙소의 요금 조회(매 일마다 책정된 모든 금액)]
+	// 설명 : 해당 숙소의 가격 조회(매 일마다 책정된 모든 금액)]
 	// 호출 : hostRoomOne.jsp
 	// return : ArrayList<HashMap<String, Object>> oneDayPriceList
 	public static ArrayList<HashMap<String, Object>> selectOneDayPriceList(int roomNo) throws Exception{
@@ -35,7 +35,7 @@ public class OneDayPriceDAO {
 		return oneDayPriceList;
 	}
 	
-	// 설명 : 해당 숙소의 해당 날짜에 요금 등록
+	// 설명 : 해당 숙소의 해당 날짜에 가격 등록
 	// 호출 : addOneDayPriceAction.jsp
 	// return : int (등록 성공시 등록 개수만큼, 실패시 0)
 	public static int insertOneDayPrice(int roomNo, String[] roomDate, int roomPrice) throws Exception {
@@ -54,6 +54,26 @@ public class OneDayPriceDAO {
 			// 실행된 쿼리 수 계산
 			row += stmt.executeUpdate();
 		}
+		
+		conn.close();
+		return row;
+	}
+	
+	// 설명 : 해당 숙소의 해당 날짜에 등록된 가격 삭제
+	// 호출 : hostRoomOne.jsp
+	// return : int (삭제시 1, 실패시 0)
+	public static int deleteOneDayPrice(int roomNo, String roomDate) throws Exception {
+		int row = 0;
+		
+		Connection conn = DBHelper.getConnection();
+		
+		// oneday_price 테이블에 DELETE쿼리
+		String sql = "DELETE FROM oneday_price WHERE room_no = ? AND room_date = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, roomNo);
+		stmt.setString(2, roomDate);
+		
+		row = stmt.executeUpdate();		
 		
 		conn.close();
 		return row;
