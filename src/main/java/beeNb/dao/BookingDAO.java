@@ -124,7 +124,8 @@ public class BookingDAO {
 				+ "INNER JOIN booking_list ON booking.booking_no = booking_list.booking_no "
 				+ "WHERE booking.customer_id = ? "
 				+ "AND booking.booking_state = '전' "
-				+ "AND booking.booking_no = ?";
+				+ "AND booking.booking_no = ? "
+				+ "AND DATEDIFF(booking_list.room_date, CURDATE()) > 3";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1,customerId);
 		stmt.setInt(2, bookingNo);

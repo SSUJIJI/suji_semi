@@ -56,6 +56,10 @@
 	String succMsg = request.getParameter("succMsg");
 	//디버깅
 	System.out.println("succMsg: "+ succMsg);
+	// 예약 취소 실패 메세지
+	String errMsg = request.getParameter("errMsg");
+	// 디버깅
+	System.out.println("errMsg : " + errMsg);
 %>
 <!DOCTYPE html>
 <html>
@@ -76,8 +80,14 @@
 		%>
 			 <div class="alert alert-success" role="alert">
 				<%= succMsg %>
-			</div>
+			 </div>
 		<%
+			} else if(errMsg != null){
+		%>		
+			 <div class="alert alert-danger" role="alert">
+				<%= errMsg %>
+			 </div>
+		<%		
 			}
 		%>
 		<!-- 이용 전 예약 리스트 출력 -->

@@ -20,5 +20,10 @@
 		System.out.println("취소성공");
 		String succMsg = URLEncoder.encode("예약취소 완료되었습니다.", "utf-8");
 		response.sendRedirect("/BeeNb/customer/customerBookingList.jsp?succMsg="+succMsg+"&customerId="+customerId);
+	} else{
+		//디버깅 코드
+		System.out.println("취소실패");
+		String errMsg = URLEncoder.encode("이용일 3일전 취소 불가합니다.", "utf-8");
+		response.sendRedirect("/BeeNb/customer/customerBookingList.jsp?errMsg="+errMsg+"&customerId="+customerId);
 	}
 %>
