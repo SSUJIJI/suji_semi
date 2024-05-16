@@ -1,19 +1,92 @@
+<%@page import="java.util.*"%>
+<%@page import="beeNb.dao.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="beeNb.dao.*"%>
-<%@ page import="java.util.*"%>
-<%@ page import="java.net.*"%>
 <%@ include file="/emp/inc/empSessionIsNull.jsp"%>
 <%
-	System.out.println("=====empRoomOne.jsp=====");
+	System.out.println("==========empRoomOne.jsp==========");
 
-	// 메시지 호출
-	String msg = request.getParameter("msg");
+	// roomNo 요청 값
+	int roomNo = Integer.parseInt(request.getParameter("roomNo"));
+	// 디버깅
+	System.out.println("roomNo : " + roomNo);
+	
+	// currentPage 요청 값(리뷰 페이징을 위해)
+	// 처음 실행시 1페이지로 설정
+	int currentPage = 1;
+	// currentPage 요청 값이 있을 경우(리뷰 페이지 이동 시) 요청 값으로 변경
+	if(request.getParameter("currentPage") != null) {
+		currentPage = Integer.parseInt(request.getParameter("currentPage"));
+		// empRoomOne의 리뷰부분 currentPage 세션 값 설정
+		session.setAttribute("empRoomOneCurrentPage", currentPage);
+	}
+	// currentPage값 세션변수에 저장한 currentPage값으로 변경
+	if(session.getAttribute("empRoomOneCurrentPage") != null) {
+		currentPage = (int)session.getAttribute("empRoomOneCurrentPage");	
+	}
+	// 디버깅
+	System.out.println("currentPage : " + currentPage);
+	
+	
+	// 페이지당 보여줄 review 행의 개수
+	// 기본 30개로 설정
+	int rowPerPage = 30;
+	// rowPerPage 요청 값이 있을 경우(select박스로 선택했을 때) 요청 값으로 변경
+	if(request.getParameter("rowPerPage") != null) {
+		rowPerPage = Integer.parseInt(request.getParameter("rowPerPage"));
+		session.setAttribute("empRoomOneReviewRowPerPage", rowPerPage);
+	}
+	// rowPerPage값 세션변수에 저장한 rowPerPage값으로 변경
+	if(session.getAttribute("empRoomOneReviewRowPerPage") != null) {
+		rowPerPage = (int)session.getAttribute("empRoomOneReviewRowPerPage");
+	}
+	// 디버깅
+	System.out.println("rowPerPage : " + rowPerPage);
+	
+	
+	// review 테이블의 전체 행 개수
+	int empRoomOneReviewTotalRow = ReviewDAO.selectHostRoomReviewListCnt(roomNo);
+	// 디버깅
+	System.out.println("empRoomOneReviewTotalRow : " + empRoomOneReviewTotalRow);
+	
+	
+	// 리뷰 페이지당 시작할 row
+	int startRow = (currentPage - 1) * rowPerPage;
+	// 디버깅
+	System.out.println("startRow : " + startRow);
+	
+	
+	// 마지막 페이지 구하기 - review 테이블 전체 행을 페이지당 보여줄 review 행의 개수로 나눈 값
+	int lastPage = empRoomOneReviewTotalRow / rowPerPage;
+	// 나머지가 생길 경우 남은 review 행을 보여주기 위해 lastPage 에 + 1하기
+	if(empRoomOneReviewTotalRow % rowPerPage != 0) {
+		lastPage += 1;
+	}
+	// 디버깅
+	System.out.println("lastPage : " + lastPage);
+	
+	
+	// 호스팅한 숙소의 상세정보
+	HashMap<String, Object> empRoomOne = RoomDAO.selectHostRoomOne(roomNo);
+	//디버깅
+	System.out.println("empRoomOne : " + empRoomOne);
+	
+	
+	// 호스팅한 숙소의 하루 가격 및 정보(가격, 예약 상태)리스트
+	ArrayList<HashMap<String, Object>> oneDayPriceList = OneDayPriceDAO.selectOneDayPriceList(roomNo);
+	// 디버깅
+	System.out.println("oneDayPriceList : " + oneDayPriceList);
+	
+	
+	// 호스팅한 숙소의 리뷰 리스트
+	ArrayList<HashMap<String, Object>> reviewList = ReviewDAO.selectHostRoomReviewList(roomNo, startRow, rowPerPage);
+	// 디버깅
+	System.out.println("reviewList : " + reviewList);
 %>
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>숙소 상세보기</title>
+	<title></title>
 	<jsp:include page="/inc/bootstrapCDN.jsp"></jsp:include>
 	<link href="/BeeNb/css/style.css" rel="stylesheet" type="text/css">
 </head>
@@ -22,10 +95,129 @@
 		<!-- 관리자 네비게이션 바 -->
 		<jsp:include page="/emp/inc/empNavbar.jsp"></jsp:include>
 		
-		<!-- 메인작업 -->
+		<h1><%=empRoomOne.get("roomName") %></h1>
+		<!-- 숙소 상세정보 출력 -->
+		<div>
+			<!-- 숙소 이미지 -->
+			<div>
+				<img alt="..." src="/BeeNb/upload/<%=empRoomOne.get("roomImg") %>" width="500px;">
+			</div>
+			<!-- 나머지 상세정보 -->
+			<div>
+				<div>
+					<b>숙소 이름</b>
+					<%=empRoomOne.get("roomName") %>
+				</div>
+				
+				<div>
+					<b>숙소 타입</b>
+					<%=empRoomOne.get("roomCategory") %>
+				</div>
+				
+				<div>
+					<b>테마</b>
+					<%=empRoomOne.get("roomTheme") %>
+				</div>
+				
+				<div>
+					<b>위치</b>
+					<%=empRoomOne.get("roomAddress") %>
+				</div>
+				
+				<div>
+					<b>운용 기간</b>
+					<%=empRoomOne.get("operationStart") %> ~ <%=empRoomOne.get("operationEnd") %>
+				</div>
+				
+				<div>
+					<b>최대 수용 인원</b>
+					<%=empRoomOne.get("maxPeople") %>
+				</div>
+				
+				<div>
+					<b>설명</b>
+					<%=empRoomOne.get("roomContent") %>
+				</div>
+				
+				<div>
+					<b>승인 상태</b>
+					<%=empRoomOne.get("approveState") %>
+				</div>
+				
+				<div>
+					<b>숙소 등록일</b>
+					<%=empRoomOne.get("createDate") %>
+				</div>
+				
+				<div>
+					<b>숙소 수정일</b>
+					<%=empRoomOne.get("updateDate") %>
+				</div>
+			</div>
+		</div>
+
+		<!-- 숙소 리뷰 -->
+		<div>
+			<hr>
+			<h2 style="display: inline-block;">리뷰</h2>
+			<%
+				for(HashMap<String, Object> m : reviewList) {
+			%>
+					<div>
+						<div>
+							<%=m.get("customerId") %>
+						</div>
+						<div>
+							<%
+								for(int i = 1; i <= (int)(m.get("rating")); i++) {
+							%>
+									&#127775;
+							<%
+								}
+							%>
+						</div>
+						<div>
+							<%=((String)(m.get("createDate"))).substring(0, 11)%>
+						</div>
+						<div><%=m.get("reviewContent") %></div>
+					</div>	
+					<hr>
+			<%
+				}
+			%>
+				
+			<!-- 숙소 리뷰 페이징 -->	
+			<div>
+				<%
+					if(currentPage > 1) {
+				%>	
+						<a href="/BeeNb/emp/empRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=1">처음페이지</a>
+						<a href="/BeeNb/emp/empRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=<%=currentPage-1%>">이전페이지</a>
+				<%		
+					} else {
+				%>
+						<a href="/BeeNb/emp/empRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=1">처음페이지</a>
+						<a href="/BeeNb/emp/empRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=1">이전페이지</a>
+				<%		
+					}
 		
-		<!-- 푸터  -->
-		<jsp:include page="/inc/footer.jsp"></jsp:include>	
+					if(currentPage < lastPage) {
+				%>
+						<a href="/BeeNb/emp/empRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=<%=currentPage+1%>">다음페이지</a>
+						<a href="/BeeNb/emp/empRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=<%=lastPage%>">마지막페이지</a>
+				<%		
+					} else {
+				%>
+						<a href="/BeeNb/emp/empRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=<%=lastPage%>">다음페이지</a>
+						<a href="/BeeNb/emp/empRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=<%=lastPage%>">마지막페이지</a>
+				<%
+					}
+				%>
+			</div>
+		</div>
+		
+		<!-- 푸터 -->
+		<jsp:include page="/inc/footer.jsp"></jsp:include>
 	</div>
 </body>
 </html>

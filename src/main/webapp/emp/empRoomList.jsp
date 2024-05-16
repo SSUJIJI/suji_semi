@@ -57,7 +57,7 @@
 								<br>
 								최대 <%=(Integer) (m.get("maxPeople"))%>명
 							</p>
-							<a href="/BeeNb/emp/empRoomOne.jsp?roomNo=<%=(Integer) (m.get("roomNo"))%>" class="btn btn-warning">예약하기</a>
+							<a href="/BeeNb/emp/empRoomOne.jsp?roomNo=<%=(Integer) (m.get("roomNo"))%>" class="btn btn-warning">상세보기</a>
 							<a href="/BeeNb/emp/empRoomDeleteAction.jsp?roomNo=<%=(Integer) (m.get("roomNo"))%>" class="btn btn-warning">삭제하기</a>
 						</div>
 					</div>
