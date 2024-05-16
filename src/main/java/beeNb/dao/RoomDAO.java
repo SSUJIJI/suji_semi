@@ -132,4 +132,84 @@ public class RoomDAO {
 		conn.close();
 		return row;
 	}
+	
+	// 설명 : 숙소 등록
+	// 호출 : addRoomAction.jsp
+	// return int
+	public static int insertRoom(HashMap<String, Object> map) throws Exception {
+		int row = 0;
+		Connection conn = DBHelper.getConnection();
+		String sql = "INSERT INTO "
+				+ "room ("
+				+ "room_no"
+				+ ", customer_id"
+				+ ", room_name"
+				+ ", room_theme"
+				+ ", room_address"
+				+ ", operation_start"
+				+ ", operation_end"
+				+ ", max_people"
+				+ ", room_content"
+				+ ", room_category"
+				+ ", approve_state) VALUES "
+				+ "(NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, '미승인')";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, ""+map.get("customerId"));
+		stmt.setString(2, ""+map.get("roomName"));
+		stmt.setString(3, ""+map.get("roomTheme"));
+		stmt.setString(4, ""+map.get("roomAddress"));
+		stmt.setString(5, ""+map.get("operationStart"));
+		stmt.setString(6, ""+map.get("operationEnd"));
+		stmt.setInt(7, Integer.parseInt(""+map.get("maxPeople")));
+		stmt.setString(8, ""+map.get("roomContent"));
+		stmt.setString(9, ""+map.get("roomCategory"));
+		row = stmt.executeUpdate();
+		conn.close();
+		return row;
+	}
+	// 설명 : 숙소 찾기 by ID
+	// 호출 : addRoomAction.jsp
+	// return int
+	public static int selectRoomById(String customerId) throws Exception {
+		int roomNo = 0;
+		Connection conn = DBHelper.getConnection();
+		String sql = "SELECT room_no FROM room WHERE customer_id = ? ORDER BY room_no DESC LIMIT 0, 1";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, customerId);
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) {
+			roomNo = rs.getInt("room_no");
+		}
+		return roomNo;
+	}
+	// 설명 : 숙소 등록
+	// 호출 : addRoomAction.jsp
+	// return int
+	public static int insertRoomOption(HashMap<String, Object> map) throws Exception {
+		int row = 0;
+		Connection conn = DBHelper.getConnection();
+		String sql = "INSERT INTO "
+				+ "room_option ("
+				+ "room_no"
+				+ ", wifi"
+				+ ", kitchen_tools"
+				+ ", parking"
+				+ ", bed"
+				+ ", ott"
+				+ ", ev) VALUES "
+				+ "(?, ?, ?, ?, ?, ?, ?)";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, Integer.parseInt(""+map.get("roomNo")));
+		stmt.setString(2, ""+map.get("wifi"));
+		stmt.setString(3, ""+map.get("kitshenTools"));
+		stmt.setString(4, ""+map.get("parking"));
+		stmt.setString(5, ""+map.get("bed"));
+		stmt.setString(6, ""+map.get("ott"));
+		stmt.setString(7, ""+map.get("ev"));
+		row = stmt.executeUpdate();
+		conn.close();
+		return row;
+	}
+	
+	
 }
