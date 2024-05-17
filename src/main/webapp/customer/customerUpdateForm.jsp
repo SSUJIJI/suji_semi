@@ -68,12 +68,11 @@
 					<td><input type="hidden" name="customerName" value="<%=customerName%>"><%=customerName%></td>
 				</tr>
 				<tr>
-					<td>전화번호 :</td>
-					<td><input type="text" name="customerPhone" value="<%=customerPhone%>"></td>
+					<td><input type="hidden" name="customerPw" value="<%=customerPw%>"></td>
 				</tr>
 				<tr>
-					<td>이전 비밀번호 :</td>
-					<td><input type="password" name="oldCustomerPw" required="required"></td>
+					<td>전화번호 :</td>
+					<td><input type="text" name="customerPhone" value="<%=customerPhone%>"></td>
 				</tr>
 				<tr>
 					<td>새 비밀번호 :</td>

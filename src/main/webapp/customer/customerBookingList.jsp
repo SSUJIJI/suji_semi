@@ -155,7 +155,7 @@
 						<td><%=(String)(m.get("startRoomDate"))%></td>
 						<td><%=(String)(m.get("endRoomDate"))%></td>
 						<td><a href = "/BeeNb/customer/customerAddReviewForm.jsp">리뷰쓰기</a>
-						<td><a href = "/BeeNb/customer/customerComplainBookingForm.jsp">신고하기</a>
+						<td><a href = "/BeeNb/customer/customerComplainBookingForm.jsp?bookingNo=<%=m.get("bookingNo")%>">신고하기</a>
 					</tr>
 				<%
 					}
