@@ -70,4 +70,29 @@ public class ReviewDAO {
 		conn.close();
 		return reviewList;
 	}
+	
+	
+	// 설명 : 리뷰 등록
+	// 호출 : .jsp
+	// return int
+	public static int insertReview(HashMap<String, Object> map) throws Exception {
+		int row = 0;
+		Connection conn = DBHelper.getConnection();
+		String sql = "INSERT INTO "
+				+ "Complain ("
+				+ "booking_no"
+				+ ", rating"
+				+ ", review_content"
+				+ ", create_date"
+				+ ") VALUES "
+				+ "(null, ?, ?, now())";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, ""+map.get("rating"));
+		stmt.setString(2, ""+map.get("reviewContent"));
+		row = stmt.executeUpdate();
+		conn.close();
+		return row;
+	}
+	
+	
 }
