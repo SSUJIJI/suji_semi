@@ -1,11 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="UTF-8">
-	<title></title>
-</head>
-<body>
+<%@ page import = "beeNb.dao.*" %>
+
+<%
+	System.out.println("=====customerDropCheckPwAction.jsp=====");
 	
-</body>
-</html>
+	String customerId = request.getParameter("customerId");
+	String customerPw = request.getParameter("customerPw");
+	//디버깅
+	System.out.println("customerId :" + customerId);
+	System.out.println("customerPw :" + customerPw);
+	
+%>

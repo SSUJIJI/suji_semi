@@ -291,16 +291,17 @@ public class RoomDAO {
 	// 호출 : /customer/customerDropCheckPwForm.jsp
 	// 리턴값 : boolean (false 숙소가 존재, true면 숙소가 미존재)
 	public static boolean selectRoomListDrop(String customerId) throws Exception {
-		boolean result = false;
+		boolean result = true;
 		Connection conn = DBHelper.getConnection();
 		
 		String sql = "SELECT * "
 				+ "FROM customer c INNER JOIN room r "
 				+ "ON c.customer_id = r.customer_id "
-				+ "WHERE c.customer_id !=  ?";
+				+ "WHERE c.customer_id = ? ";
 
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, customerId);
+		
 		// 디버깅코드
 		System.out.println("stmt :" + stmt);
 

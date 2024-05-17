@@ -241,4 +241,29 @@ public class BookingDAO {
 		conn.close();
 		return hostBookingList;
 	}
+	// 설명 : 고객(게스트) 탈퇴 전 이용 전 예약 내역이 있는지 확인
+	// 호출 : /customer/customerDropCheckPwForm.jsp
+	// 리턴값 : boolean (false면 예약내역 존재, true면 예약내역 미존재)
+	public static boolean selectBeforeBookingById(String customerId) throws Exception {
+		boolean result  = true;
+	
+		Connection conn = DBHelper.getConnection();
+		String sql = "SELECT * "
+				+ "FROM customer c INNER JOIN booking b "
+				+ "ON c.customer_id = b.customer_id "
+				+ "WHERE c.customer_id = ? AND b.booking_state = '전'";
+						
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1,customerId);
+		// 디버깅코드
+		System.out.println("stmt :" + stmt);
+		ResultSet rs = stmt.executeQuery();
+		
+		if(rs.next()) {
+			result = false;
+		}
+		
+		conn.close();
+		return result;
+	}
 }
