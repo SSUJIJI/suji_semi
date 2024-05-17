@@ -4,10 +4,14 @@
 <%
 	System.out.println("=====customerDropCheckPwForm.jsp=====");
 	String customerId = (String)(loginCustomer.get("customerId"));
-	// 에러메세지
+	// ID,PW 불일치 에러메세지
 	String errMsg = request.getParameter("errMsg");
+	// 회원탈퇴시 에러메시지
+	String dropErrMsg = request.getParameter("dropErrMsg");
+	
 	// 디버깅
-	System.out.println("에러메세지 :" + errMsg);
+	System.out.println("ID,PW 불일치 에러메세지 :" + errMsg);
+	System.out.println("회원 탈퇴 에러메세지 :" + dropErrMsg);
 	
 	// 게스트가 이용전 예약이 있는지 확인
 	boolean guest = BookingDAO.selectBeforeBookingById(customerId);
@@ -32,10 +36,20 @@
 	<div class="container">
 		<!-- 고객 네비게이션 바 -->
 		<jsp:include page="/customer/inc/customerNavbar.jsp"></jsp:include>
-		<h1>회원탈퇴</h1>
+		<h1>회원탈퇴</h1>		
+		<%
+			// ID 및 비밀번호 불일치시 에러메세지
+			if(errMsg != null) {
+		%>
+			<div class="alert alert-danger" role="alert">
+				<%= errMsg %>
+			</div>
+		<%
+			}
+		%>
 		<%
 			if(guest == true && host == true) {
-		%>   <form action="/BeeNb/customer/customer/customerDropCheckPwAction.jsp">
+		%>   <form action="/BeeNb/customer/customerDropCheckPwAction.jsp">
 				<table>
 					<tr>
 						<td>아이디 : </td>
@@ -46,7 +60,7 @@
 						<td><input type="password" name="customerPw"></td>
 					</tr>	
 				</table>
-				<button type="submit">회원탈퇴</button>
+				<button type="submit" onclick="return confirm('정말로 탈퇴하시겠습니까?')" >회원탈퇴</button>
 			</form>
 		<%
 			}else{

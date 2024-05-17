@@ -73,7 +73,7 @@
 				</tr>
 				<tr>
 					<td>이전 비밀번호 :</td>
-					<td><input type="password" name="oldCustomerPw"></td>
+					<td><input type="password" name="oldCustomerPw" required="required"></td>
 				</tr>
 				<tr>
 					<td>새 비밀번호 :</td>

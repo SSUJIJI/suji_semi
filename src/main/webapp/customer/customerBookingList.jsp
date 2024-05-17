@@ -139,6 +139,8 @@
 					<th>결제일자</th>
 					<th>입실날짜</th>
 					<th>퇴실날짜</th>
+					<th>리뷰</th>
+					<th>신고</th>
 				</tr>
 				<%
 					for(HashMap<String,Object> m : afterList){
@@ -152,6 +154,8 @@
 						<td><%=(String)(m.get("createDate"))%></td>
 						<td><%=(String)(m.get("startRoomDate"))%></td>
 						<td><%=(String)(m.get("endRoomDate"))%></td>
+						<td><a href = "/BeeNb/customer/customerAddReviewForm.jsp">리뷰쓰기</a>
+						<td><a href = "/BeeNb/customer/customerComplainBookingForm.jsp">신고하기</a>
 					</tr>
 				<%
 					}

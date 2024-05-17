@@ -398,4 +398,40 @@ public class CustomerDAO {
 		conn.close();		
 		return row;
 	}
+	
+	// 설명 : 회원탈퇴시 customer 정보 삭제
+	// 호출 : customerDropAction.jsp
+	// return : int
+	public static int deleteCustomer(String customerId) throws Exception {
+		int row = 0;
+		Connection conn = DBHelper.getConnection();
+		String sql ="DELETE FROM customer WHERE customer_id = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, customerId);
+		// 디버깅
+		System.out.println("stmt :"+ stmt);
+		
+		row = stmt.executeUpdate();
+		
+		conn.close();
+		return row;
+	}
+	
+	// 설명 : 회원탈퇴시 customer_pw_history 정보 삭제
+	// 호출 : customerDropAction.jsp
+	// return : int
+	public static int deleteCustomerPwHistory(String customerId) throws Exception {
+		int row = 0;
+		Connection conn = DBHelper.getConnection();
+		String sql ="DELETE FROM customer_pw_history WHERE customer_id = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, customerId);
+		// 디버깅
+		System.out.println("stmt :"+ stmt);
+		
+		row = stmt.executeUpdate();
+		
+		conn.close();
+		return row;
+	}
 }
