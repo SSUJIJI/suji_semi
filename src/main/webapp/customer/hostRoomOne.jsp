@@ -150,8 +150,13 @@
 		<%
 			}
 		%>
+		
 		<!-- 숙소 삭제버튼 -->
 		<a class="btn btn-warning" href="/BeeNb/customer/customerRoomDeleteAction.jsp?roomNo=<%=roomNo%>">숙소 삭제</a>
+		
+		<!-- 숙소 수정버튼 -->
+		<a class="btn btn-warning" href="/BeeNb/customer/updateRoomForm.jsp?roomNo=<%=roomNo%>">숙소 수정</a>
+		
 		<!-- 숙소 상세정보 출력 -->
 		<div>
 			<!-- 숙소 이미지 -->
