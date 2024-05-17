@@ -6,7 +6,7 @@
 <!-- 사용자 인증 코드 -->
 <%@ include file="/customer/inc/customerSessionIsNull.jsp"%>
 <% 
-	System.out.println("=====addRoomForm.jsp=====");	
+	System.out.println("=====updateRoomForm.jsp=====");	
 	String actionUrl = "/BeeNb/customer/updateRoomAction.jsp";
 	String cancelUrl = "/BeeNb/customer/hostRoomList.jsp";
 	ArrayList<String> themeList = ThemeDAO.selectThemeList();
@@ -15,7 +15,9 @@
 	String errMsg = request.getParameter("errMsg");
 	
 	
-	RoomDAO.selectHostRoomOne(roomNo);
+	HashMap<String, String> oneMap = RoomDAO.selectRoomOne(roomNo);
+	
+	System.out.println("OneMap : " + oneMap);
 	
 	
 	
@@ -45,24 +47,21 @@
 						<label for="roomName">숙소명</label>
 					</div>
 					<div class="col-10">
-						<input type="text" name="roomName" id="roomName" required="required">
+						<input type="text" name="roomName" id="roomName" required="required" value="<%=oneMap.get("roomName") %>">
 					</div>
 				</div>
-				
-				
-				
 				<div class="row mt-3">
 					<div class="col">
 						<label for="roomCategory">숙소 카테고리</label>
 					</div>
  					<div class="col-10">
 						<select name="roomCategory" id="roomCategory">
-							<option value="펜션">펜션</option>
-							<option value="호텔">호텔</option>
-							<option value="리조트">리조트</option>
-							<option value="카라반">카라반</option>
-							<option value="글램핑">글램핑</option>
-							<option value="한옥">한옥</option>
+							<option value="펜션" <%=oneMap.get("roomCategory").equals("펜션") ? "selected" : "" %>>펜션</option>
+							<option value="호텔" <%=oneMap.get("roomCategory").equals("호텔") ? "selected" : "" %>>호텔</option>
+							<option value="리조트" <%=oneMap.get("roomCategory").equals("리조트") ? "selected" : "" %>>리조트</option>
+							<option value="카라반" <%=oneMap.get("roomCategory").equals("카라반") ? "selected" : "" %>>카라반</option>
+							<option value="글램핑" <%=oneMap.get("roomCategory").equals("글램핑") ? "selected" : "" %>>글램핑</option>
+							<option value="한옥" <%=oneMap.get("roomCategory").equals("한옥") ? "selected" : "" %>>한옥</option>
 						</select>
 					</div>
 				</div>
@@ -86,7 +85,10 @@
 										}
 								%>
 										<td>
-											<%=theme %>&nbsp;<input type="radio" value="<%=theme %>" name="roomTheme" checked="checked">&nbsp;&nbsp;&nbsp; 
+											<%=theme %>&nbsp;<input type="radio" value="<%=theme %>" name="roomTheme" 
+											
+											<%=oneMap.get("roomTheme").equals(theme) ? "checked" : "" %>
+											>&nbsp;&nbsp;&nbsp; 
 										</td>
 								<% 		index = index + 1;
 									}
@@ -102,7 +104,7 @@
 						<label for="roomAddress">숙소 주소</label>
 					</div>			
 					<div class="col-10">
-						<input type="text" name="roomAddress" id="roomAddress" required="required">
+						<input type="text" name="roomAddress" id="roomAddress" required="required" value="<%=oneMap.get("roomAddress")%>">
 					</div>
 				</div>
 				
@@ -111,7 +113,7 @@
 						<label for="roomContent">숙소 설명</label>
 					</div>			
 					<div class="col-10">
-						<textarea name="roomContent" id="roomContent" rows="10" cols="50" required="required"></textarea>
+						<textarea name="roomContent" id="roomContent" rows="10" cols="50" required="required"><%=oneMap.get("roomContent")%></textarea>
 					</div>
 				</div>
 				
@@ -121,9 +123,9 @@
 						<label for="operationStart">숙소 운용 기간</label>
 					</div>
 					<div class="col-10">
-						<input type="date" id="operationStart" name="operationStart" required="required">
+						<input type="date" id="operationStart" name="operationStart" required="required" value="<%=oneMap.get("operationStart")%>">
 						<span>~</span>
-						<input type="date" id="operationEnd" name="operationEnd" required="required">
+						<input type="date" id="operationEnd" name="operationEnd" required="required" value="<%=oneMap.get("operationStart")%>">
 					</div>
 				</div>
 				

@@ -312,4 +312,56 @@ public class RoomDAO {
 		conn.close();
 		return result;
 	}
+	
+	public static HashMap<String, String> selectRoomOne(int roomNo) throws Exception{
+		HashMap<String, String> resultMap = new HashMap<>();
+		Connection conn = DBHelper.getConnection();
+		String sql = "SELECT "
+				+ "	r.room_no AS roomNo "
+				+ "    , r.room_name AS roomName "
+				+ "    , r.room_theme AS roomTheme "
+				+ "    , r.room_address AS roomAddress "
+				+ "    , r.operation_start AS operationStart "
+				+ "    , r.operation_end AS operationEnd "
+				+ "    , r.max_people AS maxPeople "
+				+ "    , r.room_content AS roomContent "
+				+ "    , r.room_category AS roomCategory "
+				+ "    , r.approve_state AS approveState "
+				+ "    , r.create_date AS createDate "
+				+ "    , r.update_date AS updateDate "
+				+ "    , o.bed bed"
+				+ "    , o.ev ev"
+				+ "    , o.kitchen_tools kitchenTools"
+				+ "    , o.ott ott"
+				+ "    , o.parking parking"
+				+ "    , o.wifi wifi"
+				+ "     "
+				+ "FROM  "
+				+ "	room AS r INNER JOIN room_option AS o "
+				+ "	ON r.room_no = o.room_no "
+				+ "WHERE r.room_no = ?";  
+		
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, roomNo);
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) {
+			resultMap.put("roomNo", rs.getString("roomNo"));
+			resultMap.put("roomName", rs.getString("roomName"));
+			resultMap.put("roomTheme", rs.getString("roomTheme"));
+			resultMap.put("roomAddress", rs.getString("roomAddress"));
+			resultMap.put("operationStart", rs.getString("operationStart"));
+			resultMap.put("operationEnd", rs.getString("operationEnd"));
+			resultMap.put("maxPeople", rs.getString("maxPeople"));
+			resultMap.put("roomContent", rs.getString("roomContent"));
+			resultMap.put("roomCategory", rs.getString("roomCategory"));
+			resultMap.put("approveState", rs.getString("approveState"));
+			resultMap.put("bed", rs.getString("bed"));
+			resultMap.put("ev", rs.getString("ev"));
+			resultMap.put("kitchenTools", rs.getString("kitchenTools"));
+			resultMap.put("ott", rs.getString("ott"));
+			resultMap.put("parking", rs.getString("parking"));
+			resultMap.put("wifi", rs.getString("wifi"));	
+		}
+		return resultMap;
+	}
 }
