@@ -1,3 +1,7 @@
+<%@page import="java.nio.file.Files"%>
+<%@page import="java.io.OutputStream"%>
+<%@page import="java.io.File"%>
+<%@page import="java.io.InputStream"%>
 <%@page import="java.net.URLEncoder"%>
 <%@page import="beeNb.dao.RoomImgDAO"%>
 <%@page import="beeNb.dao.RoomDAO"%>
@@ -8,6 +12,7 @@
 <!-- 사용자 인증 코드 -->
 <%@ include file="/customer/inc/customerSessionIsNull.jsp"%>
 <%
+	System.out.println("=====addRoomAction.jsp=====");
 	System.out.println("loginCustomer : " + loginCustomer);
 	String customerId = ""+loginCustomer.get("customerId");
 	System.out.println("customerId : " + customerId);
@@ -30,7 +35,7 @@
 	String roomContent = request.getParameter("roomContent");
 	String operationStart = request.getParameter("operationStart");
 	String operationEnd = request.getParameter("operationEnd");
-	int maxPeople = Integer.parseInt(request.getParameter("maxPeople"));
+	String maxPeople = request.getParameter("maxPeople");
 	
 	System.out.println("roomName : " + roomName);
 	System.out.println("roomCategory : " + roomCategory);
@@ -141,12 +146,23 @@
 			
 			m.put("filename", filename);
 			m.put("roomNo", roomNo);
+			m.put("part", part);
 			imgList.add(m);
 		};
 	}
 	System.out.println("imgList : " + imgList);
 	if(!imgList.isEmpty()){
 		RoomImgDAO.insertRoomImg(imgList);
+		for(HashMap<String, Object> m : imgList){
+			Part part = (Part)m.get("part");
+			InputStream inputStream = part.getInputStream(); // part객체안에 파일(바이너리)을 메모로리 불러 옴
+			String filePath = request.getServletContext().getRealPath("upload");
+			File f = new File(filePath, ""+m.get("filename"));
+			OutputStream outputStream = Files.newOutputStream(f.toPath()); // os + file
+			inputStream.transferTo(outputStream);	
+			outputStream.close();
+			inputStream.close();
+		}
 	}
 	response.sendRedirect("/BeeNb/customer/hostRoomList.jsp");
 	

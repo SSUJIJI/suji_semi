@@ -1,3 +1,4 @@
+<%@page import="beeNb.dao.ThemeDAO"%>
 <%@page import="beeNb.dao.RoomDAO"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -8,6 +9,8 @@
 	System.out.println("=====addRoomForm.jsp=====");	
 	String actionUrl = "/BeeNb/customer/addRoomAction.jsp";
 	String cancelUrl = "/BeeNb/customer/customerRoomList.jsp";
+	ArrayList<String> themeList = ThemeDAO.selectThemeList();
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -36,6 +39,9 @@
 						<input type="text" name="roomName" id="roomName" required="required">
 					</div>
 				</div>
+				
+				
+				
 				<div class="row mt-3">
 					<div class="col">
 						<label for="roomCategory">숙소 카테고리</label>
@@ -51,6 +57,9 @@
 						</select>
 					</div>
 				</div>
+				
+				
+				
 				<div class="row mt-3">
 					<div class="col">
 						<label>숙소 테마</label>
@@ -58,22 +67,27 @@
 					<div class="col-10">
 						<table>
 							<tr>	
-								<td>
-									친근한	<input type="radio" value="친근한" name="roomTheme" id="roomTheme1" checked="checked">&nbsp;/&nbsp; 
-								</td>
-								<td>
-									친근한 <input type="radio" value="친근한" name="roomTheme" id="roomTheme2">&nbsp;/&nbsp;
-								</td>
-								<td>
-									친근한 <input type="radio" value="친근한" name="roomTheme" id="roomTheme3">&nbsp;/&nbsp;
-								</td>
-								<td>
-									친근한 <input type="radio" value="친근한" name="roomTheme" id="roomTheme4">
-								</td>
+								<%
+									int index = 0;
+									for(String theme : themeList){ 
+										if(index%4 == 0){
+								%>
+											</tr><tr>
+								<%
+										}
+								%>
+										<td>
+											<%=theme %>&nbsp;<input type="radio" value="<%=theme %>" name="roomTheme" checked="checked">&nbsp;&nbsp;&nbsp; 
+										</td>
+								<% 		index = index + 1;
+									}
+								%>
 							</tr>
 						</table>
 					</div>
 				</div>
+				
+				
 				<div class="row mt-3">
 					<div class="col">
 						<label for="roomAddress">숙소 주소</label>
@@ -82,6 +96,7 @@
 						<input type="text" name="roomAddress" id="roomAddress" required="required">
 					</div>
 				</div>
+				
 				<div class="row mt-3">
 					<div class="col">
 						<label for="roomContent">숙소 설명</label>
@@ -90,6 +105,8 @@
 						<textarea name="roomContent" id="roomContent" rows="10" cols="50" required="required"></textarea>
 					</div>
 				</div>
+				
+				
 				<div class="row mt-3">
 					<div class="col">
 						<label for="operationStart">숙소 운용 기간</label>
@@ -100,6 +117,8 @@
 						<input type="date" id="operationEnd" name="operationEnd" required="required">
 					</div>
 				</div>
+				
+				
 				<div class="row mt-3">
 					<div class="col">
 						<label for="maxPeople">최대 수용 인원</label>						
@@ -107,7 +126,10 @@
 					<div class="col-10">
 						<input type="number" name="maxPeople" id="maxPeople" required="required">
 					</div>
-				</div>			
+				</div>	
+				
+				
+				
 				<div class="row mt-3">
 					<div class="col">
 						<label>숙소 상세 정보</label>
@@ -129,6 +151,7 @@
 							
 							</colgroup>
 							<tr>
+
 								<td>
 									<label>WIFI</label>	
 								</td>
@@ -219,6 +242,8 @@
 						</table>
 					</div>
 				</div>
+				
+				
 				<div class="row mt-3">
 					<div class="col">
 						<label>파일첨부</label>
@@ -227,17 +252,22 @@
 						<input type="file" multiple name="file" >					
 					</div>
 				</div>
+				
+				
+				
 				<div class="row mt-3">
 					<div class="col">
 						<button type="submit">등록</button>
 						<a href="<%=cancelUrl%>" class="text-decoration-none">취소</a>
 					</div>
 				</div>
+
 			</form>
 		</div>
 		<div class="col"></div>
 		</div>
 		<!-- 푸터  -->
 		<jsp:include page="/inc/footer.jsp"></jsp:include>
+	</div>
 </body>
 </html>
