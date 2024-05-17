@@ -135,7 +135,7 @@
 						<label for="maxPeople">최대 수용 인원</label>						
 					</div>
 					<div class="col-10">
-						<input type="number" name="maxPeople" id="maxPeople" required="required">
+						<input type="number" name="maxPeople" id="maxPeople" required="required" value="<%=oneMap.get("maxPeople")%>">
 					</div>
 				</div>	
 				
@@ -170,13 +170,13 @@
 									<label for="wifi1">제공</label>								
 								</td>
 								<td>
-									<input type="radio" id="wifi1" name="wifi" checked="checked" value="0">
+									<input type="radio" id="wifi1" name="wifi" <%=oneMap.get("wifi").equals("0") ? "checked" : "" %> value="0">
 								</td>
 								<td>
 									<label for="wifi2">없음</label>
 								</td>
 								<td>
-									<input type="radio" id="wifi2" name="wifi" value="1">
+									<input type="radio" id="wifi2" name="wifi" <%=oneMap.get("wifi").equals("1") ? "checked" : "" %> value="1">
 								</td>
 								<td>
 									<label>주방도구</label>	
@@ -185,13 +185,13 @@
 									<label for="kt1">제공</label>
 								</td>
 								<td>
-									<input type="radio" id="kt1" name="kitshenTools" checked="checked" value="0">
+									<input type="radio" id="kt1" name="kitshenTools" <%=oneMap.get("kitchenTools").equals("0") ? "checked" : "" %> value="0">
 								</td>
 								<td>
 									<label for="kt2">없음</label>
 								</td>
 								<td>
-									<input type="radio" id="kt2" name="kitshenTools" value="1">								
+									<input type="radio" id="kt2" name="kitshenTools" <%=oneMap.get("kitchenTools").equals("1") ? "checked" : "" %> value="1">								
 								</td>
 							</tr>
 							<tr>
@@ -202,20 +202,20 @@
 									<label for="parking1">가능</label>
 								</td>
 								<td>
-									<input type="radio" id="parking1" name="parking" checked="checked" value="0">
+									<input type="radio" id="parking1" name="parking" checked="checked" <%=oneMap.get("parking").equals("0") ? "checked" : "" %> value="0">
 								</td>
 								<td>
 									<label for="parking2">불가</label>
 								</td>
 								<td>
-									<input type="radio" id="parking2" name="parking" value="1">
+									<input type="radio" id="parking2" name="parking" <%=oneMap.get("parking").equals("1") ? "checked" : "" %> value="1">
 								</td>
 
 								<td>
 									<label for="bed">침대 개수</label>
 								</td>
 								<td colspan="4">
-									<input class="w-25" type="number" id="bed" name="bed" value="" required="required">
+									<input class="w-25" type="number" id="bed" name="bed" value="<%=oneMap.get("bed") %>" required="required">
 								</td>
 							</tr>
 							<tr>
@@ -226,13 +226,13 @@
 									<label for="ott1">제공</label>
 								</td>
 								<td>
-									<input type="radio" id="ott1" name="ott" checked="checked" value="0">
+									<input type="radio" id="ott1" name="ott" <%=oneMap.get("ott").equals("0") ? "checked" : "" %> value="0">
 								</td>
 								<td>
 									<label for="ott2">없음</label>
 								</td>
 								<td>
-									<input type="radio" id="ott2" name="ott" value="1">
+									<input type="radio" id="ott2" name="ott" <%=oneMap.get("ott").equals("1") ? "checked" : "" %>  value="1">
 								</td>
 								<td>
 									<label>엘리베이터</label>
@@ -241,13 +241,13 @@
 									<label for="ev1">제공</label>	
 								</td>
 								<td>
-									<input type="radio" id="ev1" name="ev" checked="checked" value="0">
+									<input type="radio" id="ev1" name="ev" <%=oneMap.get("ev").equals("0") ? "checked" : "" %> value="0">
 								</td>
 								<td>
 									<label for="ev2">없음</label>	
 								</td>
 								<td>
-									<input type="radio" id="ev2" name="ev" value="1">
+									<input type="radio" id="ev2" name="ev" <%=oneMap.get("ev").equals("1") ? "checked" : "" %> value="1">
 								</td>
 							</tr>
 						</table>
@@ -255,7 +255,7 @@
 				</div>
 				
 				
-				<div class="row mt-3">
+				<!-- <div class="row mt-3">
 					<div class="col">
 						<label>파일첨부</label>
 					</div>
@@ -263,12 +263,13 @@
 						<input type="file" multiple name="file" >					
 					</div>
 				</div>
-				
+				 -->
 				
 				
 				<div class="row mt-3">
 					<div class="col">
-						<button type="submit">등록</button>
+						<input type="hidden" name="roomNo" value="<%=roomNo %>">
+						<button type="submit">수정</button>
 						<a href="<%=cancelUrl%>" class="text-decoration-none">취소</a>
 					</div>
 				</div>

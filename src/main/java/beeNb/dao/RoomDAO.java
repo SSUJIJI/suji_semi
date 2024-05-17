@@ -287,34 +287,9 @@ public class RoomDAO {
 		return rejectResult;
 	}
 	
-	// 설명 : 고객(호스트) 탈퇴 전 등록한 숙소가 있는지 확인
-	// 호출 : /customer/customerDropCheckPwForm.jsp
-	// 리턴값 : boolean (false 숙소가 존재, true면 숙소가 미존재)
-	public static boolean selectRoomListDrop(String customerId) throws Exception {
-		boolean result = true;
-		Connection conn = DBHelper.getConnection();
-		
-		String sql = "SELECT * "
-				+ "FROM customer c INNER JOIN room r "
-				+ "ON c.customer_id = r.customer_id "
-				+ "WHERE c.customer_id = ? ";
-
-		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setString(1, customerId);
-		
-		// 디버깅코드
-		System.out.println("stmt :" + stmt);
-
-		ResultSet rs = stmt.executeQuery();
-		
-		if(rs.next()) {
-			result = false;
-		}
-
-		conn.close();
-		return result;
-	}
-	
+	// 설명 : 숙소 상세 정보를 등록
+	// 호출 : updateRoomForm.jsp
+	// return HashMap<String, String>
 	public static HashMap<String, String> selectRoomOne(int roomNo) throws Exception{
 		HashMap<String, String> resultMap = new HashMap<>();
 		Connection conn = DBHelper.getConnection();
@@ -337,7 +312,6 @@ public class RoomDAO {
 				+ "    , o.ott ott"
 				+ "    , o.parking parking"
 				+ "    , o.wifi wifi"
-				+ "     "
 				+ "FROM  "
 				+ "	room AS r INNER JOIN room_option AS o "
 				+ "	ON r.room_no = o.room_no "
@@ -366,4 +340,33 @@ public class RoomDAO {
 		}
 		return resultMap;
 	}
+		
+	// 설명 : 숙소 상세 정보를 수정
+	// 호출 : updateRoomForm.jsp
+	// return HashMap<String, String>
+	public static int updateRoom(HashMap<String, String> map) throws Exception {
+		
+		System.out.println("map : " + map);
+		int row = 0;
+		Connection conn = DBHelper.getConnection();
+		String sql = "UPDATE room "
+				+ "SET "
+				+ "room_name = ? "
+				+ ", room_category = ? "
+				+ ", room_theme = ? "
+				+ ", room_address = ? "
+				+ ", room_content = ? "
+				+ ", max_people = ? "
+				+ "WHERE room_no = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, map.get("roomName"));
+		stmt.setString(2, map.get("roomCategory"));
+		stmt.setString(3, map.get("roomTheme"));
+		stmt.setString(4, map.get("roomAddress"));
+		stmt.setString(5, map.get("roomContent"));
+		stmt.setString(6, map.get("maxPeople"));
+		stmt.setInt(7, Integer.parseInt(map.get("roomNo")));
+		row = stmt.executeUpdate();	
+		return row;
+	}	
 }
