@@ -43,9 +43,7 @@
 		%>
 				<div class="col">
 					<div class="card">
-						<a class="text-decoration-none" style="color: #000000" href="/BeeNb/customer/hostRoomOne.jsp?roomNo=<%=m.get("roomNo")%>">
-							<img src="/BeeNb/upload/<%=(String)(m.get("roomImg"))%>" class="card-img-top room-image" alt="...">
-						</a>
+						<img src="/BeeNb/upload/<%=(String)(m.get("roomImg"))%>" class="card-img-top room-image" alt="...">
 						<div class="card-body">
 							<h5 class="card-title"><%=(String) (m.get("roomName"))%></h5>
 							<p class="card-text">
@@ -54,6 +52,7 @@
 								<b>위치 : </b><%=(String) (m.get("roomAddress"))%>
 								<br>
 								<b>운용기간 : </b><%=m.get("operationStart") %> ~ <%=m.get("operationEnd") %> 
+								<br><a class="btn btn-warning" href="/BeeNb/customer/hostRoomOne.jsp?roomNo=<%=m.get("roomNo")%>">상세 보기</a>
 							</p>
 						</div>
 					</div>

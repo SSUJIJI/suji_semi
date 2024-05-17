@@ -1,3 +1,4 @@
+<%@page import="beeNb.dao.RoomDAO"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="beeNb.dao.BookingDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -8,6 +9,15 @@
 	// 고객 ID(호스트) 가져오기(session)
 	String customerId = (String)loginCustomer.get("customerId");
 	System.out.println("customerId : " + customerId);
+	
+	// roomName 요청값
+	String roomName = "all";
+	// roomName 요청 값이 있을 경우
+	if(request.getParameter("roomName") != null) {
+		roomName = request.getParameter("roomName");
+	}
+	
+	System.out.println("roomName : " + roomName);
 	
 	// 현재 페이지 구하기
 	// 처음 실행시 1페이지로 설정
@@ -43,7 +53,7 @@
 	
 	
 	// (해당 호스트의)booking 테이블의 전체 행 개수
-	int hostBookingListTotalRow = BookingDAO.selectHostBookingListCnt(customerId);
+	int hostBookingListTotalRow = BookingDAO.selectHostBookingListCnt(customerId, roomName);
 	// 디버깅
 	System.out.println("hostBookingListTotalRow : " + hostBookingListTotalRow);
 	
@@ -63,11 +73,16 @@
 	// 디버깅
 	System.out.println("lastPage : " + lastPage);
 	
+	
 	// 해당 호스트의 호스팅한 숙소들의 예약 목록
-	ArrayList<HashMap<String, Object>> hostBookingList = BookingDAO.selectHostBookingList(customerId, startRow, rowPerPage);
+	ArrayList<HashMap<String, Object>> hostBookingList = BookingDAO.selectHostBookingList(customerId, roomName, startRow, rowPerPage);
 	// 디버깅
 	System.out.println("hostBookingList : " + hostBookingList);
 	
+	
+	// 호스트의 숙소 별로 예약을 보기위해 호스팅한 숙소 list 가져오기
+	ArrayList<HashMap<String, Object>> hostRoomList = RoomDAO.selectHostRoomList(customerId);
+	System.out.println("hostRoomList : " + hostRoomList);
 %>
 <!DOCTYPE html>
 <html>
@@ -83,6 +98,28 @@
 		<jsp:include page="/customer/inc/customerNavbar.jsp"></jsp:include>
 		
 		<h1>에약 관리</h1>
+		
+		<!-- 숙소 별 select -->
+		<form action="/BeeNb/customer/hostBookingList.jsp" method="post">
+			<select name="roomName">
+				<option value="all">전체</option>	
+				<%
+					for(HashMap<String, Object> m : hostRoomList) {
+						if(roomName.equals(m.get("roomName"))) {
+				%>
+							<option value="<%=m.get("roomName")%>" selected="selected"><%=m.get("roomName")%></option>	
+				<%
+						} else {
+				%>
+							<option value="<%=m.get("roomName")%>"><%=m.get("roomName")%></option>
+				<%
+						}
+					}
+				%>
+			</select>
+			<button type="submit">보기</button>
+		</form>
+		
 		<!-- 예약 리스트 -->
 		<table class="table">
 			<thead>
@@ -95,6 +132,7 @@
 					<th>예약 인원</th>
 					<th>예약일</th>
 					<th>예약 상태 변경일</th>
+					<th>예약 취소</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -110,12 +148,73 @@
 							<td><%=m.get("usePeople") %></td>
 							<td><%=m.get("createDate") %></td>
 							<td><%=m.get("updateDate") %></td>
+							<%
+								if(m.get("bookingState").equals("전")) {
+							%>
+									<td>
+										<a class="btn btn-warning" href="/BeeNb/customer/hostBookingDeleteAction.jsp?bookingNo=<%=m.get("bookingNo")%>">에약 취소</a>
+									</td>
+							<%
+								} else {
+							%>
+									<td></td>
+							<%
+								}
+							%>
 						</tr>
 				<%
 					}
 				%>
 			</tbody>
 		</table>
+		
+		<!-- 페이징 버튼 -->	
+		<div>
+			<nav>
+		        <ul class="pagination">
+					<%
+						if(currentPage > 1) {
+					%>	
+							<li class="page-item">
+								<a class="page-link" href="/BeeNb/customer/hostBookingList.jsp?roomName=<%=roomName%>&currentPage=1&rowPerPage=<%=rowPerPage%>">처음페이지</a>
+							</li>
+							<li class="page-item">
+								<a class="page-link" href="/BeeNb/customer/hostBookingList.jsp?roomName=<%=roomName%>&currentPage=<%=currentPage-1%>&rowPerPage=<%=rowPerPage%>">이전페이지</a>
+							</li>
+					<%		
+						} else {
+					%>
+							<li class="page-item">
+								<a class="page-link disabled" href="/BeeNb/customer/hostBookingList.jsp?roomName=<%=roomName%>&currentPage=1&rowPerPage=<%=rowPerPage%>">처음페이지</a>
+							</li>
+							<li class="page-item">
+								<a class="page-link disabled" href="/BeeNb/customer/hostBookingList.jsp?roomName=<%=roomName%>&currentPage=1">이전페이지</a>
+							</li>
+					<%		
+						}
+						if(currentPage < lastPage) {
+					%>
+							<li class="page-item">
+								<a class="page-link" href="/BeeNb/customer/hostBookingList.jsp?roomName=<%=roomName%>&currentPage=<%=currentPage+1%>&rowPerPage=<%=rowPerPage%>">다음페이지</a>
+							</li>
+							<li class="page-item">
+								<a class="page-link" href="/BeeNb/customer/hostBookingList.jsp?roomName=<%=roomName%>&currentPage=<%=lastPage%>&rowPerPage=<%=rowPerPage%>">마지막페이지</a>
+							</li>
+					<%		
+						} else {
+					%>
+							<li class="page-item">
+								<a class="page-link disabled" href="/BeeNb/customer/hostBookingList.jsp?currentPage=<%=lastPage%>&rowPerPage=<%=rowPerPage%>">다음페이지</a>
+							</li>
+							<li class="page-item">
+								<a class="page-link disabled" href="/BeeNb/customer/hostBookingList.jsp?currentPage=<%=lastPage%>&rowPerPage=<%=rowPerPage%>">마지막페이지</a>
+							</li>
+					<%
+						}
+					%>
+				</ul>
+		    </nav>
+		</div>
 		
 		<!-- 푸터 -->
 		<jsp:include page="/inc/footer.jsp"></jsp:include>

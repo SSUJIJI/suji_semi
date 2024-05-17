@@ -82,7 +82,7 @@ public class RoomDAO {
 		
 		Connection conn = DBHelper.getConnection();
 		
-		String sql = "SELECT r.room_no AS roomNo, r.room_name AS roomName, r.room_theme AS roomTheme, r.room_address AS roomAddress,"
+		String sql = "SELECT r.room_no AS roomNo, r.customer_id AS customerId, r.room_name AS roomName, r.room_theme AS roomTheme, r.room_address AS roomAddress,"
 				+ " r.operation_start AS operationStart, r.operation_end AS operationEnd, r.max_people AS maxPeople, r.room_content AS roomContent,"
 				+ " r.room_category AS roomCategory, r.approve_state AS approveState, r.create_date AS createDate, r.update_date AS updateDate, img.room_img AS roomImg"
 				+ " FROM room AS r INNER JOIN room_img AS img"
@@ -93,6 +93,7 @@ public class RoomDAO {
 		ResultSet rs = stmt.executeQuery();
 		if(rs.next()) {
 			hostRoomOne.put("roomNo", rs.getInt("roomNo"));
+			hostRoomOne.put("customerId", rs.getString("customerId"));
 			hostRoomOne.put("roomName", rs.getString("roomName"));
 			hostRoomOne.put("roomTheme", rs.getString("roomTheme"));
 			hostRoomOne.put("roomAddress", rs.getString("roomAddress"));
