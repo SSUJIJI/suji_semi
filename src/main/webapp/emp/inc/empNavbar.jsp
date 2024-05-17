@@ -9,7 +9,7 @@
 	// 테마리스트 메서드 호출
 	ArrayList<String> selectThemeList = ThemeDAO.selectThemeList();
 %>
-<nav class="navbar navbar-expand-lg bg-white">
+<nav class="navbar navbar-expand-lg bg-white sticky-top">
   <div class="container-fluid">
     <a class="navbar-brand" href="/BeeNb/emp/empRoomList.jsp">&#128029;</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,6 +31,11 @@
 		%> -->
       </ul>
       <div class="d-flex" role="search">
+	      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+	        <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/BeeNb/emp/empRoomList.jsp">당신의 공간을 비앤비 하세요</a>
+	        </li>
+	      </ul>
         <li class="navbar-nav me-auto mb-2 mb-lg-0 nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             메뉴

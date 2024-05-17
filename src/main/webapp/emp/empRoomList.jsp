@@ -35,41 +35,18 @@
 		<jsp:include page="/emp/inc/empNavbar.jsp"></jsp:include>
 		
 		<!-- 메인작업 -->
-		<!--  검색필터 -->
-		<div class="accordion" id="accordionPanelsStayOpenExample">
-			<div class="accordion-item">
-				<h2 class="accordion-header">
-					<button class="accordion-button collapsed" type="button"
-						data-bs-toggle="collapse"
-						data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
-						aria-controls="panelsStayOpen-collapseTwo">
-					검색하기
-					</button>
-				</h2>
-				<div id="panelsStayOpen-collapseTwo"
-					class="accordion-collapse collapse">
-					<div class="accordion-body">
-						검색폼
-					</div>
+		
+		<!-- 검색창 -->
+		<div class="row">
+			<div class="col-2"></div>
+			<div class="col-10">
+				<div class="w-75 p-3 border border-warning rounded-pill">
+					<img src="/BeeNb/img/search.png" class="h-100 d-inline-block" style="width: 30px";>
 				</div>
 			</div>
-			<div class="accordion-item">
-				<h2 class="accordion-header">
-					<button class="accordion-button collapsed" type="button"
-						data-bs-toggle="collapse"
-						data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
-						aria-controls="panelsStayOpen-collapseTwo">
-						필터
-						</button>
-				</h2>
-				<div id="panelsStayOpen-collapseTwo"
-					class="accordion-collapse collapse">
-					<div class="accordion-body">
-						필터폼
-					</div>
-				</div>
-			</div>
+			<div class="col"></div>
 		</div>
+		
 		<br>
 		<hr>
 		<!-- 테마리스트 -->
@@ -83,6 +60,16 @@
 			<%
 				}
 			%>
+			<div class="dropdown">
+			  <button class="btn btn-warning dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+			    필터
+			  </button>
+			  <ul class="dropdown-menu">
+			    <div>
+			    	니냐니뇨	
+			    </div>
+			  </ul>
+			</div>
 		</ul>
 		<br>
 
