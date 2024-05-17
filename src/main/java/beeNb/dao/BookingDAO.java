@@ -266,4 +266,25 @@ public class BookingDAO {
 		conn.close();
 		return result;
 	}
+	
+	// 설명 : 호스트가 고객의 에약을 취소하는 기능
+	// 호출 : /customer/hostBookingList.jsp
+	// return : int
+	public static int deleteBookingByHost(int bookingNo) throws Exception {
+		int row = 0;
+		Connection conn = DBHelper.getConnection();
+		String sql = "DELETE booking"
+				+ " FROM booking"
+				+ " WHERE booking_no = ? AND booking_state = '전'";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, bookingNo);
+		
+		System.out.println("stmt : " + stmt);
+		
+		row = stmt.executeUpdate();
+	
+		conn.close();
+		return row;
+	}
+
 }

@@ -1,5 +1,6 @@
 package beeNb.dao;
 
+import java.lang.reflect.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -77,5 +78,31 @@ public class OneDayPriceDAO {
 		
 		conn.close();
 		return row;
+	}
+	
+	// 설명 : 예약 취소 시 room_state 예약 가능 상태로 변경
+	// 호출 : hostBookingDeleteAction.jsp
+	// return : int
+	public static int updateOneDayPriceState(int roomNo, ArrayList<String> roomDate) throws Exception{
+		int row = 0;
+		
+		Connection conn = DBHelper.getConnection();
+		
+		// 해당 숙소의 해당 날짜의 roomState를 예약 가능으로 변경
+		String sql = "UPDATE oneday_price SET room_state = '예약 가능' WHERE room_no = ? AND room_date = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		
+		// roomDate 개수만큼 반복문 실행
+		for(int i = 0; i < roomDate.size(); i++) {
+			stmt.setInt(1, roomNo);
+			stmt.setString(2, roomDate.get(i));
+			// 실행된 쿼리 수 계산
+			row += stmt.executeUpdate();
+		}
+		row = stmt.executeUpdate();
+		
+		conn.close();
+		return row;
+		
 	}
 }

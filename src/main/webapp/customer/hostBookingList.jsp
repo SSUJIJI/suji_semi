@@ -84,6 +84,10 @@
 	ArrayList<HashMap<String, Object>> hostRoomList = RoomDAO.selectHostRoomList(customerId);
 	System.out.println("hostRoomList : " + hostRoomList);
 %>
+<%
+	// err메시지 요청 값
+	String msg = request.getParameter("msg");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -98,7 +102,16 @@
 		<jsp:include page="/customer/inc/customerNavbar.jsp"></jsp:include>
 		
 		<h1>에약 관리</h1>
-		
+		<!-- msg 출력 -->
+		<%
+			if(msg != null) {
+		%>
+				<div class="alert alert-danger" role="alert">
+					<%= msg%>
+				</div>
+		<%
+			}
+		%>
 		<!-- 숙소 별 select -->
 		<form action="/BeeNb/customer/hostBookingList.jsp" method="post">
 			<select name="roomName">
