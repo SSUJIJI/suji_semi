@@ -8,6 +8,9 @@
 
 	// 숙소 목록 출력
 	ArrayList<HashMap<String, Object>> selectRoomList = RoomDAO.selectRoomList();
+	
+	// 테마리스트 메서드 호출
+	ArrayList<String> selectThemeList = ThemeDAO.selectThemeList();
 %>
 <!DOCTYPE html>
 <html>

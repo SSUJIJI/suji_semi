@@ -33,6 +33,14 @@
 					<td>
 						<input type="password" class="form-control" name="newEmpPw">
 					</td>
+				</tr>
+				<tr>
+					<td>
+						수정할 비밀번호 확인 : &nbsp;
+					</td>
+					<td>
+						<input type="password" class="form-control" name="newEmpPw2">
+					</td>
 					<td>
 						&nbsp;&nbsp;<button type="submit" class="btn btn-warning">수정</button>
 					</td>

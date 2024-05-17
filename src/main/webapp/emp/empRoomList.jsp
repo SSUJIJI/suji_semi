@@ -8,6 +8,9 @@
 	// 숙소 목록 출력
 	ArrayList<HashMap<String, Object>> selectRoomList = RoomDAO.selectRoomList();
 	
+	// 테마리스트 메서드 호출
+	ArrayList<String> selectThemeList = ThemeDAO.selectThemeList();
+	
 	// 메세지 호출
 	String msg = request.getParameter("msg");
 %>
@@ -32,7 +35,58 @@
 		<jsp:include page="/emp/inc/empNavbar.jsp"></jsp:include>
 		
 		<!-- 메인작업 -->
-		<!-- 숙소 목록 출력 -->
+		<!--  검색필터 -->
+		<div class="accordion" id="accordionPanelsStayOpenExample">
+			<div class="accordion-item">
+				<h2 class="accordion-header">
+					<button class="accordion-button collapsed" type="button"
+						data-bs-toggle="collapse"
+						data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
+						aria-controls="panelsStayOpen-collapseTwo">
+					검색하기
+					</button>
+				</h2>
+				<div id="panelsStayOpen-collapseTwo"
+					class="accordion-collapse collapse">
+					<div class="accordion-body">
+						검색폼
+					</div>
+				</div>
+			</div>
+			<div class="accordion-item">
+				<h2 class="accordion-header">
+					<button class="accordion-button collapsed" type="button"
+						data-bs-toggle="collapse"
+						data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
+						aria-controls="panelsStayOpen-collapseTwo">
+						필터
+						</button>
+				</h2>
+				<div id="panelsStayOpen-collapseTwo"
+					class="accordion-collapse collapse">
+					<div class="accordion-body">
+						필터폼
+					</div>
+				</div>
+			</div>
+		</div>
+		<br>
+		<hr>
+		<!-- 테마리스트 -->
+		<ul class="nav justify-content-center">
+			<%
+				for (String m : selectThemeList) {
+			%>
+					<li class="nav-item">
+						<a class="nav-link text-black" href="/BeeNb/emp/empRoomList.jsp?&theme=<%= m %>"><%= m %></a>
+					</li>
+			<%
+				}
+			%>
+		</ul>
+		<br>
+
+
 		<!-- 메세지 출력 -->
 		<%
 			if (msg != null) {
@@ -41,6 +95,8 @@
 		<%
 			}
 		%>
+		
+		<!-- 숙소 목록 출력 -->
 		<div class="row row-cols-1 row-cols-md-3 g-4">
 		<%
 		for (HashMap<String, Object> m : selectRoomList) {

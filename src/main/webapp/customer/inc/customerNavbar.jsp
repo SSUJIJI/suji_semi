@@ -9,7 +9,7 @@
 	// 테마리스트 메서드 호출
 	ArrayList<String> selectThemeList = ThemeDAO.selectThemeList();
 %>
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg bg-white">
   <div class="container-fluid">
     <a class="navbar-brand" href="/BeeNb/customer/customerRoomList.jsp">&#128029;</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -20,10 +20,7 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="/BeeNb/customer/customerRoomList.jsp">BeeNb</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">전체보기</a>
-        </li>
-    	<%
+    	<!-- <%
 			for(String m : selectThemeList){
 		%>
         <li class="nav-item">
@@ -31,7 +28,7 @@
         </li>
 		<%
 			}
-		%>
+		%> -->
       </ul>
       <div class="d-flex" role="search">
         <li class="navbar-nav me-auto mb-2 mb-lg-0 nav-item dropdown">
