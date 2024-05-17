@@ -237,4 +237,52 @@ public class RoomDAO {
 		conn.close();
 		return selectPendingRoomList;
 	}
+	
+	// 설명 : 해당 roomNo의 approve_state를 '승인'으로 업데이트
+	// 호출 : approveRoomAction.jsp
+	// return : int
+	public static int updateRoomStateApprove(int roomNo) throws Exception{
+		int ApproveResult = 0;
+		Connection conn = DBHelper.getConnection();
+		
+		// 쿼리
+		String sql = "UPDATE room SET approve_state = '승인' WHERE room_no = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, roomNo);
+		
+		// 완성 쿼리 디버깅
+		System.out.println("stmt: " + stmt);
+		
+		// 쿼리 실행
+		ApproveResult = stmt.executeUpdate();
+				
+		// 자원반납
+		conn.close();		
+		return ApproveResult;
+	}
+
+	
+	// 설명 : 해당 roomNo의 approve_state를 '반려'으로 업데이트
+	// 호출 : rejectRoomAction.jsp
+	// return : int
+	public static int updateRoomStateReject(int roomNo) throws Exception{
+		int rejectResult = 0;
+		Connection conn = DBHelper.getConnection();
+		
+		// 쿼리
+		String sql = "UPDATE room SET approve_state = '반려' WHERE room_no = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, roomNo);
+		
+		// 완성 쿼리 디버깅
+		System.out.println("stmt: " + stmt);
+		
+		// 쿼리 실행
+		rejectResult = stmt.executeUpdate();
+		
+		// 자원반납
+		conn.close();
+		
+		return rejectResult;
+	}
 }

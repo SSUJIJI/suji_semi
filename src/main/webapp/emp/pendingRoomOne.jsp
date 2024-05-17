@@ -106,8 +106,8 @@
 		<hr>
 		
 		<div>
-			<a href="/BeeNb/emp/approveRoomAction.jsp?approve=<%=roomNo %>" class="btn btn-warning">승인</a>	
-			<a href="/BeeNb/emp/approveRoomAction.jsp?reject=<%=roomNo %>" class="btn btn-warning">반려</a>
+			<a href="/BeeNb/emp/approveRoomAction.jsp?roomNo=<%=roomNo %>" class="btn btn-warning">승인</a>	
+			<a href="/BeeNb/emp/approveRoomAction.jsp?roomNo=<%=roomNo %>" class="btn btn-warning">반려</a>
 		</div>
 
 		<!-- 푸터 -->
