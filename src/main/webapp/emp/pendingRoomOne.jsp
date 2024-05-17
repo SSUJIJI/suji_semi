@@ -112,7 +112,7 @@
 		
 		<div>
 			<a href="/BeeNb/emp/approveRoomAction.jsp?roomNo=<%=roomNo %>&customerId=<%=empRoomOne.get("customerId") %>" class="btn btn-warning">승인</a>	
-			<a href="/BeeNb/emp/approveRoomAction.jsp?roomNo=<%=roomNo %>&customerId=<%=empRoomOne.get("customerId") %>" class="btn btn-warning">반려</a>
+			<a href="/BeeNb/emp/rejectRoomAction.jsp?roomNo=<%=roomNo %>&customerId=<%=empRoomOne.get("customerId") %>" class="btn btn-warning">반려</a>
 		</div>
 
 		<!-- 푸터 -->

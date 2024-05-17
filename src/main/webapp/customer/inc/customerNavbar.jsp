@@ -27,7 +27,7 @@
 			for(String m : selectThemeList){
 		%>
         <li class="nav-item">
-          <a class="nav-link" href="#"><%= m %></a>
+          <a class="nav-link" href="/BeeNb/emp/empRoomList.jsp?&theme=<%= m %>"><%= m %></a>
         </li>
 		<%
 			}

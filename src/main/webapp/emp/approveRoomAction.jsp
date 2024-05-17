@@ -6,7 +6,7 @@
 <%
 	System.out.println("=====approveRoomAction.jsp=====");
 	
-	// 승인 할 roomNo 호출
+	// 승인 할 roomNo, customerId 호출
 	int roomNo = Integer.parseInt(request.getParameter("roomNo"));
 	String customerId = request.getParameter("customerId");
 	// 디버깅
