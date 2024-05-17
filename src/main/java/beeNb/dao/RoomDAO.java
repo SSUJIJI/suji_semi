@@ -400,4 +400,29 @@ public class RoomDAO {
 	    return result;
 	 }
 	
+	// 설명 : room 중에 해당 테마를 가지고 있는 room이 있는지 확인
+	// 호출 : /emp/deleteThemeAction.jsp
+	// 리턴값 : boolean (false면 없음, true면 있음)
+	public static boolean thereIsRoomTheme(String roomTheme) throws Exception {
+		boolean result = false;
+		Connection conn = DBHelper.getConnection();
+		
+		String sql = "SELECT room_no FROM room WHERE room_theme = ?";
+		
+	    PreparedStatement stmt = conn.prepareStatement(sql);
+	    stmt.setString(1, roomTheme);
+	    
+	    // 디버깅코드
+	    System.out.println("stmt :" + stmt);
+
+	    ResultSet rs = stmt.executeQuery();
+
+	    if(rs.next()) {
+	       result = true;
+	    }
+	    
+	    conn.close();
+		return result;
+	}
+	
 }

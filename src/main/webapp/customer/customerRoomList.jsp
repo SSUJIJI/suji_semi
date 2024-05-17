@@ -50,6 +50,7 @@
 								<br>
 								최대 <%=(Integer) (m.get("maxPeople"))%>명
 							</p>
+							<a href="/BeeNb/customer/customerRoomOne.jsp?roomNo=<%=(Integer) (m.get("roomNo"))%>" class="btn btn-warning">상세보기</a>
 							<a href="/BeeNb/customer/customerRoomOne.jsp?roomNo=<%=(Integer) (m.get("roomNo"))%>" class="btn btn-warning">예약하기</a>
 						</div>
 					</div>

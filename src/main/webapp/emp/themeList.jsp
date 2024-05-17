@@ -9,6 +9,9 @@
 	ArrayList<String> selectThemeList = ThemeDAO.selectThemeList();
 	
     // 테마 추가 에러메세지 호출
+    String msg = request.getParameter("msg");
+    
+    // 테마 추가 에러메세지 호출
     String errMsg = request.getParameter("errMsg");
     
     // 테마 삭제 에러메세지 호출
@@ -29,6 +32,13 @@
 		
 		<!-- 메인작업 -->
 		<h1>테마 리스트</h1>
+		<%
+			if(msg != null){
+		%>
+				<%=msg %>
+		<%		
+			}
+		%>
 		<table class="table">
 			<tr>
 				<th>테마</th>
