@@ -200,8 +200,32 @@ public class ComplainDAO {
 		return row;
 	}
 	
-
 	
 	
-	
+	// 설명 : 숙소 등록
+	// 호출 : addRoomAction.jsp
+	// return int
+	public static int insertComplain(HashMap<String, Object> map) throws Exception {
+		int row = 0;
+		Connection conn = DBHelper.getConnection();
+		String sql = "INSERT INTO "
+				+ "Complain ("
+				+ "complain_no"
+				+ ", complain_type"
+				+ ", complain_content"
+				+ ", complain_state"
+				+ ", complain_answer"
+				+ ", create_date"
+				+ ", update_date"
+				+ ", booking_no"
+				+ ") VALUES "
+				+ "(null, ?, ?, '접수', null, now(), now(), ?)";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, ""+map.get("complainType"));
+		stmt.setString(2, ""+map.get("complainContent"));
+		stmt.setString(3, ""+map.get("bookingNo"));
+		row = stmt.executeUpdate();
+		conn.close();
+		return row;
+	}
 }
