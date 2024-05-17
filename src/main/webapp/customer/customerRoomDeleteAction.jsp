@@ -14,8 +14,8 @@
 	
 	if(bookingExist==1){ // 예약목록이 있으면 에러메세지와 함께 리스트 페이지로...(수정예정)
 		System.out.println("예약목록이 존재함");
-		String msg = URLEncoder.encode("예약목록이 존재합니다.", "UTF-8");
-		response.sendRedirect("/BeeNb/customer/hostRoomOne.jsp?roomNo="+roomNo+"&msg="+msg);
+		String errMsg = URLEncoder.encode("예약목록이 존재합니다.", "UTF-8");
+		response.sendRedirect("/BeeNb/customer/hostRoomOne.jsp?roomNo="+roomNo+"&errMsg="+errMsg);
 		return;
 	}
 	
@@ -32,8 +32,8 @@
 		return;
 	}else{
 		System.out.println("숙소 삭제 실패");
-		String msg = URLEncoder.encode("숙소삭제실패.", "UTF-8");
-		response.sendRedirect("/BeeNb/customer/hostRoomOne.jsp?msg="+msg);
+		String errMsg = URLEncoder.encode("숙소삭제실패.", "UTF-8");
+		response.sendRedirect("/BeeNb/customer/hostRoomOne.jsp?errMsg="+errMsg);
 		return;
 	}
 %>

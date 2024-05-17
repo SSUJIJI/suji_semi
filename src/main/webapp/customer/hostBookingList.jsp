@@ -85,8 +85,10 @@
 	System.out.println("hostRoomList : " + hostRoomList);
 %>
 <%
-	// err메시지 요청 값
+	// msg 요청 값
 	String msg = request.getParameter("msg");
+	// err메시지 요청 값
+	String errMsg = request.getParameter("errMsg");
 %>
 <!DOCTYPE html>
 <html>
@@ -106,8 +108,18 @@
 		<%
 			if(msg != null) {
 		%>
-				<div class="alert alert-danger" role="alert">
+				<div class="alert alert-success" role="alert">
 					<%= msg%>
+				</div>
+		<%
+			}
+		%>
+		<!-- errMsg 출력 -->
+		<%
+			if(errMsg != null) {
+		%>
+				<div class="alert alert-success" role="alert">
+					<%= errMsg%>
 				</div>
 		<%
 			}

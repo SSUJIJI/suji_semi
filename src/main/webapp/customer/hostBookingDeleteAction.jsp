@@ -31,8 +31,8 @@
 	
 	// roomState 변경 실패
 	if(updateOneDayPriceRow == 0) {
-		String msg = URLEncoder.encode("예약 취소가 실패했습니다", "UTF-8");
-		response.sendRedirect("/BeeNb/customer/hostBookingList.jsp?msg=" + msg);
+		String errMsg = URLEncoder.encode("예약 취소가 실패했습니다", "UTF-8");
+		response.sendRedirect("/BeeNb/customer/hostBookingList.jsp?errMsg=" + errMsg);
 		return;
 	}
 	
@@ -44,8 +44,8 @@
 	
 	// 예약 취소 실패
 	if(deleteBookinByHostRow == 0) {
-		String msg = URLEncoder.encode("예약 취소가 실패했습니다", "UTF-8");
-		response.sendRedirect("/BeeNb/customer/hostBookingList.jsp?msg=" + msg);
+		String errMsg = URLEncoder.encode("예약 취소가 실패했습니다", "UTF-8");
+		response.sendRedirect("/BeeNb/customer/hostBookingList.jsp?errMsg=" + errMsg);
 		return;
 	}
 	// 예약 취소 성공

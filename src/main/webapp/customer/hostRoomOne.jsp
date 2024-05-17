@@ -127,8 +127,11 @@
 	int calendarTotalDiv = 42;	
 %>
 <%
-	// err메시지 요청 값
+	// msg 요청 값
 	String msg = request.getParameter("msg");
+
+	// errMsg 요청 값
+	String errMsg = request.getParameter("errMsg");
 %>
 <!DOCTYPE html>
 <html>
@@ -148,13 +151,22 @@
 		<%
 			if(msg != null) {
 		%>
-				<div class="alert alert-danger" role="alert">
+				<div class="alert alert-success" role="alert">
 					<%= msg%>
 				</div>
 		<%
 			}
 		%>
-		
+		<!-- errMsg 출력 -->
+		<%
+			if(errMsg != null) {
+		%>
+				<div class="alert alert-danger" role="alert">
+					<%= errMsg%>
+				</div>
+		<%
+			}
+		%>
 		<!-- 숙소 삭제버튼 -->
 		<a class="btn btn-warning" href="/BeeNb/customer/customerRoomDeleteAction.jsp?roomNo=<%=roomNo%>">숙소 삭제</a>
 		
@@ -287,7 +299,7 @@
 									if(calendarYear == oneDayPriceYear && (calendarMonth + 1) == oneDayPriceMonth && (realDay) == oneDayPriceDay) {
 					%>
 										<br>예약 상태 : <b><%=m.get("roomState")%></b>
-										<br>등록 가격 : <b><%=m.get("roomPrice")%>원</b>
+										<br>등록 가격 : <b><%=String.format("%,d", Integer.parseInt((String)m.get("roomPrice")))%>원</b>
 					<%
 										if(((String)m.get("roomState")).equals("예약 가능")) {
 					%>

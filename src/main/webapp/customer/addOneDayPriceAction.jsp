@@ -31,5 +31,6 @@
 		return;
 	}
 	// 등록 성공
-	response.sendRedirect("/BeeNb/customer/hostRoomOne.jsp?roomNo=" + roomNo);
+	String msg = URLEncoder.encode("가격이 등록되었습니다.", "UTF-8");
+	response.sendRedirect("/BeeNb/customer/hostRoomOne.jsp?roomNo=" + roomNo+ "&msg=" + msg);
 %>

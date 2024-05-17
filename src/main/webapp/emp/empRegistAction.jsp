@@ -55,5 +55,6 @@
 	System.out.println("epwHistoryRow : " + epwHistoryRow);
 	
 	// emp 등록 성공 시 empList.jsp로 redirect
-	response.sendRedirect("/BeeNb/emp/empList.jsp");
+	String msg = URLEncoder.encode("관리자가 등록되었습니다", "UTF-8");
+	response.sendRedirect("/BeeNb/emp/empList.jsp?msg=" + msg);
 %>

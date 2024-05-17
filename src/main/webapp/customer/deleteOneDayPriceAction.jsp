@@ -19,8 +19,8 @@
 	
 	// 삭제 실패
 	if(deleteOneDayPriceRow == 0) {
-		String msg = URLEncoder.encode("가격 삭제에 실패했습니다", "UTF-8");
-		response.sendRedirect("/BeeNb/customer/hostRoomOne.jsp?roomNo=" + roomNo + "&msg=" + msg);
+		String errMsg = URLEncoder.encode("가격 삭제에 실패했습니다", "UTF-8");
+		response.sendRedirect("/BeeNb/customer/hostRoomOne.jsp?roomNo=" + roomNo + "&errMsg=" + errMsg);
 		return;
 	}
 	
