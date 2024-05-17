@@ -116,7 +116,7 @@
 		</form>
 		
 		<!-- 관리자 등록 -->
-		<a class="text-decoration-none" href="/BeeNb/emp/empRegistForm.jsp">관리자 등록</a>
+		<a class="btn btn-warning" href="/BeeNb/emp/empRegistForm.jsp">관리자 등록</a>
 		
 		<!-- 관리자 리스트 출력 -->
 		<table class="table">

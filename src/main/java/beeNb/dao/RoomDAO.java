@@ -19,7 +19,8 @@ public class RoomDAO {
 		String sql = "SELECT r.room_no, r.customer_id, r.room_name, r.room_address, r.max_people, img.room_img"
 				+ " FROM room AS r"
 				+ " INNER JOIN room_img AS img"
-				+ " ON r.room_no =  img.room_no";
+				+ " ON r.room_no =  img.room_no"
+				+ " GROUP BY img.room_no";
 
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		ResultSet rs = stmt.executeQuery();
@@ -38,6 +39,7 @@ public class RoomDAO {
 		conn.close();
 		return RoomList;
 	}
+
 	
 	// 설명 : 호스트가 호스팅한 숙소 목록 출력
 	// 호출 : /customer/hostRoomList.jsp
@@ -54,7 +56,8 @@ public class RoomDAO {
 				+ " FROM room AS r INNER JOIN room_img AS img"
 				+ " ON r.room_no = img.room_no"
 				+ " WHERE customer_id = ?"
-				+ " ORDER BY roomNo DESC";
+				+ " GROUP BY r.room_no"
+				+ " ORDER BY r.room_no DESC;";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, customerId);
 		ResultSet rs = stmt.executeQuery();

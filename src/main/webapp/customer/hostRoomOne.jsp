@@ -64,6 +64,10 @@
 	// 디버깅
 	System.out.println("lastPage : " + lastPage);
 	
+	// 호스팅한 숙소의 이미지리스트
+	ArrayList<String> roomImgList = RoomImgDAO.selectRoomImgList(roomNo);
+	//디버깅
+	System.out.println("roomImgList : " + roomImgList);
 	
 	// 호스팅한 숙소의 상세정보
 	HashMap<String, Object> hostRoomOne = RoomDAO.selectHostRoomOne(roomNo);
@@ -161,7 +165,14 @@
 		<div>
 			<!-- 숙소 이미지 -->
 			<div>
-				<img alt="..." src="/BeeNb/upload/<%=hostRoomOne.get("roomImg") %>" width="500px;">
+				<%
+					for(String roomImg : roomImgList) {
+				%>
+						<img alt="..." src="/BeeNb/upload/<%=roomImg %>" width="500px;">
+				<%
+					}
+				%>
+				
 			</div>
 			<!-- 나머지 상세정보 -->
 			<div>
