@@ -141,7 +141,7 @@ public class BookingDAO {
 	// 설명 : 호스트가 호스팅한 숙소의 예약을 조회하는 페이지(hostBookingList.jsp)의 페이징 기능을 위한 전체 행 개수 구하기
 	// 호출 : hostBookingList.jsp
 	// return : int(해당 숙소의 예약 개수)
-	public static int selectHostBookingListCnt(String customerId) throws Exception{
+	public static int selectHostBookingListCnt(String customerId, String roomName) throws Exception{
 		int cnt = 0;
 		
 		Connection conn = DBHelper.getConnection();
@@ -152,8 +152,22 @@ public class BookingDAO {
 				+ " INNER JOIN room r"
 				+ " ON b.room_no = r.room_no"
 				+ " WHERE r.customer_id = ?";
-		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setString(1, customerId);
+		
+		// roomName에 따른 분기 발생으로 인해 stmt 먼저 생성
+		PreparedStatement stmt = null;
+		
+		// 예약리스트 전체 조회시
+		if(roomName.equals("all")) {
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, customerId);
+		} else {
+			// roomName이 있는 경우(select박스로 숙소별로 예약 리스트 조회시)
+			sql = sql + " AND r.room_name = ?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, customerId);
+			stmt.setString(2, roomName);
+		}
+		
 		ResultSet rs = stmt.executeQuery();
 		
 		// 해당 숙소의 예약(booking)이 있다면
@@ -169,7 +183,7 @@ public class BookingDAO {
 	// 설명 : 호스트가 호스팅한 숙소의 예약을 조회
 	// 호출 : hostBookingList.jsp
 	// return : int(해당 숙소의 예약 개수)
-	public static ArrayList<HashMap<String, Object>> selectHostBookingList(String customerId, int startRow, int rowPerPage) throws Exception{
+	public static ArrayList<HashMap<String, Object>> selectHostBookingList(String customerId, String roomName, int startRow, int rowPerPage) throws Exception{
 		ArrayList<HashMap<String, Object>> hostBookingList = new ArrayList<>();
 		
 		Connection conn = DBHelper.getConnection();
@@ -182,13 +196,32 @@ public class BookingDAO {
 				+ " ON b.room_no = r.room_no"
 				+ " INNER JOIN customer c"
 				+ " ON b.customer_id = c.customer_id"
-				+ " WHERE r.customer_id = ?"
-				+ " ORDER BY b.create_date DESC, bookingNo DESC"
-				+ " LIMIT ?,?";
-		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setString(1, customerId);
-		stmt.setInt(2, startRow);
-		stmt.setInt(3, rowPerPage);
+				+ " WHERE r.customer_id = ?";
+		
+		// roomName에 따른 분기 발생으로 인해 stmt 먼저 생성
+		PreparedStatement stmt = null;
+		
+		// 예약리스트 전체 조회시
+		if(roomName.equals("all")) {
+			sql = sql + " ORDER BY b.create_date DESC, bookingNo DESC LIMIT ?,?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, customerId);
+			stmt.setInt(2, startRow);
+			stmt.setInt(3, rowPerPage);
+		} else {
+			// roomName이 있는 경우(select박스로 숙소별로 예약 리스트 조회시)
+			sql = sql + " AND r.room_name = ?"
+					+ " ORDER BY b.create_date DESC, bookingNo DESC"
+					+ "	LIMIT ?,?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, customerId);
+			stmt.setString(2, roomName);
+			stmt.setInt(3, startRow);
+			stmt.setInt(4, rowPerPage);
+			
+		}
+		
+		
 		ResultSet rs = stmt.executeQuery();
 		
 		// 해당 숙소의 목록 list에 담기
