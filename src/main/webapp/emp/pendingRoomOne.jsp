@@ -52,6 +52,11 @@
 			<!-- 나머지 상세정보 -->
 			<div>
 				<div>
+					<b>상신 ID</b>
+					<%=empRoomOne.get("customerId") %>
+				</div>
+				
+				<div>
 					<b>숙소 이름</b>
 					<%=empRoomOne.get("roomName") %>
 				</div>
@@ -106,8 +111,8 @@
 		<hr>
 		
 		<div>
-			<a href="/BeeNb/emp/approveRoomAction.jsp?roomNo=<%=roomNo %>" class="btn btn-warning">승인</a>	
-			<a href="/BeeNb/emp/approveRoomAction.jsp?roomNo=<%=roomNo %>" class="btn btn-warning">반려</a>
+			<a href="/BeeNb/emp/approveRoomAction.jsp?roomNo=<%=roomNo %>&customerId=<%=empRoomOne.get("customerId") %>" class="btn btn-warning">승인</a>	
+			<a href="/BeeNb/emp/approveRoomAction.jsp?roomNo=<%=roomNo %>&customerId=<%=empRoomOne.get("customerId") %>" class="btn btn-warning">반려</a>
 		</div>
 
 		<!-- 푸터 -->

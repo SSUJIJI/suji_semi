@@ -350,4 +350,52 @@ public class CustomerDAO {
 		conn.close();
 		return row;
 	}
+	
+	// 설명 : 숙소 심사 상신한 customer가 호스티인지 아닌지 출력(0: 게스트, 1: 호스트)
+	// 호출 : approveRoomAction.jsp
+	// return : int
+	public static int checkCustomerGrade(String customerId)throws Exception {
+		int customerGrade = 0;
+		Connection conn = DBHelper.getConnection();
+		
+		String sql = "SELECT customer_grade FROM customer WHERE customer_id = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, customerId);
+		
+		// 디버깅코드
+		System.out.println("stmt :" + stmt);
+		
+		// 리턴값에 출력된 grade값을 대입
+	    ResultSet rs = stmt.executeQuery();
+	    if (rs.next()) {
+	        customerGrade = rs.getInt("customer_grade");
+	    }
+		
+	    // 자원반납
+	    conn.close();
+		return customerGrade;
+	}
+	
+	// 설명 : customer의 grade를 1로 업데이트(호스트권한부여)
+	// 호출 : approveRoomAction.jsp
+	// return : int
+	public static int updateCustomerGrade(String customerId) throws Exception{
+		int row = 0;
+		Connection conn = DBHelper.getConnection();
+		
+		// 쿼리
+		String sql = "UPDATE customer SET customer_grade = '1' WHERE customer_id = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, customerId);
+		
+		// 완성 쿼리 디버깅
+		System.out.println("stmt: " + stmt);
+		
+		// 쿼리 실행
+		row = stmt.executeUpdate();
+				
+		// 자원반납
+		conn.close();		
+		return row;
+	}
 }

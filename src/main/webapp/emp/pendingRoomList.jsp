@@ -27,6 +27,13 @@
 		
 		<!-- 메인작업 -->
 		<h1>숙소심사</h1>
+		<%
+			if(msg != null){
+		%>
+				<%=msg %>
+		<%
+			}
+		%>
 		<table class="table">
 			<tr>
 				<th>숙소번호</th>
