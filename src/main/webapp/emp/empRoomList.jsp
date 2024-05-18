@@ -61,12 +61,12 @@
 				}
 			%>
 			<div class="dropdown">
-			  <button class="btn btn-warning dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+			  <button class="btn btn-warning zdropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 			    필터
 			  </button>
 			  <ul class="dropdown-menu">
 			    <div>
-			    	니냐니뇨	
+			    	필터폼
 			    </div>
 			  </ul>
 			</div>

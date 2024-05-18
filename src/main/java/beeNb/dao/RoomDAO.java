@@ -425,4 +425,54 @@ public class RoomDAO {
 		return result;
 	}
 	
+	// 설명 : 검색엔진 결과에 따른 숙소 목록 출력
+	// 호출 : empRoomList.jsp, customerRoomList.jsp
+	// return : ArrayList<HashMap<String, Object>>
+	public static ArrayList<HashMap<String, Object>> searchRoomList(String searchAddress, String searchStartDate, String searchEndDate, int searchMaxPeople) throws Exception {
+		ArrayList<HashMap<String, Object>> searchRoomList = new ArrayList<HashMap<String, Object>>();
+		
+		// DB연결
+		Connection conn = DBHelper.getConnection();
+		
+		// <검색 쿼리>
+		// (시작날-마지막날)+1을 하면 며칠 묵을 것인지 계산됨
+		// 검색 지정한 날을 기준으로 에약가능한 onedayPrice를 count한 결과와 (시작날-마지막날)+1과 값이 같으면
+		// 검색 지정한 날짜로 예약가능한 room임
+		// + 지역검색 조건
+		// + 최대인원보다 같거나 큰 room이 나오는 조건
+		// + 해당 room_no인 img(img는 대표사진 한장만 나오게 max를 줌(대표사진을 따로 정해야함)
+		// 을 만족하는 쿼리임.
+		String sql = "SELECT r.room_no, max(ri.room_img), r.room_name, r.customer_id, r.room_address, r.max_people"
+				+ " FROM room r ,"
+				+ "	(SELECT op.room_no AS rno,COUNT(*) AS cnt"
+				+ "	FROM oneday_price op"
+				+ " WHERE op.room_state = '예약 가능'"
+				+ " AND op.room_date BETWEEN '2024-05-07' AND '2024-05-11'"
+				+ " GROUP BY op.room_no) T , room_img ri"
+				+ " WHERE T.cnt >= DATEDIFF('2024-05-11', '2024-05-07')+1"
+				+ " AND T.rno = r.room_no AND room_address LIKE '%인천%' AND max_people >= 4"
+				+ " AND r.room_no=ri.room_no";
+	    PreparedStatement stmt = conn.prepareStatement(sql);
+	    stmt.setString(1, searchStartDate);
+	    stmt.setString(2, searchEndDate);
+	    stmt.setString(3, searchEndDate);
+	    stmt.setString(4, searchStartDate);
+	    stmt.setString(5, searchAddress);
+	    stmt.setInt(6, searchMaxPeople);
+	    ResultSet rs = stmt.executeQuery();
+		while (rs.next()) {
+			HashMap<String, Object> m = new HashMap<>();
+			m.put("roomNo", rs.getString("r.room_no"));
+			m.put("roomImg", rs.getString("max(ri.room_img)"));
+			m.put("roomName", rs.getString("r.room_name"));
+			m.put("roomId", rs.getString("r.customer_id"));
+			m.put("roomAddress", rs.getString("r.room_address"));
+			m.put("roomMaxPeople", rs.getInt("r.max_people"));
+			searchRoomList.add(m);
+		}
+	    
+	    conn.close();;
+		return searchRoomList;
+	}
+	
 }
