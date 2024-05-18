@@ -7,7 +7,7 @@
 	String complainNo = request.getParameter("complainNo");
 	System.out.println(complainNo);
 	
-	HashMap<String, Object> complainOne = ComplainDAO.selectComplainOne(complainNo);
+	HashMap<String, String> complainOne = ComplainDAO.selectComplainOne(complainNo);
 %>
 <!DOCTYPE html>
 <html>

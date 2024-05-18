@@ -65,7 +65,9 @@
 		<%
 			}else{
 		%>
-					예약 또는 숙소를 확인해주세요.
+			<div class="alert alert-warning" role="alert">
+				예약 또는 등록된 숙소가 있는 상태에서는 탈퇴가 불가능합니다.
+			</div>
 		<%		
 			}
 		%>

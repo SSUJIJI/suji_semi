@@ -155,18 +155,22 @@ public class CustomerDAO {
 	public static boolean selectCustomerPwHistory(String customerId, String newCustomerPw) throws Exception {
 		boolean result = false;
 		Connection conn = DBHelper.getConnection();
-		String sql = "SELECT customer_pw FROM customer_pw_history WHERE customer_id =? AND customer_pw = ?";
-	    PreparedStatement stmt = conn.prepareStatement(sql);
-	    stmt.setString(1,customerId);
-	    stmt.setString(2,newCustomerPw);
-	    // 디버깅
-	    System.out.println("stmt :" + stmt);
-		ResultSet rs = stmt.executeQuery();
+		String sql;
+		if(newCustomerPw != null && !newCustomerPw.isEmpty()) {
+			sql = "SELECT customer_pw FROM customer_pw_history WHERE customer_id =? AND customer_pw = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1,customerId);
+			stmt.setString(2,newCustomerPw);
+		    // 디버깅
+		    System.out.println("stmt :" + stmt);
+			ResultSet rs = stmt.executeQuery();
 		  
-	    if(rs.next()) {
-			result = true;
+		    if(rs.next()) {
+				result = true;
+			}
+		}else {
+			result = false;
 		}
-		  
 	    conn.close();
 	    return result;
 	    
@@ -196,15 +200,21 @@ public class CustomerDAO {
 	public static int insertCustomerNewPwHistory(String newCustomerPw, String customerId) throws Exception{
 		int row = 0;
 		Connection conn = DBHelper.getConnection();
-		String sql = "INSERT INTO customer_pw_history(customer_pw, customer_id, create_date) VALUES (?, ?, NOW())";
-		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setString(1, newCustomerPw);
-		stmt.setString(2, customerId);
-		// 디버깅
-		System.out.println("stmt: " + stmt);
-			  row = stmt.executeUpdate();
-			  conn.close();
-			  return row;
+		String sql;
+		if(newCustomerPw != null && !newCustomerPw.isEmpty()) {
+			sql = "INSERT INTO customer_pw_history(customer_pw, customer_id, create_date) VALUES (?, ?, NOW())";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, newCustomerPw);
+			stmt.setString(2, customerId);
+			// 디버깅
+			System.out.println("stmt: " + stmt);
+			row = stmt.executeUpdate();
+		} else {
+			row = 1;
+		}
+  
+		conn.close();
+		return row;
 	}
   
 	// 설명 : 고객(customer)정보 상세보기 & 정보수정
@@ -335,13 +345,25 @@ public class CustomerDAO {
 									String newCustomerPw, String customerId) throws Exception {
 		int row = 0;
 		Connection conn = DBHelper.getConnection();
-		String sql = "UPDATE customer SET customer_pw = ?, customer_email = ?, customer_phone = ?, update_date=NOW()"
-				+ " WHERE customer_id = ?";
-		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setString(1, newCustomerPw);
-		stmt.setString(2, customerEmail);
-		stmt.setString(3, customerPhone);
-		stmt.setString(4, customerId);
+		String sql;
+		PreparedStatement stmt;
+		if(newCustomerPw != null && newCustomerPw != "") {
+			sql = "UPDATE customer SET customer_pw = ?, customer_email = ?, customer_phone = ?, update_date=NOW()"
+					+ " WHERE customer_id = ?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, newCustomerPw);
+			stmt.setString(2, customerEmail);
+			stmt.setString(3, customerPhone);
+			stmt.setString(4, customerId);
+		} else {
+			sql = "UPDATE customer SET customer_email = ?, customer_phone = ?, update_date=NOW()"
+					+ " WHERE customer_id = ?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, customerEmail);
+			stmt.setString(2, customerPhone);
+			stmt.setString(3, customerId);
+		}
+
 		// 디버깅코드
 		System.out.println("stmt :" + stmt);
 		
@@ -350,6 +372,7 @@ public class CustomerDAO {
 		conn.close();
 		return row;
 	}
+	
 	
 	// 설명 : 숙소 심사 상신한 customer가 호스티인지 아닌지 출력(0: 게스트, 1: 호스트)
 	// 호출 : approveRoomAction.jsp
@@ -412,7 +435,7 @@ public class CustomerDAO {
 		System.out.println("stmt :"+ stmt);
 		
 		row = stmt.executeUpdate();
-		
+		System.out.println(row);
 		conn.close();
 		return row;
 	}
@@ -430,8 +453,9 @@ public class CustomerDAO {
 		System.out.println("stmt :"+ stmt);
 		
 		row = stmt.executeUpdate();
-		
+		System.out.println(row);
 		conn.close();
 		return row;
 	}
+	
 }

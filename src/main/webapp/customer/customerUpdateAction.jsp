@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="/customer/inc/customerSessionIsNull.jsp" %>
+<%@ include file="/customer/inc/customerSessionNotNull.jsp" %>
 <%@ page import="beeNb.dao.*" %>
 <%@ page import = "java.net.*" %>
 <%
@@ -9,8 +9,8 @@
 	String customerEmail = request.getParameter("customerEmail");
 	String customerName = request.getParameter("customerName");
 	String customerPhone = request.getParameter("customerPhone");
-	String oldCustomerPw = request.getParameter("oldCustomerPw");
 	String newCustomerPw = request.getParameter("newCustomerPw");
+	String customerPw = request.getParameter("customerPw");
 	String newCustomerPwCheck = request.getParameter("newCustomerPwCheck");
 	
 	// 디버깅 코드 
@@ -18,8 +18,8 @@
 	System.out.println("customerEmail :"+customerEmail);
 	System.out.println("customerName :"+customerName);
 	System.out.println("customerPhone :"+customerPhone);
-	System.out.println("oldCustomerPw :"+oldCustomerPw);
 	System.out.println("newCustomerPw :"+newCustomerPw);
+	System.out.println("customerPw :"+customerPw);
 	System.out.println("newCustomerPwCheck :"+newCustomerPwCheck);
 	
 	// 새로변경할 비밀번호가 pwhistory에 적재되어있는지 확인 있으면 변경 불가 
@@ -34,12 +34,20 @@
 	}
 	// 고객 정보 수정
 	int row =CustomerDAO.updateCustomer(customerEmail, customerPhone, newCustomerPw, customerId);
+	//디버깅 코드
+	System.out.println("고객정보수정 row: " + row);
 	// 새로변경한 비밀번호 pw history에 추가하기
 	int row2 = CustomerDAO.insertCustomerNewPwHistory(newCustomerPw, customerId);
+	//디버깅 코드
+	System.out.println("비밀번호 수정시 입력 row2: " + row2);
+	
 	if(row == 1 && row2 == 1 ) {
 		//디버깅코드
 		System.out.println("변경성공");
 		String succMsg = URLEncoder.encode("정보가 수정되었습니다. ", "UTF-8");
+		//세션에 다시 넣어주기
+		HashMap<String, String> updatedCustomer = CustomerDAO.loginCustomer(customerId, customerPw);
+        session.setAttribute("loginCustomer", updatedCustomer);
 		response.sendRedirect("/BeeNb/customer/customerOne.jsp?succMsg="+succMsg);			
 	}else{
 		//디버깅코드
