@@ -428,13 +428,14 @@ public class RoomDAO {
 	// 설명 : 검색엔진 결과에 따른 숙소 목록 출력
 	// 호출 : empRoomList.jsp, customerRoomList.jsp
 	// return : ArrayList<HashMap<String, Object>>
-	public static ArrayList<HashMap<String, Object>> searchRoomList(String searchAddress, String searchStartDate, String searchEndDate, int searchMaxPeople) throws Exception {
+	public static ArrayList<HashMap<String, Object>> searchRoomList(String searchAddress, 
+			String searchStartDate, String searchEndDate, int searchMaxPeople) throws Exception {
 		ArrayList<HashMap<String, Object>> searchRoomList = new ArrayList<HashMap<String, Object>>();
 		
 		// DB연결
 		Connection conn = DBHelper.getConnection();
 		
-		// <검색 쿼리>
+		// <검색 메서드>
 		// (시작날-마지막날)+1을 하면 며칠 묵을 것인지 계산됨
 		// 검색 지정한 날을 기준으로 에약가능한 onedayPrice를 count한 결과와 (시작날-마지막날)+1과 값이 같으면
 		// 검색 지정한 날짜로 예약가능한 room임
@@ -474,5 +475,89 @@ public class RoomDAO {
 	    conn.close();;
 		return searchRoomList;
 	}
+	
+	// 설명 : 검색엔진 결과에 따른 숙소 목록 출력
+	// 호출 : empRoomList.jsp, customerRoomList.jsp
+	// return : ArrayList<HashMap<String, Object>>
+	public ArrayList<HashMap<String, Object>> searchRoomFilterList(String room_address, String startDate, 
+			String endDate, int max_people, int lowPrice, int highPrice, String room_category, int wifi, 
+			int kitchen_tools, int parking, int bed, int ott, int ev) throws Exception {
+	    ArrayList<HashMap<String, Object>> searchRoomFilterList = new ArrayList<>();
+
+		// DB연결
+		Connection conn = DBHelper.getConnection();
+		
+        String sql = "SELECT " +
+                    "    r.room_no, " +
+                    "    max(ri.room_img) AS mri, " +
+                    "    r.room_name, " +
+                    "    r.customer_id, " +
+                    "    r.room_address, " +
+                    "    r.max_people " +
+                    "FROM " +
+                    "    room r, " +
+                    "    (SELECT " +
+                    "        op.room_no AS rno, " +
+                    "        COUNT(*) AS cnt " +
+                    "     FROM " +
+                    "        oneday_price op " +
+                    "     WHERE " +
+                    "        op.room_state = '예약 가능' " +
+                    "        AND op.room_date BETWEEN ? AND ? " +
+                    "     GROUP BY " +
+                    "        op.room_no) T, " +
+                    "    room_img ri " +
+                    "WHERE " +
+                    "    T.cnt >= DATEDIFF(?, ?)+1 " +
+                    "    AND T.rno = r.room_no " +
+                    "    AND room_address LIKE ? " +
+                    "    AND max_people >= ? " +
+                    "    AND r.room_no = ri.room_no " +
+                    "    AND r.room_category = ? " +
+                    "    AND ro.wifi = ? " +
+                    "    AND ro.kitchen_tools = ? " +
+                    "    AND ro.parking = ? " +
+                    "    AND ro.bed = ? " +
+                    "    AND ro.ott = ? " +
+                    "    AND ro.ev = ? " +
+                    "    AND op.room_price BETWEEN ? AND ?";
+
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1, startDate);
+        stmt.setString(2, endDate);
+        stmt.setString(3, endDate);
+        stmt.setString(4, startDate);
+        stmt.setString(5, "%" + room_address + "%");
+        stmt.setInt(6, max_people);
+        stmt.setString(7, room_category);
+        stmt.setInt(8, wifi);
+        stmt.setInt(9, kitchen_tools);
+        stmt.setInt(10, parking);
+        stmt.setInt(11, bed);
+        stmt.setInt(12, ott);
+        stmt.setInt(13, ev);
+        stmt.setInt(14, lowPrice);
+        stmt.setInt(15, highPrice);
+
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            HashMap<String, Object> m = new HashMap<>();
+            m.put("roomNo", rs.getInt("r.room_no"));
+            m.put("roomImg", rs.getString("mri"));
+            m.put("roomName", rs.getString("r.room_name"));
+            m.put("customerId", rs.getString("r.customer_id"));
+            m.put("roomAddress", rs.getString("r.room_address"));
+            m.put("maxPeople", rs.getInt("r.max_people"));
+            searchRoomFilterList.add(m);
+        }
+
+        rs.close();
+        stmt.close();
+        conn.close();
+
+	    return searchRoomFilterList;
+	}
+	
 	
 }
