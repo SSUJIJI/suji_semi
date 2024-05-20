@@ -425,7 +425,7 @@ public class RoomDAO {
 		return result;
 	}
 	
-	// 설명 : 검색엔진 결과에 따른 숙소 목록 출력
+	// 설명 : 검색 결과출력
 	// 호출 : empRoomList.jsp, customerRoomList.jsp
 	// return : ArrayList<HashMap<String, Object>>
 	public static ArrayList<HashMap<String, Object>> searchRoomList(String searchAddress, 
@@ -476,7 +476,7 @@ public class RoomDAO {
 		return searchRoomList;
 	}
 	
-	// 설명 : 검색엔진 결과에 따른 숙소 목록 출력
+	// 설명 : 검색+필터 결과출력
 	// 호출 : empRoomList.jsp, customerRoomList.jsp
 	// return : ArrayList<HashMap<String, Object>>
 	public ArrayList<HashMap<String, Object>> searchRoomFilterList(String room_address, String startDate, 
@@ -494,7 +494,7 @@ public class RoomDAO {
                     "    r.customer_id, " +
                     "    r.room_address, " +
                     "    r.max_people " +
-                    "FROM " +
+                    " FROM " +
                     "    room r, " +
                     "    (SELECT " +
                     "        op.room_no AS rno, " +
@@ -507,7 +507,7 @@ public class RoomDAO {
                     "     GROUP BY " +
                     "        op.room_no) T, " +
                     "    room_img ri " +
-                    "WHERE " +
+                    " WHERE " +
                     "    T.cnt >= DATEDIFF(?, ?)+1 " +
                     "    AND T.rno = r.room_no " +
                     "    AND room_address LIKE ? " +
@@ -559,5 +559,61 @@ public class RoomDAO {
 	    return searchRoomFilterList;
 	}
 	
+	// 설명 : 필터 결과출력
+	// 호출 : empRoomList.jsp, customerRoomList.jsp
+	// return : ArrayList<HashMap<String, Object>>
+	public ArrayList<HashMap<String, Object>> RoomFilterList(int lowPrice, int highPrice, String room_category, int wifi, 
+			int kitchen_tools, int parking, int bed, int ott, int ev) throws Exception {
+		ArrayList<HashMap<String, Object>> RoomFilterList = new ArrayList<>();
+		
+		// DB연결
+		Connection conn = DBHelper.getConnection();
+		
+		String sql="SELECT r.room_no, r.customer_id, r.room_name, r.room_address, r.max_people, img.room_img"
+				+ " FROM room AS "
+				+ "	JOIN room_img AS img ON r.room_no =  img.room_no"
+				+ "	JOIN room_option AS ro ON r.room_no = ro.room_no"
+				+ "	JOIN oneday_price AS op ON r.room_no = op.room_no"
+				+ " WHERE"
+				+ "	op.room_price BETWEEN ? AND ?"
+				+ "	AND r.room_category = ?"
+				+ "	AND ro.wifi = ?"
+				+ "	AND ro.kitchen_tools = ?"
+				+ "	AND ro.parking = ?"
+				+ "	AND ro.bed = ?"
+				+ "	AND ro.ott = ?"
+				+ "	AND ro.ev = ?"
+				+ " GROUP BY img.room_no;";
+		
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, lowPrice);
+		stmt.setInt(2, highPrice);
+		stmt.setString(3, room_category);
+		stmt.setInt(4, wifi);
+		stmt.setInt(5, kitchen_tools);
+		stmt.setInt(6, parking);
+		stmt.setInt(7, bed);
+		stmt.setInt(8, ott);
+		stmt.setInt(9, ev);
+		
+		ResultSet rs = stmt.executeQuery();
+		 
+	    while (rs.next()) {
+	        HashMap<String, Object> m = new HashMap<>();
+	        m.put("roomNo", rs.getInt("r.room_no"));
+	        m.put("roomImg", rs.getString("mri"));
+	        m.put("roomName", rs.getString("r.room_name"));
+	        m.put("customerId", rs.getString("r.customer_id"));
+	        m.put("roomAddress", rs.getString("r.room_address"));
+	        m.put("maxPeople", rs.getInt("r.max_people"));
+	        RoomFilterList.add(m);
+	    }
+
+	    rs.close();
+	    stmt.close();
+	    conn.close();
+	        
+		return RoomFilterList;
+	}
 	
 }
