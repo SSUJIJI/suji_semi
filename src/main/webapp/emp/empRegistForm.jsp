@@ -31,25 +31,30 @@
 			}
 		%>
 		
+		<!-- 뒤로 가기(/BeeNb/emp/customerList.jsp로 이동) -->
+		<div style="display: grid; justify-content: end;">
+			<a class="btn-close" href="/BeeNb/emp/empList.jsp"></a>
+		</div>
+		
+		<!-- 관리자 정보 입력 폼 -->
 		<form action="/BeeNb/emp/empRegistAction.jsp" method="post">
-			<div>
+			<div style="width: 25%;">
 				<label>이름</label>
-				<input type="text" name="empName" required="required">
-				<br>
+				<input class="form-control" type="text" name="empName" required="required">
 			</div>
 			
-			<div>
+			<div style="width: 25%;">
 				<label>휴대전화</label>
-				<input type="tel" name="empPhone" required="required" placeholder="예시) 010-1234-5678">
+				<input class="form-control" type="tel" name="empPhone" required="required" placeholder="예시) 010-1234-5678">
 			</div>
 			
-			<div>
+			<div style="width: 25%;">
 				<label>생년월일</label>
-				<input type="date" name="empBirth" required="required" >
+				<input class="form-control" type="date" name="empBirth" required="required" >
 				<br>
 			</div>
 			
-			<button type="submit">등록하기</button>
+			<button class="btn btn-warning" type="submit">등록하기</button>
 		</form>
 		
 		<!-- 푸터  -->

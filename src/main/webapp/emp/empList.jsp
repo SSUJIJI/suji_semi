@@ -108,35 +108,49 @@
 		<%
 			}
 		%>
-		
-		<!-- 관리자 이름 검색 -->
+
 		<form action="/BeeNb/emp/empList.jsp" method="post">
-			<input type="text" name="searchWord" placeholder="사원 이름으로 찾기">
-			<button type="submit">검색</button>
+			<div class="row">
+				<!-- 관리자 이름 검색 -->
+				<div class="col-auto">
+					<input class="form-control" type="text" name="searchWord" placeholder="사원 이름으로 찾기" style="width: 100%;">	
+				</div>
+				<div class="col-auto">
+					<button class="btn btn-warning" type="submit">검색</button>
+				</div>
+				
+				<!-- 관리자 등록 -->
+				<div class="col" style="text-align: right;">	
+					<a class="btn btn-warning" href="/BeeNb/emp/empRegistForm.jsp">관리자 등록</a>
+				</div>
+			</div>
 		</form>
 	
 		<!-- rowPerPage 설정 -->
 		<form action="/BeeNb/emp/empList.jsp" method="post">
-			<select name="rowPerPage">
-				<%
-					for(int i = 10; i <= 50; i = i + 20) {
-						if(rowPerPage == i) {
-				%>
-							<option value="<%=i%>" selected="selected"><%=i%>개씩</option>
-				<%
-						} else {
-				%>
-							<option value="<%=i%>"><%=i%>개씩</option>
-				<%
-						}
-					}
-				%>
-			</select>
-			<button type="submit">보기</button>
+			<div class="row">
+				<div class="col-auto">
+					<select class="form-select" name="rowPerPage" style="width: 100%;">
+						<%
+							for(int i = 10; i <= 50; i = i + 20) {
+								if(rowPerPage == i) {
+						%>
+									<option value="<%=i%>" selected="selected"><%=i%>개씩</option>
+						<%
+								} else {
+						%>
+									<option value="<%=i%>"><%=i%>개씩</option>
+						<%
+								}
+							}
+						%>
+					</select>
+				</div>
+				<div class="col-auto">
+					<button class="btn btn-warning" type="submit">보기</button>
+				</div>
+			</div>
 		</form>
-		
-		<!-- 관리자 등록 -->
-		<a class="btn btn-warning" href="/BeeNb/emp/empRegistForm.jsp">관리자 등록</a>
 		
 		<!-- 관리자 리스트 출력 -->
 		<table class="table">
@@ -165,7 +179,7 @@
 		<!-- 페이징 버튼 -->	
 		<div>
 		    <nav>
-		        <ul class="pagination">
+		       <ul class="pagination" style="display: flex; justify-content: center;">
 		            <%
 	                    if (currentPage > 1) {
 		            %>

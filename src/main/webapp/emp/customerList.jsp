@@ -95,27 +95,54 @@
 		<h1>회원 리스트</h1>
 	
 		<!-- grade 선택하기(0 : 호스트, 1 : 호스트 & 게스트) -->
-		<a class="text-decoration-none" href="/BeeNb/emp/customerList.jsp?grade=0">게스트</a>
-		<a class="text-decoration-none" href="/BeeNb/emp/customerList.jsp?grade=1">게스트 & 호스트</a>
-		
+		<ul class="nav nav-tabs">
+			<%
+				if(Integer.parseInt(grade) == 0) {
+			%>
+					<li class="nav-item">
+						<a class="nav-link active" href="/BeeNb/emp/customerList.jsp?grade=0">게스트</a>
+					</li>
+					<li class="nav-item">
+						<a  class="nav-link" href="/BeeNb/emp/customerList.jsp?grade=1" style="color: gray;">게스트 & 호스트</a>
+					</li>
+			<%
+				} else {
+			%>
+					<li class="nav-item">
+						<a class="nav-link" href="/BeeNb/emp/customerList.jsp?grade=0" style="color: gray;">게스트</a>
+					</li>
+					<li class="nav-item">
+						<a  class="nav-link active" href="/BeeNb/emp/customerList.jsp?grade=1">게스트 & 호스트</a>
+					</li>
+			<%
+				}
+			%>
+		</ul>
+		<br>
 		<!-- rowPerPage 설정 -->
 		<form action="/BeeNb/emp/customerList.jsp" method="post">
-			<select name="rowPerPage">
-				<%
-					for(int i = 10; i <= 50; i = i + 20) {
-						if(rowPerPage == i) {
-				%>
-							<option value="<%=i%>" selected="selected"><%=i%>개씩</option>
-				<%
-						} else {
-				%>
-							<option value="<%=i%>"><%=i%>개씩</option>
-				<%
-						}
-					}
-				%>
-			</select>
-			<button type="submit">보기</button>
+			<div class="row">
+				<div class="col-auto">
+					<select class="form-select" name="rowPerPage" style="width: 100%;">
+						<%
+							for(int i = 10; i <= 50; i = i + 20) {
+								if(rowPerPage == i) {
+						%>
+									<option value="<%=i%>" selected="selected"><%=i%>개씩</option>
+						<%
+								} else {
+						%>
+									<option value="<%=i%>"><%=i%>개씩</option>
+						<%
+								}
+							}
+						%>
+					</select>
+				</div>
+				<div class="col-auto">
+					<button class="btn btn-warning" type="submit">보기</button>
+				</div>
+			</div>
 		</form>
 		
 		<!-- 고객 리스트 출력 -->
@@ -131,19 +158,15 @@
 			%>
 					<tr>
 						<td>
-							<a class="text-decoration-none" href="/BeeNb/emp/customerOne.jsp?customerId=<%=m.get("customerId")%>">
+							<a class="text-decoration-none" href="/BeeNb/emp/customerOne.jsp?customerId=<%=m.get("customerId")%>">						
 								<%=m.get("customerId")%>
 							</a>
 						</td>
 						<td>
-							<a class="text-decoration-none" href="/BeeNb/emp/customerOne.jsp?customerId=<%=m.get("customerId")%>">
-								<%=m.get("customerEmail")%>
-							</a>
+							<%=m.get("customerEmail")%>
 						</td>
 						<td>
-							<a class="text-decoration-none" href="/BeeNb/emp/customerOne.jsp?customerId=<%=m.get("customerId")%>">
-								<%=m.get("customerName")%>
-							</a>
+							<%=m.get("customerName")%>
 						</td>
 						<td>
 							<%=m.get("customerBirth")%>
@@ -157,7 +180,7 @@
 		<!-- 페이징 버튼 -->	
 		<div>
 			<nav>
-		        <ul class="pagination">
+		       <ul class="pagination" style="display: flex; justify-content: center;">
 					<%
 						if(currentPage > 1) {
 					%>	

@@ -103,7 +103,7 @@
 		<!-- 고객 네비게이션 바 -->
 		<jsp:include page="/customer/inc/customerNavbar.jsp"></jsp:include>
 		
-		<h1>에약 관리</h1>
+		<h1>예약 관리</h1>
 		<!-- msg 출력 -->
 		<%
 			if(msg != null) {
@@ -126,23 +126,28 @@
 		%>
 		<!-- 숙소 별 select -->
 		<form action="/BeeNb/customer/hostBookingList.jsp" method="post">
-			<select name="roomName">
-				<option value="all">전체</option>	
-				<%
-					for(HashMap<String, Object> m : hostRoomList) {
-						if(roomName.equals(m.get("roomName"))) {
-				%>
-							<option value="<%=m.get("roomName")%>" selected="selected"><%=m.get("roomName")%></option>	
-				<%
-						} else {
-				%>
-							<option value="<%=m.get("roomName")%>"><%=m.get("roomName")%></option>
-				<%
-						}
-					}
-				%>
-			</select>
-			<button type="submit">보기</button>
+			<div class="row">
+				<div class="col-auto">
+					<select class="form-select" name="rowPerPage" style="width: 100%;">
+						<%
+							for(int i = 10; i <= 50; i = i + 20) {
+								if(rowPerPage == i) {
+						%>
+									<option value="<%=i%>" selected="selected"><%=i%>개씩</option>
+						<%
+								} else {
+						%>
+									<option value="<%=i%>"><%=i%>개씩</option>
+						<%
+								}
+							}
+						%>
+					</select>
+				</div>
+				<div class="col-auto">
+					<button class="btn btn-warning" type="submit">보기</button>
+				</div>
+			</div>
 		</form>
 		
 		<!-- 예약 리스트 -->
@@ -158,6 +163,7 @@
 					<th>예약일</th>
 					<th>예약 상태 변경일</th>
 					<th>예약 취소</th>
+					<th>체크아웃</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -179,9 +185,13 @@
 									<td>
 										<a class="btn btn-warning" href="/BeeNb/customer/hostBookingDeleteAction.jsp?bookingNo=<%=m.get("bookingNo")%>">에약 취소</a>
 									</td>
+									<td>
+										<a class="btn btn-warning" href="/BeeNb/customer/hostBookingUpdateAction.jsp?bookingNo=<%=m.get("bookingNo")%>">이용 완료</a>
+									</td>
 							<%
 								} else {
 							%>
+									<td></td>
 									<td></td>
 							<%
 								}
@@ -196,7 +206,7 @@
 		<!-- 페이징 버튼 -->	
 		<div>
 			<nav>
-		        <ul class="pagination">
+		        <ul class="pagination" style="display: flex; justify-content: center;">
 					<%
 						if(currentPage > 1) {
 					%>	

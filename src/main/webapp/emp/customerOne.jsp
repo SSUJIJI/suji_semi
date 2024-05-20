@@ -28,7 +28,10 @@
 		<jsp:include page="/emp/inc/empNavbar.jsp"></jsp:include>
 		
 		<h1><%=customerOne.get("customerId")%>회원 상세정보</h1>
-		<a class="text-decoration-none" href="/BeeNb/emp/customerList.jsp">뒤로가기</a>
+		<!-- 뒤로 가기(/BeeNb/emp/customerList.jsp로 이동) -->
+		<div style="display: grid; justify-content: end;">
+			<a class="btn-close" href="/BeeNb/emp/customerList.jsp"></a>
+		</div>
 		<!-- 고객 상세 정보 -->
 		<table class="table">
 			<tr>

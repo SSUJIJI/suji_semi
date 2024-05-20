@@ -1,3 +1,4 @@
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="beeNb.dao.*"%>
 <%@page import="java.util.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -13,6 +14,13 @@
 	ArrayList<HashMap<String, Object>> oneDayPriceList = OneDayPriceDAO.selectOneDayPriceList(roomNo);
 	// 디버깅
 	System.out.println("oneDayPriceList : " + oneDayPriceList);
+	
+	// 해당 숙소의 운용 기간 정보(해당 운영기간에 포함되는 날짜만 가격 설정 가능)
+	String operationStart = (String)(RoomDAO.selectHostRoomOne(roomNo).get("operationStart"));
+	String operationEnd = (String)(RoomDAO.selectHostRoomOne(roomNo).get("operationEnd"));
+	// 디버깅
+	System.out.println("operationStart : " + operationStart);
+	System.out.println("operationEnd : " + operationEnd);
 %>
 <%
 	// 달력 구현
@@ -73,8 +81,8 @@
 		
 		<h1>가격등록</h1>
 		<!-- 뒤로 가기 -->
-		<div>
-			<a class="text-decoration-none" href="/BeeNb/customer/hostRoomOne.jsp?roomNo=<%=roomNo%>">뒤로가기</a>
+		<div style="display: grid; justify-content: end;">
+			<a class="btn-close" href="/BeeNb/customer/hostRoomOne.jsp?roomNo=<%=roomNo%>"></a>
 		</div>
 		<!-- err 메시지 출력 -->
 		<%
@@ -88,9 +96,9 @@
 		%>
 		<div>
 			<hr>
-			<div class="row">
+			<div class="row" style="text-align: center;">
 				<div class="col">
-					<a href="/BeeNb/customer/addOneDayPriceForm.jsp?roomNo=<%=roomNo %>&targetYear=<%=calendarYear%>&targetMonth=<%=calendarMonth - 1%>">
+					<a class="text-decoration-none" href="/BeeNb/customer/addOneDayPriceForm.jsp?roomNo=<%=roomNo %>&targetYear=<%=calendarYear%>&targetMonth=<%=calendarMonth - 1%>" style="display: block;">
 						이전 달
 					</a>
 				</div>
@@ -100,7 +108,7 @@
 				</div>
 				
 				<div class="col">
-					<a href="/BeeNb/customer/addOneDayPriceForm.jsp?roomNo=<%=roomNo %>&targetYear=<%=calendarYear%>&targetMonth=<%=calendarMonth + 1%>">
+					<a class="text-decoration-none" href="/BeeNb/customer/addOneDayPriceForm.jsp?roomNo=<%=roomNo %>&targetYear=<%=calendarYear%>&targetMonth=<%=calendarMonth + 1%>" style="display: block;">
 						다음 달
 					</a>
 				</div>
@@ -113,7 +121,7 @@
 			<!-- 요일 -->
 			<table class="table">
 				<thead>
-					<tr>
+					<tr style="text-align: center;">
 						<th>일</th>
 						<th>월</th>
 						<th>화</th>
@@ -130,7 +138,7 @@
 							// 공백 숫자를 뺀 실제 달력에 표시되야하는 날짜
 							int realDay = i - firstDayBeforeBlank;
 					%>
-						<td>
+						<td style="width: 200px; height: 130px;">
 					<%
 							// realDay가 실제 달력의 날짜와 동일해야만 달력에 출력
 							if((realDay >= 1) && (realDay <= lastDay)) {
@@ -173,15 +181,33 @@
 									// 가격 설정 X인 날이라면
 									
 									// roomDate 날짜 조합(DB의 데이터형식에 맟줘) ex)yyyy-mm-dd 형식
-									String roomDate = calendarYear + "-" + (calendarMonth + 1) + "-" + (realDay);
+									String roomDateStr = calendarYear + "-" + (calendarMonth + 1) + "-" + (realDay);
 									// label당 체크박스를 하나씩 설정하기 위해
 									String addDate = "date-" + (realDay);
 					%>
 									<%= (realDay) %>
 									<br>
-									<label for="<%= addDate %>">날짜 선택</label>
-									<input type="checkbox" name="roomDate" id="<%= addDate %>" value="<%=roomDate %>">
+									<%
+										// 운용기간에 포함되는 날짜만 가격 입력 가능하도록 하기 위한 작업
+										/* 
+											1. operationStart, operationEnd, roomDate를 Date 객체로 변환
+											2. before(), after()메서드 사용
+										*/
+										SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 									
+										// operationStart, operationEnd, roomDate값을 Date 객체로 변환
+										Date startDate = dateFormat.parse(operationStart);
+										Date endDate = dateFormat.parse(operationEnd);
+										Date roomDate = dateFormat.parse(roomDateStr);
+										
+										//  before(), after()메서드로 날짜 비교하여 input 태그 표시
+										if(!roomDate.before(startDate) && !roomDate.after(endDate)) {
+									%>
+											<label for="<%= addDate %>">날짜 선택</label>
+											<input type="checkbox" name="roomDate" id="<%= addDate %>" value="<%=roomDateStr %>">
+									<%
+										}
+									%>	
 					<%
 								}
 							}

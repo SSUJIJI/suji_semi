@@ -79,6 +79,32 @@
 		
 		<h1>수익현황 리스트</h1>
 		
+		<!-- rowPerPage 설정 -->
+		<form action="/BeeNb/emp/revenueList.jsp" method="post">
+			<div class="row">
+				<div class="col-auto">
+					<select class="form-select" name="rowPerPage" style="width: 100%;">
+						<%
+							for(int i = 10; i <= 50; i = i + 20) {
+								if(rowPerPage == i) {
+						%>
+									<option value="<%=i%>" selected="selected"><%=i%>개씩</option>
+						<%
+								} else {
+						%>
+									<option value="<%=i%>"><%=i%>개씩</option>
+						<%
+								}
+							}
+						%>
+					</select>
+				</div>
+				<div class="col-auto">
+					<button class="btn btn-warning" type="submit">보기</button>
+				</div>
+			</div>
+		</form>
+		
 		<!-- 수익 리스트 출력 -->
 		<table class="table">
 			<tr>
@@ -87,7 +113,7 @@
 				<th>수익 발생일</th>
 			</tr>
 			<%
-				for(HashMap m : revenueList) {
+				for(HashMap<String, Object> m : revenueList) {
 			%>
 					<tr>
 						<td><%=m.get("bookingNo") %></td>
@@ -102,7 +128,7 @@
 		<!-- 페이징 버튼 -->	
 		<div>
 			<nav>
-		        <ul class="pagination">
+		        <ul class="pagination" style="display: flex; justify-content: center;">
 					<%
 						if(currentPage > 1) {
 					%>	

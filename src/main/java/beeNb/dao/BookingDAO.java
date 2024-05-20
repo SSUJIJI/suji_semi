@@ -319,5 +319,23 @@ public class BookingDAO {
 		
 		return row;
 	}
-
+	
+	// 설명 : 호스트가 (고객의 이용이 끝났을 때)이용완료 버튼을 눌러서 bookingState를 변경해주는 메서드
+	// 호출 : /customer/hostBookingUpdateAction.jsp
+	// return : int
+	public static int updateBookingState(int bookingNo, String state) throws Exception {
+		int row = 0;
+		
+		Connection conn = DBHelper.getConnection();
+		// 해당 booking_no의 state를 변경(ex. 이용 후)
+		String sql = "UPDATE booking SET booking_state = ? WHERE booking_no = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, state);
+		stmt.setInt(2, bookingNo);
+		row = stmt.executeUpdate();
+		
+		conn.close();
+		return row;
+		
+	}
 }

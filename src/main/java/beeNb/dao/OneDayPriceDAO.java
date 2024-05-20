@@ -1,9 +1,6 @@
 package beeNb.dao;
 
-import java.lang.reflect.Array;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.*;
 
 public class OneDayPriceDAO {

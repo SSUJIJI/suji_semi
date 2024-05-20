@@ -140,6 +140,17 @@
 	<title></title>
 	<jsp:include page="/inc/bootstrapCDN.jsp"></jsp:include>
 	<link href="/BeeNb/css/style.css" rel="stylesheet" type="text/css">
+	<script type="text/javascript">
+		function deleteConfirm(event) {
+	        event.preventDefault(); // 기본 동작 막기
+	        let cnfrm = confirm("숙소를 삭제하시겠습니까?");
+	        if (cnfrm) {
+	            // 확인을 누르면 페이지 이동
+	            window.location.href = event.currentTarget.href;
+	        }
+	        // 취소를 누르면 아무 것도 하지 않음 (그대로 현재 페이지에 머무름)
+	    }
+	</script>
 </head>
 <body>
 	<div class="container">
@@ -167,11 +178,13 @@
 		<%
 			}
 		%>
-		<!-- 숙소 삭제버튼 -->
-		<a class="btn btn-warning" href="/BeeNb/customer/customerRoomDeleteAction.jsp?roomNo=<%=roomNo%>">숙소 삭제</a>
-		
-		<!-- 숙소 수정버튼 -->
-		<a class="btn btn-warning" href="/BeeNb/customer/updateRoomForm.jsp?roomNo=<%=roomNo%>">숙소 수정</a>
+		<div style="text-align: right;">
+			<!-- 숙소 삭제버튼 -->
+			<a class="btn btn-warning" href="/BeeNb/customer/customerRoomDeleteAction.jsp?roomNo=<%=roomNo%>" onclick="deleteConfirm(event)">숙소 삭제</a>
+			
+			<!-- 숙소 수정버튼 -->
+			<a class="btn btn-warning" href="/BeeNb/customer/updateRoomForm.jsp?roomNo=<%=roomNo%>">숙소 수정</a>
+		</div>
 		
 		<!-- 숙소 상세정보 출력 -->
 		<div>
@@ -243,10 +256,21 @@
 		<!-- 숙소 예약일 표시 및 가격 등록 버튼-->
 		<div>
 			<hr>
-			<a class="btn btn-warning" href="/BeeNb/customer/addOneDayPriceForm.jsp?roomNo=<%=roomNo%>">가격 등록</a>
-			<div class="row">
+			<%
+				if(hostRoomOne.get("approveState").equals("승인")) {
+			%>
+					<a class="btn btn-warning" href="/BeeNb/customer/addOneDayPriceForm.jsp?roomNo=<%=roomNo%>">가격 등록</a>
+			<%
+				} else {
+			%>
+					<a class="btn btn-warning disabled" href="/BeeNb/customer/addOneDayPriceForm.jsp?roomNo=<%=roomNo%>">가격 등록</a>
+			<%
+				}
+			%>
+			
+			<div class="row" style="text-align: center;">
 				<div class="col">
-					<a href="/BeeNb/customer/hostRoomOne.jsp?roomNo=<%=roomNo %>&targetYear=<%=calendarYear%>&targetMonth=<%=calendarMonth - 1%>">
+					<a class="text-decoration-none" href="/BeeNb/customer/hostRoomOne.jsp?roomNo=<%=roomNo %>&targetYear=<%=calendarYear%>&targetMonth=<%=calendarMonth - 1%>">
 						이전 달
 					</a>
 				</div>
@@ -256,7 +280,7 @@
 				</div>
 				
 				<div class="col">
-					<a href="/BeeNb/customer/hostRoomOne.jsp?roomNo=<%=roomNo %>&targetYear=<%=calendarYear%>&targetMonth=<%=calendarMonth + 1%>">
+					<a class="text-decoration-none" href="/BeeNb/customer/hostRoomOne.jsp?roomNo=<%=roomNo %>&targetYear=<%=calendarYear%>&targetMonth=<%=calendarMonth + 1%>">
 						다음 달
 					</a>
 				</div>
@@ -267,7 +291,7 @@
 			<!-- 요일 -->
 			<table class="table">
 				<thead>
-					<tr>
+					<tr style="text-align: center;">
 						<th>일</th>
 						<th>월</th>
 						<th>화</th>
@@ -284,7 +308,7 @@
 							// 공백 숫자를 뺀 실제 달력에 표시되야하는 날짜
 							int realDay = i - firstDayBeforeBlank;
 					%>
-							<td>
+							<td style="width: 200px; height: 130px;">
 					<%
 							// realDay가 실제 달력의 날짜 안에 있어야만 달력에 출력
 							if((realDay >= 1) && (i -firstDayBeforeBlank <= lastDay)) {
@@ -303,7 +327,7 @@
 					<%
 										if(((String)m.get("roomState")).equals("예약 가능")) {
 					%>
-										<br><a href="/BeeNb/customer/deleteOneDayPriceAction.jsp?roomNo=<%=roomNo%>&roomDate=<%=m.get("roomDate")%>">가격 삭제</a>
+										<br><a class="text-decoration-none" href="/BeeNb/customer/deleteOneDayPriceAction.jsp?roomNo=<%=roomNo%>&roomDate=<%=m.get("roomDate")%>">가격 삭제</a>
 					<%
 										}
 									}
@@ -329,6 +353,14 @@
 			<hr>
 			<h2 style="display: inline-block;">리뷰</h2>
 			<%
+				// 리뷰가 없을 때
+				if(reviewList.isEmpty()) {
+			%>
+					<br>
+						<h4 style="text-align: center;">리뷰가 없어요 :(</h4>
+					<br>
+			<%
+				}
 				for(HashMap<String, Object> m : reviewList) {
 			%>
 					<div>
@@ -348,7 +380,7 @@
 							<%=((String)(m.get("createDate"))).substring(0, 11)%>
 						</div>
 						<div><%=m.get("reviewContent") %></div>
-					</div>	
+					</div>
 					<hr>
 			<%
 				}
@@ -357,7 +389,7 @@
 			<!-- 숙소 리뷰 페이징 -->	
 			<div>
 				<nav>
-		        	<ul class="pagination">
+		        	<ul class="pagination" style="display: flex; justify-content: center;">
 						<%
 							if(currentPage > 1) {
 						%>	
