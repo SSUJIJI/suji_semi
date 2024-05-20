@@ -105,4 +105,21 @@ public class OneDayPriceDAO {
 		return row;
 		
 	}
+	
+	// 설명 : 예약하면 state도 바꿔주고 또 뭐더라
+	// 호출 : roomBookingAction.jsp
+	// return int
+	public static int updateOneDayPrice(int roomNo, String[] roomDateArr) throws Exception{
+		int row = 0;
+		Connection conn = DBHelper.getConnection();
+		String sql = "UPDATE oneday_price SET room_state = '예약 완료' WHERE room_no = ? AND room_date = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		for(String roomDate : roomDateArr) {
+			stmt.setInt(1, roomNo);
+			stmt.setString(2, roomDate);
+			// 실행된 쿼리 수 계산
+			row += stmt.executeUpdate();
+		}
+		return row;
+	}
 }

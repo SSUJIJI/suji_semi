@@ -79,16 +79,17 @@ public class ReviewDAO {
 		int row = 0;
 		Connection conn = DBHelper.getConnection();
 		String sql = "INSERT INTO "
-				+ "Complain ("
+				+ "Review ("
 				+ "booking_no"
 				+ ", rating"
 				+ ", review_content"
 				+ ", create_date"
 				+ ") VALUES "
-				+ "(null, ?, ?, now())";
+				+ "(?, ?, ?, now())";
 		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setString(1, ""+map.get("rating"));
-		stmt.setString(2, ""+map.get("reviewContent"));
+		stmt.setString(1, ""+map.get("bookingNo"));
+		stmt.setString(2, ""+map.get("rating"));
+		stmt.setString(3, ""+map.get("reviewContent"));
 		row = stmt.executeUpdate();
 		conn.close();
 		return row;

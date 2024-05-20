@@ -7,8 +7,8 @@
 <%@ include file="/customer/inc/customerSessionIsNull.jsp"%>
 <% 
 	System.out.println("=====.jsp=====");	
-	String actionUrl = "/BeeNb/customer/customerComplainBookingAction.jsp";
-	String cancelUrl = "/BeeNb/customer/customerAddReviewAction.jsp";
+	String actionUrl = "/BeeNb/customer/customerAddReviewAction.jsp";
+	String cancelUrl = "/BeeNb/customer/customerBookingList.jsp";
 	
 	int bookingNo = Integer.parseInt(request.getParameter("bookingNo"));
 	System.out.println("bookingNo : " + bookingNo);

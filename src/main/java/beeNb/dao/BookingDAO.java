@@ -286,5 +286,38 @@ public class BookingDAO {
 		conn.close();
 		return row;
 	}
+	
+	// 설명 : 리뷰 쓰면 이용 완료하는 거
+	// 호출 : /customer/customerAddReviewAction
+	// return int
+	public static int updateBookingState(int bookingNo) throws Exception {
+		int row = 0;
+		Connection conn = DBHelper.getConnection();
+		String sql = "UPDATE booking SET booking_state = '리뷰완료' WHERE booking_no = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, bookingNo);		
+		row = stmt.executeUpdate();
+		conn.close();
+		return row;
+	}
+	
+	// 설명 : 그...예약 등록
+	// 호출 : roomBookingAction.jsp
+	// return int
+	/* 
+	 */
+	public static int insertBooking(String customerId, int usePeople, int roomNo) throws Exception {
+		int row = 0;
+		Connection conn = DBHelper.getConnection();
+		String sql = "INSERT INTO booking (customer_id, booking_state, use_people, create_date, update_date, room_no) VALUES (?, '전', ?, now(), now(), ?)";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, customerId);		
+		stmt.setInt(2, usePeople);		
+		stmt.setInt(3, roomNo);		
+		row = stmt.executeUpdate();
+		conn.close();
+		
+		return row;
+	}
 
 }

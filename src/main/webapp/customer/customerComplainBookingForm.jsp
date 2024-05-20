@@ -6,7 +6,7 @@
 <!-- 사용자 인증 코드 -->
 <%@ include file="/customer/inc/customerSessionIsNull.jsp"%>
 <% 
-	System.out.println("=====addRoomForm.jsp=====");	
+	System.out.println("=====.jsp=====");	
 	String actionUrl = "/BeeNb/customer/customerComplainBookingAction.jsp";
 	String cancelUrl = "/BeeNb/customer/customerBookingList.jsp";
 	

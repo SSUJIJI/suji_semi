@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="/customer/inc/customerSessionIsNull.jsp" %>
 <%@ page import = "beeNb.dao.*" %>
 <%@ page import = "java.util.*" %>
-
+<%@ include file="/customer/inc/customerSessionIsNull.jsp" %>
 <%
 	System.out.println("=====customerBookingList.jsp=====");
 	String customerId = (String)(loginCustomer.get("customerId"));
@@ -154,7 +153,7 @@
 						<td><%=(String)(m.get("createDate"))%></td>
 						<td><%=(String)(m.get("startRoomDate"))%></td>
 						<td><%=(String)(m.get("endRoomDate"))%></td>
-						<td><a href = "/BeeNb/customer/customerAddReviewForm.jsp">리뷰쓰기</a>
+						<td><a href = "/BeeNb/customer/customerAddReviewForm.jsp?bookingNo=<%=m.get("bookingNo")%>">리뷰쓰기</a>
 						<td><a href = "/BeeNb/customer/customerComplainBookingForm.jsp?bookingNo=<%=m.get("bookingNo")%>">신고하기</a>
 					</tr>
 				<%

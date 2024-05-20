@@ -11,7 +11,7 @@
 	// 디버깅
 	System.out.println("complainNo : " + complainNo);
 	
-	HashMap<String, String> complainOne = ComplainDAO.selectComplainOne(complainNo);
+	HashMap<String, String> complainOne = ComplainDAO.selectVocOne(complainNo);
 	// 디버깅
 	System.out.println("complainOne : " + complainOne);
 	
