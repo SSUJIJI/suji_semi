@@ -13,6 +13,7 @@
 	// 에러메세지
 	String errMsg = request.getParameter("errMsg");
 	String usedPwMsg = request.getParameter("usedPwMsg");
+	String msg = request.getParameter("msg");
 	
 	// 디버깅코드
 	System.out.println("customerId :"+ customerId);
@@ -51,8 +52,15 @@
 				<%= errMsg %>
 			</div>
 		<% 		
-			}
+			// 변경 비밀번호 불일치시 에러 메세지
+			} else if(msg != null){
 		%>
+			<div class="alert alert-danger" role="alert">
+				<%= msg %>
+			</div>
+		<%
+			}
+		%>	
 		<form method = "post" action = "/BeeNb/customer/customerUpdateAction.jsp">
 			<table>
 				<tr>

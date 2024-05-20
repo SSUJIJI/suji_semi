@@ -115,7 +115,7 @@
 					<td><%=(String)(m.get("startRoomDate"))%></td>
 					<td><%=(String)(m.get("endRoomDate"))%></td>
 					<td>
-						<a href = "/BeeNb/customer/customerCancelBookingAction.jsp?bookingNo=<%=m.get("bookingNo") %>" onclick="return confirm('예약을 취소하시겠습니까?')">
+						<a href = "/BeeNb/customer/customerCancelBookingAction.jsp?bookingNo=<%=m.get("bookingNo") %>onclick="return confirm('예약을 취소하시겠습니까?')">
 							예약취소
 						</a>
 					</td>
