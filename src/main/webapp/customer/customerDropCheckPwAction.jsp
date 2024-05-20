@@ -15,7 +15,7 @@
 	if(result == true) {
 		//디버깅
 		System.out.println("일치성공");
-		response.sendRedirect("/BeeNb/customer/customerDropAction.jsp?customerId="+customerId+"&result="+result);
+		response.sendRedirect("/BeeNb/customer/customerDropAction.jsp?customerId="+customerId);
 	} else {
 		//디버깅
 		System.out.println("불일치");

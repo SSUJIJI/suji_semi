@@ -435,7 +435,6 @@ public class CustomerDAO {
 		System.out.println("stmt :"+ stmt);
 		
 		row = stmt.executeUpdate();
-		System.out.println(row);
 		conn.close();
 		return row;
 	}
@@ -453,7 +452,6 @@ public class CustomerDAO {
 		System.out.println("stmt :"+ stmt);
 		
 		row = stmt.executeUpdate();
-		System.out.println(row);
 		conn.close();
 		return row;
 	}
