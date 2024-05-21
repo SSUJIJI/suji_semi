@@ -63,6 +63,11 @@
 	ArrayList<HashMap<String, Object>> revenueList = RevenueDAO.selectRevenueList();
 	// 디버깅
 	System.out.println("revenueList : " + revenueList);
+	
+	// 전체 수익
+	int totalRevenue = RevenueDAO.selectTotalRevenue();
+	// 디버깅
+	System.out.println("totalRevenue : " + totalRevenue);
 %>
 <!DOCTYPE html>
 <html>
@@ -117,12 +122,18 @@
 			%>
 					<tr>
 						<td><%=m.get("bookingNo") %></td>
-						<td><%=m.get("revenue") %></td>
+						<td><%=String.format("%,d", m.get("revenue"))%>원</td>
 						<td><%=m.get("createDate") %></td>
 					</tr>
 			<%
 				}
 			%>
+			
+			<tr class="table-warning">
+				<td>총 수익</td>
+				<td><%=String.format("%,d", totalRevenue)%>원</td>
+				<td></td>
+			</tr>
 		</table>
 		
 		<!-- 페이징 버튼 -->	

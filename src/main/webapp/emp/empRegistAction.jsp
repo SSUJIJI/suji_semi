@@ -7,7 +7,7 @@
 	// 요청 값
 	String empName = request.getParameter("empName");
 	String empPhone = request.getParameter("empPhone");
-	String empBirth = request.getParameter("empBirth");
+	String empBirth = request.getParameter("empBirth").replace("-", "");
 	
 	// 디버깅
 	System.out.println("empName : " + empName);

@@ -173,7 +173,7 @@
 										if(calendarYear == oneDayPriceYear && (calendarMonth + 1) == oneDayPriceMonth && (realDay) == oneDayPriceDay) {
 					%>
 											<br>예약 상태 : <b><%= m.get("roomState") %></b>
-											<br>등록 가격 : <b><%= m.get("roomPrice") %>원</b>
+											<br>등록 가격 : <b><%=String.format("%,d", Integer.parseInt((String)m.get("roomPrice")))%>원</b>
 					<%
 										}
 									}

@@ -49,4 +49,25 @@ public class RevenueDAO {
 		return revenueList;
 		
 	}
+	
+	// 설명 : 전체 수익 계산 메서드
+	// 호출 : /emp/revenueList.jsp
+	// return : int(수익)
+	public static int selectTotalRevenue() throws Exception {
+		int totalRevenue = 0;
+		
+		Connection conn = DBHelper.getConnection();
+		
+		String sql = "SELECT MAX(revenue) AS total_revenue FROM revenue_status;";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		ResultSet rs = stmt.executeQuery();
+		
+		if(rs.next()) {
+			totalRevenue = rs.getInt("total_revenue");
+		}
+		
+		conn.close();
+		return totalRevenue;
+		
+	}
 }
