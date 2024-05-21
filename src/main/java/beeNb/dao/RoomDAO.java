@@ -16,7 +16,7 @@ public class RoomDAO {
 		
 		Connection conn = DBHelper.getConnection();
 		
-		String sql = "SELECT r.room_no, r.customer_id, r.room_name, r.room_address, r.max_people, img.room_img"
+		String sql = "SELECT r.room_no, r.customer_id, r.room_name, r.room_address, r.max_people, max(img.room_img) AS mimg"
 				+ " FROM room AS r"
 				+ " INNER JOIN room_img AS img"
 				+ " ON r.room_no =  img.room_no"
@@ -32,7 +32,7 @@ public class RoomDAO {
 			m.put("roomName",rs.getString("r.room_name"));
 			m.put("roomAddress",rs.getString("r.room_address"));
 			m.put("maxPeople",rs.getInt("r.max_people"));
-			m.put("roomImg",rs.getString("img.room_img"));
+			m.put("roomImg",rs.getString("mimg"));
 			RoomList.add(m);
 		}
 		
@@ -448,27 +448,27 @@ public class RoomDAO {
 				+ "	(SELECT op.room_no AS rno,COUNT(*) AS cnt"
 				+ "	FROM oneday_price op"
 				+ " WHERE op.room_state = '예약 가능'"
-				+ " AND op.room_date BETWEEN '2024-05-07' AND '2024-05-11'"
+				+ " AND op.room_date BETWEEN ? AND ?"
 				+ " GROUP BY op.room_no) T , room_img ri"
-				+ " WHERE T.cnt >= DATEDIFF('2024-05-11', '2024-05-07')+1"
-				+ " AND T.rno = r.room_no AND room_address LIKE '%인천%' AND max_people >= 4"
+				+ " WHERE T.cnt >= DATEDIFF(?, ?)+1"
+				+ " AND T.rno = r.room_no AND room_address LIKE ? AND max_people >= ?"
 				+ " AND r.room_no=ri.room_no";
 	    PreparedStatement stmt = conn.prepareStatement(sql);
 	    stmt.setString(1, searchStartDate);
 	    stmt.setString(2, searchEndDate);
 	    stmt.setString(3, searchEndDate);
 	    stmt.setString(4, searchStartDate);
-	    stmt.setString(5, searchAddress);
+	    stmt.setString(5, "%" + searchAddress + "%");
 	    stmt.setInt(6, searchMaxPeople);
 	    ResultSet rs = stmt.executeQuery();
 		while (rs.next()) {
 			HashMap<String, Object> m = new HashMap<>();
-			m.put("roomNo", rs.getString("r.room_no"));
+			m.put("roomNo", rs.getInt("r.room_no"));
 			m.put("roomImg", rs.getString("max(ri.room_img)"));
 			m.put("roomName", rs.getString("r.room_name"));
-			m.put("roomId", rs.getString("r.customer_id"));
+			m.put("customerId", rs.getString("r.customer_id"));
 			m.put("roomAddress", rs.getString("r.room_address"));
-			m.put("roomMaxPeople", rs.getInt("r.max_people"));
+			m.put("maxPeople", rs.getInt("r.max_people"));
 			searchRoomList.add(m);
 		}
 	    
@@ -479,72 +479,66 @@ public class RoomDAO {
 	// 설명 : 검색+필터 결과출력
 	// 호출 : empRoomList.jsp, customerRoomList.jsp
 	// return : ArrayList<HashMap<String, Object>>
-	public ArrayList<HashMap<String, Object>> searchRoomFilterList(String room_address, String startDate, 
-			String endDate, int max_people, int lowPrice, int highPrice, String room_category, int wifi, 
-			int kitchen_tools, int parking, int bed, int ott, int ev) throws Exception {
+	public static ArrayList<HashMap<String, Object>> searchRoomFilterList(String searchAddress, String searchStartDate, 
+			String searchEndDate, int searchMaxPeople, String lowPrice, String highPrice, String room_category, String wifi, 
+			String kitchen_tools, String parking, int bed, String ott, String ev) throws Exception {
 	    ArrayList<HashMap<String, Object>> searchRoomFilterList = new ArrayList<>();
 
 		// DB연결
 		Connection conn = DBHelper.getConnection();
 		
-        String sql = "SELECT " +
-                    "    r.room_no, " +
-                    "    max(ri.room_img) AS mri, " +
-                    "    r.room_name, " +
-                    "    r.customer_id, " +
-                    "    r.room_address, " +
-                    "    r.max_people " +
-                    " FROM " +
-                    "    room r, " +
-                    "    (SELECT " +
-                    "        op.room_no AS rno, " +
-                    "        COUNT(*) AS cnt " +
-                    "     FROM " +
-                    "        oneday_price op " +
-                    "     WHERE " +
-                    "        op.room_state = '예약 가능' " +
-                    "        AND op.room_date BETWEEN ? AND ? " +
-                    "     GROUP BY " +
-                    "        op.room_no) T, " +
-                    "    room_img ri " +
-                    " WHERE " +
-                    "    T.cnt >= DATEDIFF(?, ?)+1 " +
-                    "    AND T.rno = r.room_no " +
-                    "    AND room_address LIKE ? " +
-                    "    AND max_people >= ? " +
-                    "    AND r.room_no = ri.room_no " +
-                    "    AND r.room_category = ? " +
-                    "    AND ro.wifi = ? " +
-                    "    AND ro.kitchen_tools = ? " +
-                    "    AND ro.parking = ? " +
-                    "    AND ro.bed = ? " +
-                    "    AND ro.ott = ? " +
-                    "    AND ro.ev = ? " +
-                    "    AND op.room_price BETWEEN ? AND ?";
+        String sql = "SELECT r.room_no, MAX(ri.room_img) as room_img, r.room_name, r.customer_id, r.room_address, r.max_people"
+        		+ " FROM room r"
+        		+ " JOIN ("
+        		+ "    SELECT op.room_no, COUNT(*) AS cnt"
+        		+ "    FROM oneday_price op"
+        		+ "    WHERE op.room_state = '예약 가능'"
+        		+ "    AND op.room_date BETWEEN ? AND ?"
+        		+ "    GROUP BY op.room_no"
+        		+ " ) T ON T.room_no = r.room_no"
+        		+ " JOIN room_img ri ON r.room_no = ri.room_no"
+        		+ " JOIN room_option ro ON r.room_no = ro.room_no"
+        		+ " WHERE T.cnt >= DATEDIFF(?, ?) + 1"
+        		+ " AND r.room_address LIKE ?"
+        		+ " AND r.max_people >= ?"
+        		+ " AND EXISTS ("
+        		+ "    SELECT 1"
+        		+ "    FROM oneday_price op"
+        		+ "    WHERE op.room_no = r.room_no"
+        		+ "    AND op.room_price BETWEEN ? AND ?"
+        		+ " )"
+        		+ " AND r.room_category = ?"
+        		+ " AND ro.wifi = ?"
+        		+ " AND ro.kitchen_tools = ?"
+        		+ " AND ro.parking = ?"
+        		+ " AND ro.bed = ?"
+        		+ " AND ro.ott = ?"
+        		+ " AND ro.ev = ?"
+        		+ " GROUP BY r.room_no, r.room_name, r.customer_id, r.room_address, r.max_people";
 
         PreparedStatement stmt = conn.prepareStatement(sql);
-        stmt.setString(1, startDate);
-        stmt.setString(2, endDate);
-        stmt.setString(3, endDate);
-        stmt.setString(4, startDate);
-        stmt.setString(5, "%" + room_address + "%");
-        stmt.setInt(6, max_people);
-        stmt.setString(7, room_category);
-        stmt.setInt(8, wifi);
-        stmt.setInt(9, kitchen_tools);
-        stmt.setInt(10, parking);
-        stmt.setInt(11, bed);
-        stmt.setInt(12, ott);
-        stmt.setInt(13, ev);
-        stmt.setInt(14, lowPrice);
-        stmt.setInt(15, highPrice);
+        stmt.setString(1, searchStartDate);
+        stmt.setString(2, searchEndDate);
+        stmt.setString(3, searchEndDate);
+        stmt.setString(4, searchStartDate);
+        stmt.setString(5, "%" + searchAddress + "%");
+        stmt.setInt(6, searchMaxPeople);
+        stmt.setString(7, lowPrice);
+        stmt.setString(8, highPrice);
+        stmt.setString(9, room_category);
+        stmt.setString(10, wifi);
+        stmt.setString(11, kitchen_tools);
+        stmt.setString(12, parking);
+        stmt.setInt(13, bed);
+        stmt.setString(14, ott);
+        stmt.setString(15, ev);
 
         ResultSet rs = stmt.executeQuery();
 
         while (rs.next()) {
             HashMap<String, Object> m = new HashMap<>();
             m.put("roomNo", rs.getInt("r.room_no"));
-            m.put("roomImg", rs.getString("mri"));
+            m.put("roomImg", rs.getString("room_img"));
             m.put("roomName", rs.getString("r.room_name"));
             m.put("customerId", rs.getString("r.customer_id"));
             m.put("roomAddress", rs.getString("r.room_address"));
@@ -552,8 +546,6 @@ public class RoomDAO {
             searchRoomFilterList.add(m);
         }
 
-        rs.close();
-        stmt.close();
         conn.close();
 
 	    return searchRoomFilterList;
@@ -562,15 +554,15 @@ public class RoomDAO {
 	// 설명 : 필터 결과출력
 	// 호출 : empRoomList.jsp, customerRoomList.jsp
 	// return : ArrayList<HashMap<String, Object>>
-	public ArrayList<HashMap<String, Object>> RoomFilterList(int lowPrice, int highPrice, String room_category, int wifi, 
-			int kitchen_tools, int parking, int bed, int ott, int ev) throws Exception {
-		ArrayList<HashMap<String, Object>> RoomFilterList = new ArrayList<>();
+	public static ArrayList<HashMap<String, Object>> roomFilterList(String lowPrice, String highPrice, String room_category, String wifi, 
+			String kitchen_tools, String parking, int bed, String ott, String ev) throws Exception {
+		ArrayList<HashMap<String, Object>> roomFilterList = new ArrayList<HashMap<String, Object>>();
 		
 		// DB연결
 		Connection conn = DBHelper.getConnection();
 		
-		String sql="SELECT r.room_no, r.customer_id, r.room_name, r.room_address, r.max_people, img.room_img"
-				+ " FROM room AS "
+		String sql="SELECT r.room_no, r.customer_id, r.room_name, r.room_address, r.max_people, max(img.room_img) AS mri"
+				+ " FROM room AS r"
 				+ "	JOIN room_img AS img ON r.room_no =  img.room_no"
 				+ "	JOIN room_option AS ro ON r.room_no = ro.room_no"
 				+ "	JOIN oneday_price AS op ON r.room_no = op.room_no"
@@ -583,18 +575,18 @@ public class RoomDAO {
 				+ "	AND ro.bed = ?"
 				+ "	AND ro.ott = ?"
 				+ "	AND ro.ev = ?"
-				+ " GROUP BY img.room_no;";
+				+ " GROUP BY img.room_no";
 		
 		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setInt(1, lowPrice);
-		stmt.setInt(2, highPrice);
+		stmt.setString(1, lowPrice);
+		stmt.setString(2, highPrice);
 		stmt.setString(3, room_category);
-		stmt.setInt(4, wifi);
-		stmt.setInt(5, kitchen_tools);
-		stmt.setInt(6, parking);
+		stmt.setString(4, wifi);
+		stmt.setString(5, kitchen_tools);
+		stmt.setString(6, parking);
 		stmt.setInt(7, bed);
-		stmt.setInt(8, ott);
-		stmt.setInt(9, ev);
+		stmt.setString(8, ott);
+		stmt.setString(9, ev);
 		
 		ResultSet rs = stmt.executeQuery();
 		 
@@ -606,14 +598,15 @@ public class RoomDAO {
 	        m.put("customerId", rs.getString("r.customer_id"));
 	        m.put("roomAddress", rs.getString("r.room_address"));
 	        m.put("maxPeople", rs.getInt("r.max_people"));
-	        RoomFilterList.add(m);
+	        roomFilterList.add(m);
+	        System.out.println(m);
 	    }
 
 	    rs.close();
 	    stmt.close();
 	    conn.close();
 	        
-		return RoomFilterList;
+		return roomFilterList;
 	}
 	
 }
