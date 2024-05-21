@@ -268,19 +268,19 @@
 				}
 			%>
 			
-			<div class="row" style="text-align: center;">
-				<div class="col">
-					<a class="text-decoration-none" href="/BeeNb/customer/hostRoomOne.jsp?roomNo=<%=roomNo %>&targetYear=<%=calendarYear%>&targetMonth=<%=calendarMonth - 1%>">
+			<div class="row" style="text-align: center; justify-content: center;">
+				<div class="col-auto">
+					<a class="text-decoration-none fs-5 text-dark" href="/BeeNb/customer/hostRoomOne.jsp?roomNo=<%=roomNo %>&targetYear=<%=calendarYear%>&targetMonth=<%=calendarMonth - 1%>">
 						이전 달
 					</a>
 				</div>
 				
-				<div class="col">
-					<h2><%=calendarYear%>년 <%=calendarMonth + 1%>월</h2>
+				<div class="col-4">
+					<h1><%=calendarYear%>년 <%=calendarMonth + 1%>월</h1>
 				</div>
 				
-				<div class="col">
-					<a class="text-decoration-none" href="/BeeNb/customer/hostRoomOne.jsp?roomNo=<%=roomNo %>&targetYear=<%=calendarYear%>&targetMonth=<%=calendarMonth + 1%>">
+				<div class="col-auto">
+					<a class="text-decoration-none fs-5 text-dark" href="/BeeNb/customer/hostRoomOne.jsp?roomNo=<%=roomNo %>&targetYear=<%=calendarYear%>&targetMonth=<%=calendarMonth + 1%>">
 						다음 달
 					</a>
 				</div>
@@ -394,10 +394,10 @@
 							if(currentPage > 1) {
 						%>	
 								<li class="page-item">
-									<a class="page-link" href="/BeeNb/customer/hostRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=1">처음페이지</a>
+									<a class="page-link text-dark" href="/BeeNb/customer/hostRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=1">처음페이지</a>
 								</li>
 								<li class="page-item">
-									<a class="page-link" href="/BeeNb/customer/hostRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=<%=currentPage-1%>">이전페이지</a>
+									<a class="page-link text-dark" href="/BeeNb/customer/hostRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=<%=currentPage-1%>">이전페이지</a>
 								</li>
 						<%		
 							} else {
@@ -414,10 +414,10 @@
 							if(currentPage < lastPage) {
 						%>
 								<li class="page-item">
-									<a class="page-link" href="/BeeNb/customer/hostRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=<%=currentPage+1%>">다음페이지</a>
+									<a class="page-link text-dark" href="/BeeNb/customer/hostRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=<%=currentPage+1%>">다음페이지</a>
 								</li>
 								<li class="page-item">
-									<a class="page-link" href="/BeeNb/customer/hostRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=<%=lastPage%>">마지막페이지</a>
+									<a class="page-link text-dark" href="/BeeNb/customer/hostRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=<%=lastPage%>">마지막페이지</a>
 								</li>
 						<%		
 							} else {

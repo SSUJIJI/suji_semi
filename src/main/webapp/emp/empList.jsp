@@ -54,7 +54,7 @@
 	
 	
 	// emp 테이블의 전체 행 개수
-	int empListTotalRow = EmpDAO.selectEmpListCnt();
+	int empListTotalRow = EmpDAO.selectEmpListCnt(searchWord);
 	// 디버깅
 	System.out.println("empListTotalRow : " + empListTotalRow);
 	
@@ -115,7 +115,7 @@
 				<div class="col-auto">
 					<input class="form-control" type="text" name="searchWord" placeholder="사원 이름으로 찾기" style="width: 100%;">	
 				</div>
-				<div class="col-auto">
+				<div class="col-auto" style="padding-left: 0;">
 					<button class="btn btn-warning" type="submit">검색</button>
 				</div>
 				
@@ -146,7 +146,7 @@
 						%>
 					</select>
 				</div>
-				<div class="col-auto">
+				<div class="col-auto" style="padding-left: 0;">
 					<button class="btn btn-warning" type="submit">보기</button>
 				</div>
 			</div>
@@ -184,10 +184,10 @@
 	                    if (currentPage > 1) {
 		            %>
 	                        <li class="page-item">
-	                            <a class="page-link" href="/BeeNb/emp/empList.jsp?currentPage=1&searchWord=<%=searchWord%>&rowPerPage=<%=rowPerPage%>">처음페이지</a>
+	                            <a class="page-link text-dark" href="/BeeNb/emp/empList.jsp?currentPage=1&searchWord=<%=searchWord%>&rowPerPage=<%=rowPerPage%>">처음페이지</a>
 	                        </li>
 	                        <li class="page-item">
-	                            <a class="page-link" href="/BeeNb/emp/empList.jsp?currentPage=<%=currentPage-1%>&searchWord=<%=searchWord%>&rowPerPage=<%=rowPerPage%>">이전페이지</a>
+	                            <a class="page-link text-dark" href="/BeeNb/emp/empList.jsp?currentPage=<%=currentPage-1%>&searchWord=<%=searchWord%>&rowPerPage=<%=rowPerPage%>">이전페이지</a>
 	                        </li>
 		            <%
 	                    } else {
@@ -203,10 +203,10 @@
 	                    if (currentPage < lastPage) {
 		            %>
 	                        <li class="page-item">
-	                            <a class="page-link" href="/BeeNb/emp/empList.jsp?currentPage=<%=currentPage+1%>&searchWord=<%=searchWord%>&rowPerPage=<%=rowPerPage%>">다음페이지</a>
+	                            <a class="page-link text-dark" href="/BeeNb/emp/empList.jsp?currentPage=<%=currentPage+1%>&searchWord=<%=searchWord%>&rowPerPage=<%=rowPerPage%>">다음페이지</a>
 	                        </li>
 	                        <li class="page-item">
-	                            <a class="page-link" href="/BeeNb/emp/empList.jsp?currentPage=<%=lastPage%>&searchWord=<%=searchWord%>&rowPerPage=<%=rowPerPage%>">마지막페이지</a>
+	                            <a class="page-link text-dark" href="/BeeNb/emp/empList.jsp?currentPage=<%=lastPage%>&searchWord=<%=searchWord%>&rowPerPage=<%=rowPerPage%>">마지막페이지</a>
 	                        </li>
 		            <%
 	                    } else {

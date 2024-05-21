@@ -96,19 +96,19 @@
 		%>
 		<div>
 			<hr>
-			<div class="row" style="text-align: center;">
-				<div class="col">
-					<a class="text-decoration-none" href="/BeeNb/customer/addOneDayPriceForm.jsp?roomNo=<%=roomNo %>&targetYear=<%=calendarYear%>&targetMonth=<%=calendarMonth - 1%>" style="display: block;">
+			<div class="row" style="text-align: center; justify-content: center;">
+				<div class="col-auto">
+					<a class="text-decoration-none fs-5 text-dark" href="/BeeNb/customer/addOneDayPriceForm.jsp?roomNo=<%=roomNo %>&targetYear=<%=calendarYear%>&targetMonth=<%=calendarMonth - 1%>" style="display: block;">
 						이전 달
 					</a>
 				</div>
 				
-				<div class="col">
-					<h2><%=calendarYear%>년 <%=calendarMonth + 1%>월</h2>
+				<div class="col-4">
+					<h1><%=calendarYear%>년 <%=calendarMonth + 1%>월</h1>
 				</div>
 				
-				<div class="col">
-					<a class="text-decoration-none" href="/BeeNb/customer/addOneDayPriceForm.jsp?roomNo=<%=roomNo %>&targetYear=<%=calendarYear%>&targetMonth=<%=calendarMonth + 1%>" style="display: block;">
+				<div class="col-auto">
+					<a class="text-decoration-none fs-5 text-dark" href="/BeeNb/customer/addOneDayPriceForm.jsp?roomNo=<%=roomNo %>&targetYear=<%=calendarYear%>&targetMonth=<%=calendarMonth + 1%>" style="display: block;">
 						다음 달
 					</a>
 				</div>
@@ -203,6 +203,7 @@
 										//  before(), after()메서드로 날짜 비교하여 input 태그 표시
 										if(!roomDate.before(startDate) && !roomDate.after(endDate)) {
 									%>
+											<!-- 가격 입력할 날짜 선택 -->
 											<label for="<%= addDate %>">날짜 선택</label>
 											<input type="checkbox" name="roomDate" id="<%= addDate %>" value="<%=roomDateStr %>">
 									<%
@@ -224,9 +225,16 @@
 					%>
 				</tbody>
 			</table>
-			<input type="number" name="roomPrice" required="required" placeholder="가격 입력">
-			<input type="hidden" name="roomNo" value="<%=roomNo%>">
-			<button type="submit">가격 등록</button>
+			<!-- 가격 입력 -->
+			<div class="row">
+				<input type="hidden" name="roomNo" value="<%=roomNo%>">
+				<div class="col-auto">
+					<input class="form-control" type="number" name="roomPrice" required="required" placeholder="가격 입력">
+				</div>
+				<div class="col-auto" style="padding-left: 0;">
+					<button class="btn btn-warning" type="submit">가격 등록</button>
+				</div>
+			</div>
 		</form>
 		</div>
 		

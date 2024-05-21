@@ -99,20 +99,20 @@
 			<%
 				if(Integer.parseInt(grade) == 0) {
 			%>
-					<li class="nav-item">
-						<a class="nav-link active" href="/BeeNb/emp/customerList.jsp?grade=0">게스트</a>
+					<li class="nav-item" style="width: 50%; text-align: center;">
+						<a class="nav-link active fs-5" href="/BeeNb/emp/customerList.jsp?grade=0">게스트</a>
 					</li>
-					<li class="nav-item">
-						<a  class="nav-link" href="/BeeNb/emp/customerList.jsp?grade=1" style="color: gray;">게스트 & 호스트</a>
+					<li class="nav-item" style="width: 50%; text-align: center;">
+						<a class="nav-link text-secondary fs-5" href="/BeeNb/emp/customerList.jsp?grade=1">게스트 & 호스트</a>
 					</li>
 			<%
 				} else {
 			%>
-					<li class="nav-item">
-						<a class="nav-link" href="/BeeNb/emp/customerList.jsp?grade=0" style="color: gray;">게스트</a>
+					<li class="nav-item" style="width: 50%; text-align: center;">
+						<a class="nav-link text-secondary fs-5" href="/BeeNb/emp/customerList.jsp?grade=0">게스트</a>
 					</li>
-					<li class="nav-item">
-						<a  class="nav-link active" href="/BeeNb/emp/customerList.jsp?grade=1">게스트 & 호스트</a>
+					<li class="nav-item" style="width: 50%; text-align: center;">
+						<a  class="nav-link active fs-5" href="/BeeNb/emp/customerList.jsp?grade=1">게스트 & 호스트</a>
 					</li>
 			<%
 				}
@@ -139,14 +139,14 @@
 						%>
 					</select>
 				</div>
-				<div class="col-auto">
+				<div class="col-auto" style="padding-left: 0;">
 					<button class="btn btn-warning" type="submit">보기</button>
 				</div>
 			</div>
 		</form>
 		
 		<!-- 고객 리스트 출력 -->
-		<table class="table">
+		<table class="table table-hover">
 			<tr>
 				<th>고객 ID</th>
 				<th>고객 E-MAIL</th>
@@ -156,11 +156,9 @@
 			<%
 				for(HashMap<String, Object> m : customerList) {
 			%>
-					<tr>
+					<tr onclick="location.href='/BeeNb/emp/customerOne.jsp?customerId=<%=m.get("customerId")%>'" style="cursor: pointer;">
 						<td>
-							<a class="text-decoration-none" href="/BeeNb/emp/customerOne.jsp?customerId=<%=m.get("customerId")%>">						
-								<%=m.get("customerId")%>
-							</a>
+							<%=m.get("customerId")%>
 						</td>
 						<td>
 							<%=m.get("customerEmail")%>
@@ -185,10 +183,10 @@
 						if(currentPage > 1) {
 					%>	
 							<li class="page-item">
-								<a class="page-link" href="/BeeNb/emp/customerList.jsp?currentPage=1&grade=<%=grade%>&rowPerPage=<%=rowPerPage%>">처음페이지</a>
+								<a class="page-link text-dark" href="/BeeNb/emp/customerList.jsp?currentPage=1&grade=<%=grade%>&rowPerPage=<%=rowPerPage%>">처음페이지</a>
 							</li>
 							<li class="page-item">
-								<a class="page-link" href="/BeeNb/emp/customerList.jsp?currentPage=<%=currentPage-1%>&grade=<%=grade%>&rowPerPage=<%=rowPerPage%>">이전페이지</a>
+								<a class="page-link text-dark" href="/BeeNb/emp/customerList.jsp?currentPage=<%=currentPage-1%>&grade=<%=grade%>&rowPerPage=<%=rowPerPage%>">이전페이지</a>
 							</li>
 					<%		
 						} else {
@@ -204,10 +202,10 @@
 						if(currentPage < lastPage) {
 					%>
 							<li class="page-item">
-								<a class="page-link" href="/BeeNb/emp/customerList.jsp?currentPage=<%=currentPage+1%>&grade=<%=grade%>&rowPerPage=<%=rowPerPage%>">다음페이지</a>
+								<a class="page-link text-dark" href="/BeeNb/emp/customerList.jsp?currentPage=<%=currentPage+1%>&grade=<%=grade%>&rowPerPage=<%=rowPerPage%>">다음페이지</a>
 							</li>
 							<li class="page-item">
-								<a class="page-link" href="/BeeNb/emp/customerList.jsp?currentPage=<%=lastPage%>&grade=<%=grade%>&rowPerPage=<%=rowPerPage%>">마지막페이지</a>
+								<a class="page-link text-dark" href="/BeeNb/emp/customerList.jsp?currentPage=<%=lastPage%>&grade=<%=grade%>&rowPerPage=<%=rowPerPage%>">마지막페이지</a>
 							</li>
 					<%		
 						} else {

@@ -10,15 +10,16 @@ public class EmpDAO {
 	// 설명 : emp테이블의 전체 행 개수 구하는 메서드(emp 리스트 출력 시 페이징하기 위해)
 	// 호출 : BeeNb/emp/empList.jsp
 	// return : int (emp 테이블 행 개수)
-	public static int selectEmpListCnt() throws Exception {
+	public static int selectEmpListCnt(String searchWord) throws Exception {
 		// emp테이블의 전체 행 개수를 담을 변수
 		int cnt = 0;
 		
 		Connection conn = DBHelper.getConnection();
 		
 		// emp 테이블로부터 전체 행 COUNT하는 쿼리
-		String sql = "SELECT COUNT(*) cnt FROM emp";
+		String sql = "SELECT COUNT(*) cnt FROM emp WHERE emp_name LIKE ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, "%" + searchWord + "%");
 		ResultSet rs = stmt.executeQuery();
 		
 		// SELECT 결과가 있다면
