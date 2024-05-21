@@ -10,20 +10,30 @@ public class RoomDAO {
 	// 설명 : room테이블에서 전체 room을 출력
 	// 호출 : /emp/roomList.jsp, /customer/roomList.jsp
 	// return : ArrayList<HashMap<String, Object>>
-	public static ArrayList<HashMap<String, Object>> selectRoomList() throws Exception {
+	public static ArrayList<HashMap<String, Object>> selectRoomList(String theme) throws Exception {
 		// SELECT 결과 값을 담을 List
 		ArrayList<HashMap<String, Object>> RoomList = new ArrayList<HashMap<String, Object>>();
 		
 		Connection conn = DBHelper.getConnection();
 		
-		String sql = "SELECT r.room_no, r.customer_id, r.room_name, r.room_address, r.max_people, max(img.room_img) AS mimg"
-				+ " FROM room AS r"
-				+ " INNER JOIN room_img AS img"
-				+ " ON r.room_no =  img.room_no"
-				+ " GROUP BY img.room_no";
+	    String sql = "SELECT r.room_no, r.customer_id, r.room_name, r.room_address, r.max_people, max(img.room_img) AS mimg"
+                + " FROM room AS r"
+                + " INNER JOIN room_img AS img"
+                + " ON r.room_no = img.room_no";
+	    // 테마가 있을 때만 sql에 추가해준다.
+	    if (theme != null && !theme.isEmpty()) {
+	        sql += " WHERE r.room_theme = ?";
+	    }
+	    // 무조건 추가된다.
+	    sql += " GROUP BY img.room_no";
 
 		PreparedStatement stmt = conn.prepareStatement(sql);
+		// 테마가 있을 때만 ?에 param을 넣어준다.
+	    if (theme != null && !theme.isEmpty()) {
+	        stmt.setString(1, theme);
+	    }
 		ResultSet rs = stmt.executeQuery();
+		System.out.println(stmt);
 		
 		while(rs.next()) {
 			HashMap<String, Object> m = new HashMap<String, Object>();
@@ -429,7 +439,7 @@ public class RoomDAO {
 	// 호출 : empRoomList.jsp, customerRoomList.jsp
 	// return : ArrayList<HashMap<String, Object>>
 	public static ArrayList<HashMap<String, Object>> searchRoomList(String searchAddress, 
-			String searchStartDate, String searchEndDate, int searchMaxPeople) throws Exception {
+			String searchStartDate, String searchEndDate, int searchMaxPeople, String theme) throws Exception {
 		ArrayList<HashMap<String, Object>> searchRoomList = new ArrayList<HashMap<String, Object>>();
 		
 		// DB연결
@@ -453,6 +463,10 @@ public class RoomDAO {
 				+ " WHERE T.cnt >= DATEDIFF(?, ?)+1"
 				+ " AND T.rno = r.room_no AND room_address LIKE ? AND max_people >= ?"
 				+ " AND r.room_no=ri.room_no";
+	    // theme 값이 있는 경우 조건 추가
+	    if (theme != null && !theme.isEmpty()) {
+	        sql += " AND r.room_theme = ?";
+	    }
 	    PreparedStatement stmt = conn.prepareStatement(sql);
 	    stmt.setString(1, searchStartDate);
 	    stmt.setString(2, searchEndDate);
@@ -460,6 +474,10 @@ public class RoomDAO {
 	    stmt.setString(4, searchStartDate);
 	    stmt.setString(5, "%" + searchAddress + "%");
 	    stmt.setInt(6, searchMaxPeople);
+	    // theme 값이 있는 경우에만 설정
+	    if (theme != null && !theme.isEmpty()) {
+	        stmt.setString(7, theme);
+	    }
 	    ResultSet rs = stmt.executeQuery();
 		while (rs.next()) {
 			HashMap<String, Object> m = new HashMap<>();
@@ -481,7 +499,7 @@ public class RoomDAO {
 	// return : ArrayList<HashMap<String, Object>>
 	public static ArrayList<HashMap<String, Object>> searchRoomFilterList(String searchAddress, String searchStartDate, 
 			String searchEndDate, int searchMaxPeople, String lowPrice, String highPrice, String room_category, String wifi, 
-			String kitchen_tools, String parking, int bed, String ott, String ev) throws Exception {
+			String kitchen_tools, String parking, int bed, String ott, String ev, String theme) throws Exception {
 	    ArrayList<HashMap<String, Object>> searchRoomFilterList = new ArrayList<>();
 
 		// DB연결
@@ -513,8 +531,16 @@ public class RoomDAO {
         		+ " AND ro.parking = ?"
         		+ " AND ro.bed = ?"
         		+ " AND ro.ott = ?"
-        		+ " AND ro.ev = ?"
-        		+ " GROUP BY r.room_no, r.room_name, r.customer_id, r.room_address, r.max_people";
+        		+ " AND ro.ev = ?";
+        		
+        		 
+        	    // theme 값이 있는 경우 조건 추가
+        	    if (theme != null && !theme.isEmpty()) {
+        	        sql += " AND r.room_theme = ?";
+        	    }
+        	    
+        	    sql += " GROUP BY r.room_no, r.room_name, r.customer_id, r.room_address, r.max_people";
+        		
 
         PreparedStatement stmt = conn.prepareStatement(sql);
         stmt.setString(1, searchStartDate);
@@ -532,6 +558,11 @@ public class RoomDAO {
         stmt.setInt(13, bed);
         stmt.setString(14, ott);
         stmt.setString(15, ev);
+        
+        // theme 값이 있는 경우에만 설정
+        if (theme != null && !theme.isEmpty()) {
+            stmt.setString(16, theme);
+        }
 
         ResultSet rs = stmt.executeQuery();
 
@@ -555,7 +586,7 @@ public class RoomDAO {
 	// 호출 : empRoomList.jsp, customerRoomList.jsp
 	// return : ArrayList<HashMap<String, Object>>
 	public static ArrayList<HashMap<String, Object>> roomFilterList(String lowPrice, String highPrice, String room_category, String wifi, 
-			String kitchen_tools, String parking, int bed, String ott, String ev) throws Exception {
+			String kitchen_tools, String parking, int bed, String ott, String ev, String theme) throws Exception {
 		ArrayList<HashMap<String, Object>> roomFilterList = new ArrayList<HashMap<String, Object>>();
 		
 		// DB연결
@@ -574,8 +605,14 @@ public class RoomDAO {
 				+ "	AND ro.parking = ?"
 				+ "	AND ro.bed = ?"
 				+ "	AND ro.ott = ?"
-				+ "	AND ro.ev = ?"
-				+ " GROUP BY img.room_no";
+				+ "	AND ro.ev = ?";
+		
+	    // theme 값이 있는 경우 조건 추가
+	    if (theme != null && !theme.isEmpty()) {
+	        sql += " AND r.room_theme = ?";
+	    }
+
+	    sql += " GROUP BY img.room_no";
 		
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, lowPrice);
@@ -587,6 +624,11 @@ public class RoomDAO {
 		stmt.setInt(7, bed);
 		stmt.setString(8, ott);
 		stmt.setString(9, ev);
+		
+	    // theme 값이 있는 경우에만 설정
+	    if (theme != null && !theme.isEmpty()) {
+	        stmt.setString(10, theme);
+	    }
 		
 		ResultSet rs = stmt.executeQuery();
 		 
