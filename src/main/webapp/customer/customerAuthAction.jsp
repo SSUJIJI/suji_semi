@@ -17,7 +17,7 @@
 	// 본인인증 유무 확인하기
 	boolean result = CustomerDAO.selectCustomerAuth(customerId, customerName, customerPhone);
 	
-	if(result = true){//true면 본인인증 성공
+	if(result == true){//true면 본인인증 성공
 		// 디버깅코드
 		System.out.println("본인인증 성공");
 		String authMsg = URLEncoder.encode("본인인증 성공입니다.", "utf-8");	

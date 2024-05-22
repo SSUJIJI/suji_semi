@@ -121,8 +121,9 @@ public class CustomerDAO {
 	    ResultSet rs = stmt.executeQuery();
 	    if(rs.next()) {
 	    	result = true;
+	    	
 	    }
-	 	
+	 	System.out.println("result :" + result);
 	 	conn.close();
 	 	return result; 
 	}
