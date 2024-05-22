@@ -108,24 +108,7 @@
 		<%
 			}
 		%>
-
-		<form action="/BeeNb/emp/empList.jsp" method="post">
-			<div class="row">
-				<!-- 관리자 이름 검색 -->
-				<div class="col-auto">
-					<input class="form-control" type="text" name="searchWord" placeholder="사원 이름으로 찾기" style="width: 100%;">	
-				</div>
-				<div class="col-auto" style="padding-left: 0;">
-					<button class="btn btn-warning" type="submit">검색</button>
-				</div>
-				
-				<!-- 관리자 등록 -->
-				<div class="col" style="text-align: right;">	
-					<a class="btn btn-warning" href="/BeeNb/emp/empRegistForm.jsp">관리자 등록</a>
-				</div>
-			</div>
-		</form>
-	
+		
 		<!-- rowPerPage 설정 -->
 		<form action="/BeeNb/emp/empList.jsp" method="post">
 			<div class="row">
@@ -146,8 +129,13 @@
 						%>
 					</select>
 				</div>
-				<div class="col-auto" style="padding-left: 0;">
+				<div class="col-auto ps-0">
 					<button class="btn btn-warning" type="submit">보기</button>
+				</div>
+				
+				<!-- 관리자 등록 -->
+				<div class="col-auto ms-auto">	
+					<a class="btn btn-warning" href="/BeeNb/emp/empRegistForm.jsp">관리자 등록</a>
 				</div>
 			</div>
 		</form>
@@ -223,6 +211,20 @@
 		        </ul>
 		    </nav>
 		</div>
+		
+		<!-- 관리자 이름 검색 -->
+		<form action="/BeeNb/emp/empList.jsp" method="post">
+			<div class="row justify-content-center">
+			 	<div class="col-4">
+			 		<input class="form-control" type="text" name="searchWord" placeholder="사원 이름으로 찾기" style="width: 100%;">
+			 	</div>
+			 	
+			 	<div class="col-auto ps-0">
+					<button class="btn btn-warning" type="submit">검색</button>
+				</div>
+			</div>
+		</form>
+		
 
 		<!-- 푸터  -->
 		<jsp:include page="/inc/footer.jsp"></jsp:include>

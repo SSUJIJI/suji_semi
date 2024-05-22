@@ -58,7 +58,7 @@ public class RevenueDAO {
 		
 		Connection conn = DBHelper.getConnection();
 		
-		String sql = "SELECT MAX(revenue) AS total_revenue FROM revenue_status;";
+		String sql = "SELECT SUM(revenue) AS total_revenue FROM revenue_status;";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		ResultSet rs = stmt.executeQuery();
 		

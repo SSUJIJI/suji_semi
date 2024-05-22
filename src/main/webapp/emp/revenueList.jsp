@@ -104,7 +104,7 @@
 						%>
 					</select>
 				</div>
-				<div class="col-auto" style="padding-left: 0;">
+				<div class="col-auto ps-0">
 					<button class="btn btn-warning" type="submit">보기</button>
 				</div>
 			</div>
