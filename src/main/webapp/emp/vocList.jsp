@@ -104,6 +104,12 @@
 		
 		<!-- 예약 리스트 -->
 		<table class="table">
+			<colgroup>
+				<col style="width: 10%">
+				<col style="width: 25%">
+				<col style="width: 25%">
+				<col style="width: *">
+			</colgroup>
 			<thead>
 				<tr>
 					<th>신고 번호</th>

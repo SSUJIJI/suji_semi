@@ -25,13 +25,14 @@
 	<title></title>
 	<jsp:include page="/inc/bootstrapCDN.jsp"></jsp:include>
 	<link href="/BeeNb/css/style.css" rel="stylesheet" type="text/css">
+	<link href="/BeeNb/css/common.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<div class="container">
 		<!-- 관리자 네비게이션 바 -->
 		<jsp:include page="/emp/inc/empNavbar.jsp"></jsp:include>
 
-		<div class="row mt-5">
+		<div class="row mt-5" style="height: 65%;">
 			<div class="col"></div>
 			<div class="col-8">
 				<div class="row mt-3">
@@ -59,8 +60,9 @@
 						<div class="col">
 							<label for=complainContent>민원 내용</label>
 						</div>
-						<div class="col-10">
-							<%=complainOne.get("complainContent") %>
+						<div class="col-10" style="border">
+							<textarea class="form-control" id="exampleFormControlTextarea1" rows="15" style="resize: none;" readonly="readonly"><%=complainOne.get("complainContent") %>	
+							</textarea>
 						</div>
 					</div>
 					
@@ -89,16 +91,16 @@
 					
 					
 					<div class="row mt-3">
-						<div class="col">
+						<div class="col d-flex justify-content-center">
 							<input type="hidden" name="complainNo" value="<%=complainNo%>">
 							<input type="hidden" name="complainState" value="<%=complainOne.get("complainState")%>">
 							<%if(complainOne.get("complainState").equals("접수") ) { %>
-								<button type="submit">접수</button>
+								<button type="submit" class="btn btn-outline-warning btn-width-beenb mx-2">접수</button>
 							<% } %>
 							<%if(complainOne.get("complainState").equals("처리중") ) { %>
-								<button type="submit">완료</button>
+								<button type="submit" class="btn btn-outline-warning btn-width-beenb mx-2">완료</button>
 							<% } %>
-							<a href="<%=cancelUrl%>" class="text-decoration-none">돌아가기</a>
+							<a href="<%=cancelUrl%>" class="text-decoration-none btn btn-outline-dark btn-width-beenb mx-2">돌아가기</a>
 						</div>
 					</div>
 	

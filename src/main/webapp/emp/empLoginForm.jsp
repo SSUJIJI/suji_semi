@@ -17,6 +17,22 @@
 	<jsp:include page="/inc/bootstrapCDN.jsp"></jsp:include>
 	<title>관리자 로그인</title>
 	<link href="/BeeNb/css/style.css" rel="stylesheet" type="text/css">
+		 <style>
+          .link-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px; /* 링크들 사이의 간격 조정 */
+            margin-top: 10px;
+        }
+        .link-container a {
+            text-decoration: none;
+            color: #ffc107; /* 텍스트 색상 */
+            font-size: 15px; /* 폰트 크기 */
+        }
+        .link-container a:hover {
+            color: #e0a800; /* 호버 시 더 진한 노란색 */
+        }
+    </style>
 </head>
 <body>
 	<div class="container">
@@ -46,37 +62,37 @@
 					<%	
 						}
 					%>
-						<form action="<%=url %>" method="post">
-							<div class="row mt-3">
-								<div class="col-3">
-									<label for="empNo" class="form-label">사번</label>
-								</div>
-								<div class="col-6">
-									<input type="number" class="w-100 form-control" value="" name="empNo" id="empNo" required="required">
-								</div>
-								<div class="col">
+					<form action="<%=url %>" method="post">
+						<div class="row mt-3">
+							<div class="col-3">
+								<label for="empNo" class="form-label">사번</label>
+							</div>
+							<div class="col-6">
+								<input type="number" class="w-100 form-control" value="" name="empNo" id="empNo" required="required">
+							</div>
+							<div class="col">
+							</div>
+						</div>
+						<div class="row mt-3">
+							<div class="col-3">
+								<label for="empPw" class="form-label">비밀번호</label>
+							</div>
+							<div class="col-6">
+								<input type="password" class="w-100 form-control" value="" name="empPw" id="empPw" required="required">
+							</div>
+							<div class="col">
+								<button type="submit" class="btn btn-outline-warning">로그인</button>									
+							</div>
+						</div>
+						<div class="row mt-3">
+							<div class="col">
+								<div class="d-flex justify-content-center link-container">
+									<a class="text-decoration-none me-3" href="/BeeNb/emp/empResetPwForm.jsp">비밀번호 초기화</a>
+									<a class="text-decoration-none" href="/BeeNb/customer/customerLoginForm.jsp">고객 로그인</a>
 								</div>
 							</div>
-							<div class="row mt-3">
-								<div class="col-3">
-									<label for="empPw" class="form-label">비밀번호</label>
-								</div>
-								<div class="col-6">
-									<input type="password" class="w-100 form-control" value="" name="empPw" id="empPw" required="required">
-								</div>
-								<div class="col">
-									<button type="submit" class="btn btn-outline-warning">로그인</button>									
-								</div>
-							</div>
-							<div class="row mt-3">
-								<div class="col">
-									<div class="d-flex justify-content-center">
-										<a class="text-decoration-none me-3" href="/BeeNb/emp/empResetPwForm.jsp">비밀번호 초기화</a>
-										<a class="text-decoration-none" href="/BeeNb/customer/customerLoginForm.jsp">고객 로그인</a>
-									</div>
-								</div>
-							</div>
-						</form>
+						</div>
+					</form>
 				</div>
 			</div>
 			<div class="col"></div>
