@@ -52,4 +52,71 @@ public class BookingListDAO {
 		conn.close();
 		return roomDateListOfBookingNo;
 	}
+	
+	// 설명 : 예약시 해당 bookingNo에 대한 값(해당 roomNo, roomDate) booking_list에 INSERT
+	// 호출 : roomBookingAction.jsp
+	// return : int
+	public static int insertBookingList(int roomNo, int bookingNo, String[] roomDate) throws Exception {
+		int row = 0;
+		
+		Connection conn = DBHelper.getConnection();
+		
+		String sql = "INSERT INTO booking_list(booking_no, room_no, room_date) VALUES(?, ?, ?)";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		// roomDate 개수만큼 반복문 실행
+		for(int i = 0; i < roomDate.length; i++) {
+			stmt.setInt(1, bookingNo);
+			stmt.setInt(2, roomNo);
+			stmt.setString(3, roomDate[i]);
+			// 실행된 쿼리 수 계산
+			row += stmt.executeUpdate();
+		}
+		
+		conn.close();
+		return row;
+	}
+	
+	// 설명 : 해당 bookingNo의 퇴실일 구하기
+	// 호출 : hostBookingList.jsp
+	// return : String
+	public static String selectEndDate(int bookingNo) throws Exception{
+		String endDate = "";
+		
+		Connection conn = DBHelper.getConnection();
+		String sql = "SELECT MAX(room_date) endDate FROM booking_list WHERE booking_no = ? GROUP BY booking_no";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, bookingNo);
+		ResultSet rs = stmt.executeQuery();
+		
+		if(rs.next()) {
+			endDate = rs.getString("endDate");
+		}
+		
+		conn.close();
+		return endDate;
+				
+		
+	}
+	
+	// 설명 : 해당 bookingNo의 입실일 구하기
+	// 호출 : hostBookingList.jsp
+	// return : String
+	public static String selectStartDate(int bookingNo) throws Exception{
+		String startDate = "";
+		
+		Connection conn = DBHelper.getConnection();
+		String sql = "SELECT MIN(room_date) startDate FROM booking_list WHERE booking_no = ? GROUP BY booking_no";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, bookingNo);
+		ResultSet rs = stmt.executeQuery();
+		
+		if(rs.next()) {
+			startDate = rs.getString("startDate");
+		}
+		
+		conn.close();
+		return startDate;
+				
+		
+	}
 }

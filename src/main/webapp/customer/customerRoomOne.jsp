@@ -203,7 +203,7 @@
 			<hr>
 			<div class="row">
 				<div class="col">
-					<a href="/BeeNb/customer/hostRoomOne.jsp?roomNo=<%=roomNo %>&targetYear=<%=calendarYear%>&targetMonth=<%=calendarMonth - 1%>">
+					<a href="/BeeNb/customer/customerRoomOne.jsp?roomNo=<%=roomNo %>&targetYear=<%=calendarYear%>&targetMonth=<%=calendarMonth - 1%>">
 						이전 달
 					</a>
 				</div>
@@ -213,7 +213,7 @@
 				</div>
 				
 				<div class="col">
-					<a href="/BeeNb/customer/hostRoomOne.jsp?roomNo=<%=roomNo %>&targetYear=<%=calendarYear%>&targetMonth=<%=calendarMonth + 1%>">
+					<a href="/BeeNb/customer/customerRoomOne.jsp?roomNo=<%=roomNo %>&targetYear=<%=calendarYear%>&targetMonth=<%=calendarMonth + 1%>">
 						다음 달
 					</a>
 				</div>

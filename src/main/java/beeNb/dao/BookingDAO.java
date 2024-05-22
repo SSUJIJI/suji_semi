@@ -338,4 +338,25 @@ public class BookingDAO {
 		return row;
 		
 	}
+	
+	// 설명 : 예약시 booking_list에 INSERT하기 위해 bookingNo 가져오는 메서드
+	// 호출 : roomBookingAction.jsp
+	// return : int
+	public static int selectBookingNo(String customerId, int roomNo) throws Exception{
+		int bookingNo = 0;
+		
+		Connection conn = DBHelper.getConnection();
+		
+		String sql = "SELECT booking_no bookingNo FROM booking WHERE customer_id = ? AND room_no = ? ORDER BY create_date DESC LIMIT 0,1";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, customerId);
+		stmt.setInt(2, roomNo);
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) { 
+			bookingNo = rs.getInt("bookingNo");
+		}
+		
+		conn.close();
+		return bookingNo;
+	}
 }

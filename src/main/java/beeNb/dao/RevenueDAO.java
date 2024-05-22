@@ -70,4 +70,21 @@ public class RevenueDAO {
 		return totalRevenue;
 		
 	}
+	
+	// 설명 : 예약(결제)시 최종 금액 revenue테이블에 INSERT
+	// 호출 : roomBookingAction.jsp
+	// return : int
+	public static int insertRevenue(int bookingNo, int revenue) throws Exception {
+		int row = 0;
+		
+		Connection conn = DBHelper.getConnection();
+		String sql = "INSERT INTO revenue_status(booking_no, revenue) VALUES(?, ?)";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, bookingNo);
+		stmt.setInt(2, revenue);
+		row = stmt.executeUpdate();
+		
+		conn.close();
+		return row;
+	}
 }

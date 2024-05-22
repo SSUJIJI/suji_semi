@@ -200,8 +200,13 @@
 										Date endDate = dateFormat.parse(operationEnd);
 										Date roomDate = dateFormat.parse(roomDateStr);
 										
-										//  before(), after()메서드로 날짜 비교하여 input 태그 표시
-										if(!roomDate.before(startDate) && !roomDate.after(endDate)) {
+										// 오늘 날짜 이후일 경우에만 가격 입력 가능
+									    Date today = new Date();
+									    String todayStr = dateFormat.format(today);  
+									    Date todayDate = dateFormat.parse(todayStr); 
+									    
+									    // before(), after() 메서드로 날짜 비교하여 input 태그 표시
+									    if(!roomDate.before(startDate) && !roomDate.after(endDate) && roomDate.after(todayDate)) {
 									%>
 											<!-- 가격 입력할 날짜 선택 -->
 											<label for="<%= addDate %>">날짜 선택</label>

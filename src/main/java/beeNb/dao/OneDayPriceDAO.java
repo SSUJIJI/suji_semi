@@ -119,4 +119,28 @@ public class OneDayPriceDAO {
 		}
 		return row;
 	}
+	
+	// 설명 : 예약(결제)시 최종 결제 금액 get
+	// 호출 : roomBookingAction.jsp
+	// return : int
+	public static int selectTotalPrice(int roomNo, String[] roomDate) throws Exception {
+		int totalPrice = 0;
+		
+		Connection conn = DBHelper.getConnection();
+		
+		String sql = "SELECT room_price FROM oneday_price WHERE room_no = ? AND room_date = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		ResultSet rs = null;
+		for(int i = 0; i < roomDate.length; i++) {
+			stmt.setInt(1, roomNo);
+			stmt.setString(2, roomDate[i]);
+			rs = stmt.executeQuery();
+			if(rs.next()) {
+				totalPrice += rs.getInt("room_price");
+			}
+		}
+		
+		conn.close();
+		return totalPrice;
+	}
 }

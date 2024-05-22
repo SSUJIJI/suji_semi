@@ -1,3 +1,5 @@
+<%@page import="beeNb.dao.RevenueDAO"%>
+<%@page import="beeNb.dao.BookingListDAO"%>
 <%@page import="beeNb.dao.BookingDAO"%>
 <%@page import="beeNb.dao.OneDayPriceDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -28,7 +30,10 @@
 		System.out.println("부킹 정보 등록 오류!");
 		return;		
 	}
-	
+	int bookingNo = BookingDAO.selectBookingNo(customerId, roomNo);
+	row = BookingListDAO.insertBookingList(roomNo, bookingNo, roomDate);
+	int revenue = OneDayPriceDAO.selectTotalPrice(roomNo, roomDate);
+	row = RevenueDAO.insertRevenue(bookingNo, revenue);
 	response.sendRedirect("/BeeNb/customer/customerBookingList.jsp");
 
 %>

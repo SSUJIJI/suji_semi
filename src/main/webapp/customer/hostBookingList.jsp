@@ -1,3 +1,6 @@
+<%@page import="beeNb.dao.BookingListDAO"%>
+<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="beeNb.dao.RoomDAO"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="beeNb.dao.BookingDAO"%>
@@ -160,6 +163,8 @@
 					<th>고객 이름</th>
 					<th>예약 상태</th>
 					<th>예약 인원</th>
+					<th>입실일</th>
+					<th>퇴실일</th>
 					<th>예약일</th>
 					<th>예약 상태 변경일</th>
 					<th>예약 취소</th>
@@ -177,6 +182,8 @@
 							<td><%=m.get("customerName") %></td>
 							<td><%=m.get("bookingState") %></td>
 							<td><%=m.get("usePeople") %></td>
+							<td><%=BookingListDAO.selectStartDate((int)m.get("bookingNo"))%></td>
+							<td><%=BookingListDAO.selectEndDate((int)m.get("bookingNo"))%></td>
 							<td><%=m.get("createDate") %></td>
 							<td><%=m.get("updateDate") %></td>
 							<%
@@ -185,13 +192,31 @@
 									<td>
 										<a class="btn btn-warning" href="/BeeNb/customer/hostBookingDeleteAction.jsp?bookingNo=<%=m.get("bookingNo")%>">에약 취소</a>
 									</td>
+									
+							<%
+								} else {
+							%>
+									<td></td>
+							<%
+								}
+							
+								// 퇴실날짜가 오늘이거나 오늘 이전일 경우만 이용 완료 가능
+								SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+							    Date today = new Date();
+							    String todayStr = dateFormat.format(today);  
+							    Date todayDate = dateFormat.parse(todayStr);
+		
+							    String endDateStr = BookingListDAO.selectEndDate((int)m.get("bookingNo"));
+							    Date endDate = dateFormat.parse(endDateStr);
+
+								if(!todayDate.before(endDate) && m.get("bookingState").equals("전")) {
+							%>
 									<td>
 										<a class="btn btn-warning" href="/BeeNb/customer/hostBookingUpdateAction.jsp?bookingNo=<%=m.get("bookingNo")%>">이용 완료</a>
 									</td>
 							<%
 								} else {
 							%>
-									<td></td>
 									<td></td>
 							<%
 								}
