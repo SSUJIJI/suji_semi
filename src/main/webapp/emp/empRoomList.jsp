@@ -115,7 +115,6 @@
 						<%
 							}
 						%>
-						<input type="hidden" name="theme" value="<%=theme %>">
 						여행지<input type="text" name="searchAddress" style="width:100px;">
 						체크인<input type="date" name="searchStartDate">
 						체크아웃<input type="date" name="searchEndDate">
@@ -154,7 +153,6 @@
 						<input type="hidden" name="searchStartDate" value="<%=searchStartDate %>">
 						<input type="hidden" name="searchEndDate" value="<%=searchEndDate %>">
 						<input type="hidden" name="searchMaxPeople" value="<%=searchMaxPeople %>">
-						<input type="hidden" name="theme" value="<%=theme %>">
 						<h5>가격</h5>
 						최소가격:<input type="number" name="lowPrice">
 						최대가격:<input type="number" name="highPrice">
@@ -341,8 +339,8 @@
 								<br>
 								최대 <%=(Integer) (m.get("maxPeople"))%>명
 							</p>
-							<a href="/BeeNb/emp/empRoomOne.jsp?roomNo=<%=(Integer) (m.get("roomNo"))%>" class="btn btn-warning">상세보기</a>
-							<a href="/BeeNb/emp/empRoomDeleteAction.jsp?roomNo=<%=(Integer) (m.get("roomNo"))%>" class="btn btn-warning">삭제하기</a>
+			                    <a href="/BeeNb/emp/empRoomOne.jsp?roomNo=<%=(Integer) (m.get("roomNo"))%>" class="btn btn-warning">상세보기</a>
+			                    <a href="/BeeNb/emp/empRoomDeleteAction.jsp?roomNo=<%=(Integer) (m.get("roomNo"))%>" class="btn btn-warning">삭제하기</a>
 						</div>
 					</div>
 				</div>
