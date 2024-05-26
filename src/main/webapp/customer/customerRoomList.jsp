@@ -84,6 +84,13 @@
 			height: 200px; /* 높이 설정 */
 			object-fit: cover; /* 이미지 비율을 유지하면서 빈 공간 없이 채움 */
 		}
+        table {
+            table-layout: fixed; /* 테이블 레이아웃을 고정으로 설정 */
+        }
+        th, td {
+            text-align: center; /* 텍스트 가운데 정렬 */
+            width: 150px;
+        }
 	</style>
 	<script>
 		// 검색엔진 유효성검사 메서드.
@@ -163,6 +170,9 @@
 		
 		<br>
 		<hr>
+		
+		
+		
 		<!-- 테마리스트 -->
 		<ul class="nav justify-content-center">
 			<%
@@ -176,63 +186,121 @@
 			%>
 			<div class="dropdown">
 			  <button class="btn btn-warning zdropdown-toggle shadow" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-				<img src="/BeeNb/img/ft.png" class="h-100 d-inline-block">
+			  	<img src="/BeeNb/img/ft.png" class="h-100 d-inline-block">
 			    필터
 			  </button>
-			  <ul class="dropdown-menu">
-			    <div>
-					<form method="post" action="/BeeNb/customer/customerRoomList.jsp"  onsubmit="return validateFilterForm()">
-						<h3>필터</h3>
-						<input type="hidden" name="searchAddress" value="<%=searchAddress %>">
-						<input type="hidden" name="searchStartDate" value="<%=searchStartDate %>">
-						<input type="hidden" name="searchEndDate" value="<%=searchEndDate %>">
-						<input type="hidden" name="searchMaxPeople" value="<%=searchMaxPeople %>">
-						<h5>가격</h5>
-						최소가격:<input type="number" name="lowPrice" required>
-						최대가격:<input type="number" name="highPrice" required>
-						<h5>카테고리</h5>
-							<select name="room_category">
-								<option value="펜션">펜션</option>
-								<option value="호텔">호텔</option>
-								<option value="리조트">리조트</option>
-								<option value="카라반">카라반</option>
-								<option value="글램핑">글램핑</option>
-								<option value="한옥">한옥</option>
-							</select>
-						<h5>옵션</h5>
-						와이파이
-						<br>
-						유<input type='radio' name='wifi' value='1' />
-						무<input type='radio' name='wifi' value='0' checked/>
-						<br>
-						주방
-						<br>
-						유<input type='radio' name='kitchen_tools' value='1' />
-						무<input type='radio' name='kitchen_tools' value='0' checked/>
-						<br>
-						주차
-						<br>
-						유<input type='radio' name='parking' value='1' />
-						무<input type='radio' name='parking' value='0' checked/>
-						<br>
-						OTT
-						<br>
-						유<input type='radio' name='ott' value='1' />
-						무<input type='radio' name='ott' value='0' checked/>
-						<br>
-						엘리베이터
-						<br>
-						유	<input type='radio' name='ev' value='1' />
-						무<input type='radio' name='ev' value='0' checked/>
-						<br>
-						침대갯수:<input type="number" name="bed" required>개
-					<button type="submit">필터적용</button>
-					</form>
-			    </div>
+			  <ul class="dropdown-menu" style="width:500px;">
+				<form method="post" action="/BeeNb/customer/customerRoomList.jsp"  onsubmit="return validateFilterForm()">
+					<input type="hidden" name="searchAddress" value="<%=searchAddress %>">
+					<input type="hidden" name="searchStartDate" value="<%=searchStartDate %>">
+					<input type="hidden" name="searchEndDate" value="<%=searchEndDate %>">
+					<input type="hidden" name="searchMaxPeople" value="<%=searchMaxPeople %>">
+					<li class="dropdown-item">
+					</li>
+					<li class="dropdown-item">
+					</li>
+					<li class="dropdown-item">
+						<table>
+							<tr>
+								<td colspan="4">
+									최소가격 
+								</td>
+								<td colspan="4">
+									최대가격
+								</td>
+							</tr>
+							<tr>
+								<td colspan="4">
+									<input type="number" name="lowPrice" required style="width:170px; color:black;" class="btn btn-outline-warning rounded-pill">
+								</td>
+								<td colspan="4">
+									<input type="number" name="highPrice" required style="width:170px; color:black;" class="btn btn-outline-warning rounded-pill">
+								</td>
+							</tr>
+							<tr>
+								<td colspan="4">
+									카테고리
+								</td>
+								<td colspan="4">
+									침대갯수
+								</td>
+							</tr>
+							<tr>
+								<td colspan="4">
+									<select name="room_category" class="btn btn-outline-warning rounded-pill" style="color:black;">
+										<option value="펜션">펜션</option>
+										<option value="호텔">호텔</option>
+										<option value="리조트">리조트</option>
+										<option value="카라반">카라반</option>
+										<option value="글램핑">글램핑</option>
+										<option value="한옥">한옥</option>
+									</select>
+								</td>
+								<td colspan="4">
+									<input type="number" name="bed" required style="width:70px;" class="btn btn-outline-warning rounded-pill">
+								</td>
+							</tr>
+							<tr>
+								<td colspan="4">
+								</td>
+								<td colspan="4">
+								</td>
+							</tr>
+							<tr>
+								<td>
+								</td>
+								<td>
+									와이파이
+								</td>
+								<td>
+									주방
+								</td>
+								<td>
+									주차
+								</td>
+								<td>
+									OTT
+								</td>
+								<td>
+									엘리베이터
+								</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>
+								</td>
+								<td>
+									<input type='radio' name='wifi' value='1' />
+									<input type='radio' name='wifi' value='0' style="display:none;" checked/>
+								</td>
+								<td>
+									<input type='radio' name='kitchen_tools' value='1' />
+									<input type='radio' name='kitchen_tools' value='0' style="display:none;" checked/>
+								</td>
+								<td>
+									<input type='radio' name='parking' value='1' />
+									<input type='radio' name='parking' value='0' style="display:none;" checked/>
+								</td>
+								<td>
+									<input type='radio' name='ott' value='1' />
+									<input type='radio' name='ott' value='0' style="display:none;" checked/>
+								</td>
+								<td>
+									<input type='radio' name='ev' value='1' />
+									<input type='radio' name='ev' value='0' style="display:none;" checked/>
+								</td>
+								<td>
+								</td>
+							</tr>
+						</table>
+						<button type="submit" class="btn btn-warning zdropdown-toggle shadow" style="width:470px;">필터적용</button>
+					</li>
+				</form>
 			  </ul>
 			</div>
 		</ul>
 		<br>
+
 
 
 		<!-- 메세지 출력 -->
