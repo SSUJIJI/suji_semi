@@ -9,9 +9,12 @@
 	// 테마리스트 메서드 호출
 	ArrayList<String> selectThemeList = ThemeDAO.selectThemeList();
 %>
+<link rel="icon" href="/BeeNb/img/beeFavicon.ico">
 <nav class="navbar navbar-expand-lg bg-white sticky-top">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/BeeNb/emp/empRoomList.jsp">&#128029;</a>
+    <a class="navbar-brand" href="/BeeNb/emp/empRoomList.jsp">
+   	    <img src="/BeeNb/img/bee.png" class="h-100 d-inline-block" style="width: 30px; height: 25px;">
+    </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>

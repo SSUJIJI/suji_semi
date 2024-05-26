@@ -79,6 +79,7 @@
 	<title>숙소 목록</title>
 	<jsp:include page="/inc/bootstrapCDN.jsp"></jsp:include>
 	<link href="/BeeNb/css/style.css" rel="stylesheet" type="text/css">
+	<link rel="icon" href="/BeeNb/img/beeFavicon.ico">
 	<style>
 		.room-image {
 			width: 100%; /* 너비를 카드에 맞춤 */
