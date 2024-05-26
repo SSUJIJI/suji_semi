@@ -129,7 +129,7 @@
 		<div class="row">
 			<div class="col-2"></div>
 			<div class="col-10">
-				<div class="w-75 p-3 border border-warning rounded-pill">
+				<div class="w-75 p-3 border border-warning rounded-pill shadow p-3 bg-body-tertiary rounded">
 					<form method="post" action="/BeeNb/customer/customerRoomList.jsp" onsubmit="return validateForm()">
 						<%
 							if(lowPrice!=null){
@@ -146,13 +146,15 @@
 						<%
 							}
 						%>
-						여행지<input type="text" name="searchAddress" style="width:100px;" required>
-						체크인<input type="date" name="searchStartDate" required>
-						체크아웃<input type="date" name="searchEndDate" required>
-						여행자<input type="number" name="searchMaxPeople" style="width:50px;" required>
-						<button type="submit">
-							<img src="/BeeNb/img/search.png" class="h-100 d-inline-block" style="width: 30px;">
+						<div class="row mt-2" style="display: flex; justify-content: space-between;">
+						&nbsp;&nbsp;&nbsp;여행지<input type="text" name="searchAddress" style="width:100px; height: 25px;" class="col-3 btn btn-outline-warning rounded-pill" required>
+						체크인<input type="date" name="searchStartDate" style="width:140px; height: 25px; color: black;" class="col-3 btn btn-outline-warning rounded-pill" required>
+						체크아웃<input type="date" name="searchEndDate" style="width:140px; height: 25px; color: black;" class="col-3 btn btn-outline-warning rounded-pill" required>
+						여행자<input type="number" name="searchMaxPeople" style="width:60px; height: 25px;"  class="col-1 btn btn-outline-warning rounded-pill" required>
+						<button type="submit"  class="col-1" style="background: none; border: none; padding: 0;">
+							<img src="/BeeNb/img/search.png" class="h-100 d-inline-block" style="width: 30px; height: 25px;">
 						</button>
+						</div>
 					</form>
 				</div>
 			</div>
@@ -173,7 +175,8 @@
 				}
 			%>
 			<div class="dropdown">
-			  <button class="btn btn-warning zdropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+			  <button class="btn btn-warning zdropdown-toggle shadow" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+				<img src="/BeeNb/img/ft.png" class="h-100 d-inline-block">
 			    필터
 			  </button>
 			  <ul class="dropdown-menu">
