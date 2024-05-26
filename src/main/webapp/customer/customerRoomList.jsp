@@ -85,6 +85,38 @@
 			object-fit: cover; /* 이미지 비율을 유지하면서 빈 공간 없이 채움 */
 		}
 	</style>
+	<script>
+		// 검색엔진 유효성검사 메서드.
+		// 빈 검색조건이 있다면 false반환하여 인풋유도
+		function validateForm() {
+		    var address = document.forms[0]["searchAddress"].value;
+		    var startDate = document.forms[0]["searchStartDate"].value;
+		    var endDate = document.forms[0]["searchEndDate"].value;
+		    var maxPeople = document.forms[0]["searchMaxPeople"].value;
+		
+		    if (address == "" || startDate == "" || endDate == "" || maxPeople == "") {
+		    	// 띄울 메세지 
+		        alert("모든 검색조건을 입력하세요.");
+		        return false;
+		    }
+		    return true;
+		}
+		
+		
+		// 필터 유효성검사 메서드.
+		// 빈 필터조건이 있다면 false반환하여 인풋유도
+	    function validateFilterForm() {
+	        var lowPrice = document.forms[0]["lowPrice"].value;
+	        var highPrice = document.forms[0]["highPrice"].value;
+	        var bed = document.forms[0]["bed"].value;
+	
+	        if (lowPrice === "" || highPrice === "" || bed === "") {
+	            alert("가격과 침대 갯수를 입력하세요.");
+	            return false;
+	        }
+	        return true;
+	    }
+	</script>
 </head>
 <body>
 	<div class="container">
@@ -98,7 +130,7 @@
 			<div class="col-2"></div>
 			<div class="col-10">
 				<div class="w-75 p-3 border border-warning rounded-pill">
-					<form method="post" action="/BeeNb/customer/customerRoomList.jsp">
+					<form method="post" action="/BeeNb/customer/customerRoomList.jsp" onsubmit="return validateForm()">
 						<%
 							if(lowPrice!=null){
 						%>
@@ -114,10 +146,10 @@
 						<%
 							}
 						%>
-						여행지<input type="text" name="searchAddress" style="width:100px;">
-						체크인<input type="date" name="searchStartDate">
-						체크아웃<input type="date" name="searchEndDate">
-						여행자<input type="number" name="searchMaxPeople" style="width:50px;">
+						여행지<input type="text" name="searchAddress" style="width:100px;" required>
+						체크인<input type="date" name="searchStartDate" required>
+						체크아웃<input type="date" name="searchEndDate" required>
+						여행자<input type="number" name="searchMaxPeople" style="width:50px;" required>
 						<button type="submit">
 							<img src="/BeeNb/img/search.png" class="h-100 d-inline-block" style="width: 30px;">
 						</button>
@@ -146,15 +178,15 @@
 			  </button>
 			  <ul class="dropdown-menu">
 			    <div>
-					<form method="post" action="/BeeNb/customer/customerRoomList.jsp">
+					<form method="post" action="/BeeNb/customer/customerRoomList.jsp"  onsubmit="return validateFilterForm()">
 						<h3>필터</h3>
 						<input type="hidden" name="searchAddress" value="<%=searchAddress %>">
 						<input type="hidden" name="searchStartDate" value="<%=searchStartDate %>">
 						<input type="hidden" name="searchEndDate" value="<%=searchEndDate %>">
 						<input type="hidden" name="searchMaxPeople" value="<%=searchMaxPeople %>">
 						<h5>가격</h5>
-						최소가격:<input type="number" name="lowPrice">
-						최대가격:<input type="number" name="highPrice">
+						최소가격:<input type="number" name="lowPrice" required>
+						최대가격:<input type="number" name="highPrice" required>
 						<h5>카테고리</h5>
 							<select name="room_category">
 								<option value="펜션">펜션</option>
@@ -190,7 +222,7 @@
 						유	<input type='radio' name='ev' value='1' />
 						무<input type='radio' name='ev' value='0' checked/>
 						<br>
-						침대갯수:<input type="number" name="bed">개
+						침대갯수:<input type="number" name="bed" required>개
 					<button type="submit">필터적용</button>
 					</form>
 			    </div>
