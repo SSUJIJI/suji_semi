@@ -238,7 +238,7 @@
 									</select>
 								</td>
 								<td colspan="4">
-									<input type="number" name="bed" required style="width:70px;" class="btn btn-outline-warning rounded-pill">
+									<input type="number" name="bed" required style="width:130px; color:black;" class="btn btn-outline-warning rounded-pill">
 								</td>
 							</tr>
 							<tr>

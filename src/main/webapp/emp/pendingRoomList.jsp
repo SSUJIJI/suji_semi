@@ -19,6 +19,18 @@
 	<title>숙소심사</title>
 	<jsp:include page="/inc/bootstrapCDN.jsp"></jsp:include>
 	<link href="/BeeNb/css/style.css" rel="stylesheet" type="text/css">
+	<link rel="icon" href="/BeeNb/img/beeFavicon.ico">
+    <style>
+        .container {
+            height: 100vh; /* 전체 화면 높이를 부모 컨테이너에 설정 */
+            display: flex;
+            flex-direction: column;
+        }
+        .main-content {
+            flex: 1;
+            height: 65%; /* 높이를 65%로 설정 */
+        }
+    </style>
 </head>
 <body>
 	<div class="container">
@@ -26,39 +38,40 @@
 		<jsp:include page="/emp/inc/empNavbar.jsp"></jsp:include>
 		
 		<!-- 메인작업 -->
-		<h1>숙소심사</h1>
-		<%
-			if(msg != null){
-		%>
-				<%=msg %>
-		<%
-			}
-		%>
-		<table class="table">
-			<tr>
-				<th>숙소번호</th>
-				<th>호스트ID</th>
-				<th>숙소이름</th>
-				<th>현재상태</th>
-				<th>상세보기</th>
-			</tr>
-			
-				<%
-					for (HashMap<String, Object> m : selectPendingRoomList) {
-				%>
-						<tr>
-							<td><%=(Integer) (m.get("roomNo"))%></td>
-							<td><%=(String) (m.get("customerId"))%></td>
-							<td><%=(String) (m.get("roomName"))%></td>
-							<td><%=(String) (m.get("approveState"))%></td>
-							<td><a href="/BeeNb/emp/pendingRoomOne.jsp?roomNo=<%=(Integer) (m.get("roomNo"))%>" class="btn btn-warning">상세보기</a></td>
-							
-						</tr>
-				<%
-					}
-				%>
-			
-		</table>
+		<div class="main-content">
+			<h1>숙소심사</h1>
+			<%
+				if(msg != null){
+			%>
+					<%=msg %>
+			<%
+				}
+			%>
+			<table class="table">
+				<tr>
+					<th>숙소번호</th>
+					<th>호스트ID</th>
+					<th>숙소이름</th>
+					<th>현재상태</th>
+					<th>상세보기</th>
+				</tr>
+				
+					<%
+						for (HashMap<String, Object> m : selectPendingRoomList) {
+					%>
+							<tr>
+								<td><%=(Integer) (m.get("roomNo"))%></td>
+								<td><%=(String) (m.get("customerId"))%></td>
+								<td><%=(String) (m.get("roomName"))%></td>
+								<td><%=(String) (m.get("approveState"))%></td>
+								<td><a href="/BeeNb/emp/pendingRoomOne.jsp?roomNo=<%=(Integer) (m.get("roomNo"))%>" class="btn btn-warning">상세보기</a></td>
+								
+							</tr>
+					<%
+						}
+					%>
+			</table>
+		</div>
 		
 		<!-- 푸터  -->
 		<jsp:include page="/inc/footer.jsp"></jsp:include>	
