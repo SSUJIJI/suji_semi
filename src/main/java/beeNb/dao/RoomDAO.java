@@ -490,7 +490,7 @@ public class RoomDAO {
 			searchRoomList.add(m);
 		}
 	    
-	    conn.close();;
+	    conn.close();
 		return searchRoomList;
 	}
 	
@@ -644,8 +644,6 @@ public class RoomDAO {
 	        System.out.println(m);
 	    }
 
-	    rs.close();
-	    stmt.close();
 	    conn.close();
 	        
 		return roomFilterList;
