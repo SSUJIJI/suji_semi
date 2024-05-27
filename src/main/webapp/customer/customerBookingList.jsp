@@ -67,6 +67,23 @@
 	<title></title>
 	<jsp:include page="/inc/bootstrapCDN.jsp"></jsp:include>
 	<link href="/BeeNb/css/style.css" rel="stylesheet" type="text/css">
+	<style>
+        /* 버튼 스타일 */
+        .btn {
+            display: inline-block;
+            padding: 3px 10px;
+            border: none;
+            border-radius: 3px;
+            background-color: #ffc107; /* 노란색 */
+            color: #000;
+            text-align: center;
+            text-decoration: none;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+       
+    </style>
 </head>
 <body>
 	<div class="container">
@@ -115,7 +132,7 @@
 					<td><%=(String)(m.get("startRoomDate"))%></td>
 					<td><%=(String)(m.get("endRoomDate"))%></td>
 					<td>
-						<a href = "/BeeNb/customer/customerCancelBookingAction.jsp?bookingNo=<%=m.get("bookingNo") %>" onclick="return confirm('예약을 취소하시겠습니까?')">
+						<a href = "/BeeNb/customer/customerCancelBookingAction.jsp?bookingNo=<%=m.get("bookingNo") %>" onclick="return confirm('예약을 취소하시겠습니까?')" class="btn">
 							예약취소
 						</a>
 					</td>
@@ -153,8 +170,20 @@
 						<td><%=(String)(m.get("createDate"))%></td>
 						<td><%=(String)(m.get("startRoomDate"))%></td>
 						<td><%=(String)(m.get("endRoomDate"))%></td>
-						<td><a href = "/BeeNb/customer/customerAddReviewForm.jsp?bookingNo=<%=m.get("bookingNo")%>">리뷰쓰기</a>
-						<td><a href = "/BeeNb/customer/customerComplainBookingForm.jsp?bookingNo=<%=m.get("bookingNo")%>">신고하기</a>
+						  <td>
+                            <%
+                                if(((String)m.get("bookingState")).equals("리뷰완료")) {
+                            %>
+                                <button class="btn btn-disabled" disabled>리뷰 완료</button>
+                            <%
+                                } else {
+                            %>
+                                <a href="/BeeNb/customer/customerAddReviewForm.jsp?bookingNo=<%=m.get("bookingNo") %>" class="btn">리뷰 쓰기</a>
+                            <%
+                                }
+                            %>
+                        </td>
+						<td><a href = "/BeeNb/customer/customerComplainBookingForm.jsp?bookingNo=<%=m.get("bookingNo")%>" class="btn">신고하기</a>
 					</tr>
 				<%
 					}

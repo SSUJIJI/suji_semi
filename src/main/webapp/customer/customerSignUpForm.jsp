@@ -37,73 +37,91 @@
 	<div class="container">
 	<!-- 고객 네비게이션 바 -->
 		<jsp:include page="/customer/inc/customerNavbar.jsp"></jsp:include>
-		<h1>회원가입</h1>
-		<!-- 아이디 중복 확인 -->
-		<form method="post" action="/BeeNb/customer/customerCheckIdAction.jsp">
-			<table>
-				<tr>
-					<td colspan="3"><%=msg %></td>
-				</tr>
-				<tr>
-					<th>아이디 : </th>
-					<td><input type = "text" name = "customerId" required="required" value="<%=customerId %>"></td>
-					<td><button type = "submit">중복확인</button></td>
-				</tr>
-							</table>
-		</form>
-		<form method = "post" action = "/BeeNb/customer/customerSignUpAction.jsp">
-			<table>
-				<tr>
-					<%
-						if(check.equals("T")){ // check가 T면 아이디를 readonly로 받기 
-					%>
-							<td><input type = "text" name="customerId" value = <%=customerId %> readonly="readonly" hidden = "hidden"></td>
-					<%		
-						}else{ // check가 F면 아이디가 입력되지 않게
-					%>
-							<td><input type = "text" name="customerId" hidden = "hidden"></td>
-					<%		
-							}
-					%>
-				</tr>
-				<tr>
-					<th>비밀번호 : </th>
-					<td><input type = "password" name="customerPw"></td>
-				</tr>
-				<tr>
-					<th>이메일 : </th>
-					<td><input type = "email" name="customerEmail"></td>
-				</tr>
-				<tr>
-					<th>이름 : </th>
-					<td><input type = "text" name="customerName"></td>
-				</tr>
-				<tr>
-					<th>생년월일 : </th>
-					<td><input type = "date" name="customerBirth"></td>
-				</tr>
-				<tr>
-					<th>전화번호 : </th>
-					<td><input type="tel" name="customerPhone" placeholder="010-1234-7890">
-					<%
-						if(errMsgP != null) {
-					%>
-							<%= errMsgP%>
-					<%
-						}
-					%>
-					</td>
-				</tr>
-				<tr>
-					<th>성별 : </th>
-					<td><input type = "radio" name="customerGender" value = "F">여자<input type = "radio" name="customerGender" value = "M">남자</td>
-				</tr>
-				<tr>
-					<td><button type="submit">가입하기</button></td>
-				</tr>
-	
-			</table>
-		</form>
+		<div class="card mx-auto mt-5" style="max-width: 600px;">
+            <div class="card-body">
+                <h1 class="card-title text-center">회원가입</h1>
+                <!-- 아이디 중복 확인 폼 -->
+                <form method="post" action="/BeeNb/customer/customerCheckIdAction.jsp" class="mb-4">
+                    <div class="form-group">
+                        <!-- 중복 확인 메시지 -->
+                        <div class="alert alert-warning" role="alert">
+                            <%= msg %>
+                        </div>
+                        <label for="customerId">아이디</label>
+                        <div class="input-group">
+                            <input type="text" id="customerId" name="customerId" class="form-control" required="required" value="<%= customerId %>">
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-warning">중복확인</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!-- 회원가입 폼 -->
+                <form method="post" action="/BeeNb/customer/customerSignUpAction.jsp">
+                    <!-- 아이디 필드 -->
+                    <div class="form-group">
+                        <%
+                            if(check.equals("T")) { // check가 T면 아이디를 readonly로 받기 
+                        %>
+                            <input type="text" name="customerId" value="<%= customerId %>" readonly="readonly" hidden="hidden">
+                        <%
+                            } else { // check가 F면 아이디가 입력되지 않게
+                        %>
+                            <input type="text" name="customerId" hidden="hidden">
+                        <%
+                            }
+                        %>
+                    </div>
+                    <!-- 비밀번호 필드 -->
+                    <div class="form-group">
+                        <label for="customerPw">비밀번호</label>
+                        <input type="password" id="customerPw" name="customerPw" class="form-control" required>
+                    </div>
+                    <!-- 이메일 필드 -->
+                    <div class="form-group">
+                        <label for="customerEmail">이메일</label>
+                        <input type="email" id="customerEmail" name="customerEmail" class="form-control" required>
+                    </div>
+                    <!-- 이름 필드 -->
+                    <div class="form-group">
+                        <label for="customerName">이름</label>
+                        <input type="text" id="customerName" name="customerName" class="form-control" required>
+                    </div>
+                    <!-- 생년월일 필드 -->
+                    <div class="form-group">
+                        <label for="customerBirth">생년월일</label>
+                        <input type="date" id="customerBirth" name="customerBirth" class="form-control" required>
+                    </div>
+                    <!-- 전화번호 필드 -->
+                    <div class="form-group">
+                        <label for="customerPhone">전화번호</label>
+                        <input type="tel" id="customerPhone" name="customerPhone" class="form-control" placeholder="010-1234-7890" required>
+                        <!-- 전화번호 에러 메시지 -->
+                        <%
+                            if(errMsgP != null) {
+                        %>
+                            <div class="text-danger"><%= errMsgP %></div>
+                        <%
+                            }
+                        %>
+                    </div>
+                    <!-- 성별 필드 -->
+                    <div class="form-group">
+                        <label>성별</label><br>
+                        <div class="form-check form-check-inline">
+                            <input type="radio" id="genderF" name="customerGender" value="F" class="form-check-input">
+                            <label for="genderF" class="form-check-label">여자</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="radio" id="genderM" name="customerGender" value="M" class="form-check-input">
+                            <label for="genderM" class="form-check-label">남자</label>
+                        </div>
+                    </div>
+                     <!-- 가입하기 버튼 -->
+                    <button type="submit" class="btn btn-warning w-100">가입하기</button>
+                </form>
+            </div>
+        </div>
 		<!-- 푸터 -->
 		<jsp:include page="/inc/footer.jsp"></jsp:include>
 	</div>
