@@ -23,27 +23,27 @@
 	<div class="container">
 		<!-- 고객 네비게이션 바 -->
 		<jsp:include page="/customer/inc/customerNavbar.jsp"></jsp:include>
-		<h1>정보수정시 비밀번호 확인</h1>
-		<%
-			if(errMsg != null){
-		%>
-			<div class="alert alert-danger" role="alert">
-				<%=errMsg%>
-			</div>	
-		<%	
-			}
-		%>
-		<form method="post" action="/BeeNb/customer/customerCheckPwAction.jsp">
-			<table>
-				<tr>
-					<th>비밀번호 입력하세요</th>
-				</tr>
-				<tr>
-					<td><input type="password" name="customerPw"></td>				
-				</tr>
-			</table>
-			<button type="submit">확인하기</button>
-		</form>
+		<div class="card mx-auto" style="max-width: 600px;">
+            <div class="card-body">
+				<h1 class="card-title text-center">정보수정시 비밀번호 확인</h1>
+				<%
+					if(errMsg != null){
+				%>
+					<div class="alert alert-danger" role="alert">
+						<%=errMsg%>
+					</div>	
+				<%	
+					}
+				%>
+				<form method="post" action="/BeeNb/customer/customerCheckPwAction.jsp">
+                    <div class="mb-3">
+                        <label for="customerPw" class="form-label">비밀번호를 입력하세요</label>
+                        <input type="password" class="form-control" id="customerPw" name="customerPw" required>
+                    </div>
+					<button type="submit" class="btn btn-warning w-100">확인하기</button>
+				</form>
+			</div>
+		</div>
 		<!-- 푸터  -->
 		<jsp:include page="/inc/footer.jsp"></jsp:include>	
 	</div>	

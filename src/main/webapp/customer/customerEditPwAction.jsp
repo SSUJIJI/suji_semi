@@ -31,7 +31,7 @@
 		// 디버깅 코드
 		System.out.println("변경 성공");
 		String editMsg = URLEncoder.encode("변경성공입니다.","utf-8");
-		response.sendRedirect("/BeeNb/customer/customerLoginForm.jsp?editMsg"+editMsg);
+		response.sendRedirect("/BeeNb/customer/customerLoginForm.jsp?editMsg="+editMsg);
 	} else{
 		// 디버깅 코드
 		System.out.println("변경 실패");
