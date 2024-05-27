@@ -36,6 +36,7 @@
 	<title></title>
 	<jsp:include page="/inc/bootstrapCDN.jsp"></jsp:include>
 	<link href="/BeeNb/css/style.css" rel="stylesheet" type="text/css">
+	<link rel="icon" href="/BeeNb/img/beeFavicon.ico">
 </head>
 <body>
 	<div class="container">
