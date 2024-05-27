@@ -134,162 +134,176 @@
 	<div class="container">
 		<!-- 관리자 네비게이션 바 -->
 		<jsp:include page="/customer/inc/customerNavbar.jsp"></jsp:include>
-		
-		<h1><%=customerRoomOne.get("roomName") %></h1>
-		<!-- 숙소 상세정보 출력 -->
-		<div>
-			<!-- 숙소 이미지 -->
-			<div>
-				<img alt="..." src="/BeeNb/upload/<%=customerRoomOne.get("roomImg") %>" width="500px;">
-			</div>
-			<!-- 나머지 상세정보 -->
-			<div>
-				<div>
-					<b>숙소 이름</b>
-					<%=customerRoomOne.get("roomName") %>
-				</div>
-				
-				<div>
-					<b>숙소 타입</b>
-					<%=customerRoomOne.get("roomCategory") %>
-				</div>
-				
-				<div>
-					<b>테마</b>
-					<%=customerRoomOne.get("roomTheme") %>
-				</div>
-				
-				<div>
-					<b>위치</b>
-					<%=customerRoomOne.get("roomAddress") %>
-				</div>
-				
-				<div>
-					<b>운용 기간</b>
-					<%=customerRoomOne.get("operationStart") %> ~ <%=customerRoomOne.get("operationEnd") %>
-				</div>
-				
-				<div>
-					<b>최대 수용 인원</b>
-					<%=customerRoomOne.get("maxPeople") %>
-				</div>
-				
-				<div>
-					<b>설명</b>
-					<%=customerRoomOne.get("roomContent") %>
-				</div>
-				
-				<div>
-					<b>승인 상태</b>
-					<%=customerRoomOne.get("approveState") %>
-				</div>
-				
-				<div>
-					<b>숙소 등록일</b>
-					<%=customerRoomOne.get("createDate") %>
-				</div>
-				
-				<div>
-					<b>숙소 수정일</b>
-					<%=customerRoomOne.get("updateDate") %>
-				</div>
-			</div>
-		</div>
-		
-		
-		
-		<!-- 숙소 예약일 표시 및 가격 등록 버튼-->
-		<div>
-			<hr>
-			<div class="row">
-				<div class="col">
-					<a href="/BeeNb/customer/customerRoomOne.jsp?roomNo=<%=roomNo %>&targetYear=<%=calendarYear%>&targetMonth=<%=calendarMonth - 1%>">
-						이전 달
-					</a>
-				</div>
-				
-				<div class="col">
-					<h2><%=calendarYear%>년 <%=calendarMonth + 1%>월</h2>
-				</div>
-				
-				<div class="col">
-					<a href="/BeeNb/customer/customerRoomOne.jsp?roomNo=<%=roomNo %>&targetYear=<%=calendarYear%>&targetMonth=<%=calendarMonth + 1%>">
-						다음 달
-					</a>
-				</div>
-			</div>
-		</div>
-		<!-- 달력 -->
-		<form action="/BeeNb/customer/roomBookingAction.jsp" method="post">
-			<div>
-				<!-- 요일 -->
-				<table class="table">
-					<thead>
-						<tr>
-							<th>일</th>
-							<th>월</th>
-							<th>화</th>
-							<th>수</th>
-							<th>목</th>
-							<th>금</th>
-							<th>토</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-						<%
-							for(int i = 1; i <= calendarTotalDiv; i ++) {
-								// 공백 숫자를 뺀 실제 달력에 표시되야하는 날짜
-								int realDay = i - firstDayBeforeBlank;
-						%>
-								<td>
-						<%
-								// realDay가 실제 달력의 날짜 안에 있어야만 달력에 출력
-								if((realDay >= 1) && (i -firstDayBeforeBlank <= lastDay)) {
-						%>
-									<%=realDay %>
-						<%
-									// 리스트의 요소들 중 요금이 책정된 날짜가 있다면 페이지에 출력
-									for(HashMap<String, Object> m : oneDayPriceList) {
-										int oneDayPriceYear = Integer.parseInt((((String)(m.get("roomDate"))).substring(0, 4)));
-										int oneDayPriceMonth = Integer.parseInt((((String)(m.get("roomDate"))).substring(5, 7)));
-										int oneDayPriceDay = Integer.parseInt((((String)(m.get("roomDate"))).substring(8, 10)));
-										if(calendarYear == oneDayPriceYear && (calendarMonth + 1) == oneDayPriceMonth && (realDay) == oneDayPriceDay) {
-						%>
-											<br>예약 상태 : <b><%=m.get("roomState")%></b>
-											<br>등록 가격 : <b><%=String.format("%,d", Integer.parseInt((String)m.get("roomPrice")))%>원</b>
-						<%
-											if(((String)m.get("roomState")).equals("예약 가능")) {
-						%>
-											<br><input type="checkbox" name="roomDate" value="<%=m.get("roomDate") %>">
-						<%
+		<div class="row mt-5">
+			<div class="col"></div>
+			<div class="col-10">
+				<div class="row mt-5">
+					<div class="col">
+											
+						<!-- 숙소 이미지 -->
+						<div>
+							<img alt="..." src="/BeeNb/upload/<%=customerRoomOne.get("roomImg") %>" width="100%">
+						</div>
+						<hr>
+						<h1><%=customerRoomOne.get("roomName") %></h1>	
+						<!-- 숙소 상세정보 출력 -->
+						<div>
+						<!-- 나머지 상세정보 -->
+						<div>
+							<div>
+								<b>숙소 이름</b>
+								<%=customerRoomOne.get("roomName") %>
+							</div>
+							
+							<div>
+								<b>숙소 타입</b>
+								<%=customerRoomOne.get("roomCategory") %>
+							</div>
+							
+							<div>
+								<b>테마</b>
+								<%=customerRoomOne.get("roomTheme") %>
+							</div>
+							
+							<div>
+								<b>위치</b>
+								<%=customerRoomOne.get("roomAddress") %>
+							</div>
+							
+							<div>
+								<b>운용 기간</b>
+								<%=customerRoomOne.get("operationStart") %> ~ <%=customerRoomOne.get("operationEnd") %>
+							</div>
+							
+							<div>
+								<b>최대 수용 인원</b>
+								<%=customerRoomOne.get("maxPeople") %>
+							</div>
+							
+							<div>
+								<b>설명</b>
+								<%=customerRoomOne.get("roomContent") %>
+							</div>
+							
+							<div>
+								<b>승인 상태</b>
+								<%=customerRoomOne.get("approveState") %>
+							</div>
+							
+							<div>
+								<b>숙소 등록일</b>
+								<%=customerRoomOne.get("createDate") %>
+							</div>
+							
+							<div>
+								<b>숙소 수정일</b>
+								<%=customerRoomOne.get("updateDate") %>
+							</div>
+						</div>
+					</div>
+					</div>
+					<div class="col-3 small">
+						<!-- 숙소 예약일 표시 및 가격 등록 버튼-->
+						<div>
+							
+							<div class="row">
+								<div class="col">
+									<a href="/BeeNb/customer/customerRoomOne.jsp?roomNo=<%=roomNo %>&targetYear=<%=calendarYear%>&targetMonth=<%=calendarMonth - 1%>">
+										이전 달
+									</a>
+								</div>
+								
+								<div class="col">
+									<%=calendarYear%>년 <%=calendarMonth + 1%>월
+								</div>
+								
+								<div class="col">
+									<a href="/BeeNb/customer/customerRoomOne.jsp?roomNo=<%=roomNo %>&targetYear=<%=calendarYear%>&targetMonth=<%=calendarMonth + 1%>">
+										다음 달
+									</a>
+								</div>
+							</div>
+						</div>
+						<!-- 달력 -->
+						<form action="/BeeNb/customer/roomBookingAction.jsp" method="post">
+							<div>
+								<!-- 요일 -->
+								<table class="table">
+									<thead>
+										<tr>
+											<th>일</th>
+											<th>월</th>
+											<th>화</th>
+											<th>수</th>
+											<th>목</th>
+											<th>금</th>
+											<th>토</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+										<%
+											for(int i = 1; i <= calendarTotalDiv; i ++) {
+												// 공백 숫자를 뺀 실제 달력에 표시되야하는 날짜
+												int realDay = i - firstDayBeforeBlank;
+										%>
+												<td>
+										<%
+												// realDay가 실제 달력의 날짜 안에 있어야만 달력에 출력
+												if((realDay >= 1) && (i -firstDayBeforeBlank <= lastDay)) {
+										%>
+													<%=realDay %>
+										<%
+													// 리스트의 요소들 중 요금이 책정된 날짜가 있다면 페이지에 출력
+													for(HashMap<String, Object> m : oneDayPriceList) {
+														int oneDayPriceYear = Integer.parseInt((((String)(m.get("roomDate"))).substring(0, 4)));
+														int oneDayPriceMonth = Integer.parseInt((((String)(m.get("roomDate"))).substring(5, 7)));
+														int oneDayPriceDay = Integer.parseInt((((String)(m.get("roomDate"))).substring(8, 10)));
+														if(calendarYear == oneDayPriceYear && (calendarMonth + 1) == oneDayPriceMonth && (realDay) == oneDayPriceDay) {
+										%>
+															<%-- <br>예약 상태 : <b><%=m.get("roomState")%></b>
+															<br>등록 가격 : <b><%=String.format("%,d", Integer.parseInt((String)m.get("roomPrice")))%>원</b> --%>
+										<%
+															if(((String)m.get("roomState")).equals("예약 가능")) {
+										%>
+															<br><input type="checkbox" name="roomDate" value="<%=m.get("roomDate") %>">
+										<%
+															}
+														}
+													}
+										%>
+												</td>
+										<%
+												}
+												// 한줄에 칸이 7개가 되면 행을 닫기
+												if(i % 7 == 0) {
+										%>
+													</tr>
+										<%
+												}
 											}
-										}
-									}
-						%>
-								</td>
-						<%
-								}
-								// 한줄에 칸이 7개가 되면 행을 닫기
-								if(i % 7 == 0) {
-						%>
-									</tr>
-						<%
-								}
-							}
-						%>
-					</tbody>
-				</table>
+										%>
+									</tbody>
+								</table>
+							</div>
+							<div>
+								인원&nbsp;&nbsp;&nbsp; : &nbsp;&nbsp;&nbsp;
+								<input type="number" class="form-control w-75" style="display: inline-block;" id="usePeople" name="usePeople"><br>
+								<input type="hidden" id="roomNo" name="roomNo" value="<%=customerRoomOne.get("roomNo") %>">
+							</div>
+							<div class="mt-3 d-flex flex-row-reverse">
+								<input type="submit" class=" btn btn-outline-warning btn-width-beenb mx-2" value="예약하기">
+							</div>
+						</form>
+					</div>
+				</div>
 			</div>
-			<div>
-				인원
-				<input type="number" id="usePeople" name="usePeople"><br>
-				<input type="hidden" id="roomNo" name="roomNo" value="<%=customerRoomOne.get("roomNo") %>">
-			</div>
-			<div>
-				<input type="submit" value="예약하기">
-			</div>
-		</form>
+			<div class="col"></div>		
+		</div>
+		
+		
+		
+		
 
 		<!-- 숙소 리뷰 -->
 		<div>
