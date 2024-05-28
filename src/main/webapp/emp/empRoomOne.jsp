@@ -81,6 +81,11 @@
 	ArrayList<HashMap<String, Object>> reviewList = ReviewDAO.selectHostRoomReviewList(roomNo, startRow, rowPerPage);
 	// 디버깅
 	System.out.println("reviewList : " + reviewList);
+	
+	// 호스팅한 숙소의 이미지리스트
+	ArrayList<String> roomImgList = RoomImgDAO.selectRoomImgList(roomNo);
+	//디버깅
+	System.out.println("roomImgList : " + roomImgList);
 %>
 <!DOCTYPE html>
 <html>
@@ -96,79 +101,102 @@
 		<!-- 관리자 네비게이션 바 -->
 		<jsp:include page="/emp/inc/empNavbar.jsp"></jsp:include>
 		
+		<!-- 숙소 이름 -->
 		<h1><%=empRoomOne.get("roomName") %></h1>
-		<!-- 숙소 상세정보 출력 -->
-		<div>
-			<!-- 숙소 이미지 -->
-			<div>
-				<img alt="..." src="/BeeNb/upload/<%=empRoomOne.get("roomImg") %>" width="500px;">
+		
+		<div style="display: flex; jusify-content: space-between;">
+			<div class="w-50">
+				<!-- 숙소 이미지 캐러셀 -->
+				<div id="carouselExample" class="carousel slide">
+				  <div class="carousel-inner">
+		  				<%
+							for(String roomImg : roomImgList) {
+						%>
+							    <div class="carousel-item active">
+							      <img src="/BeeNb/upload/<%=roomImg %>" class="d-block w-100" alt="..." style="height: 365px;">
+							    </div>
+						<%
+							}
+						%>
+				  </div>
+				  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+				    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				    <span class="visually-hidden">Previous</span>
+				  </button>
+				  <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+				    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+				    <span class="visually-hidden">Next</span>
+				  </button>
+				</div>
 			</div>
-			<!-- 나머지 상세정보 -->
-			<div>
-				<div>
-					<b>숙소 이름</b>
-					<%=empRoomOne.get("roomName") %>
-				</div>
-				
-				<div>
-					<b>숙소 타입</b>
-					<%=empRoomOne.get("roomCategory") %>
-				</div>
-				
-				<div>
-					<b>테마</b>
-					<%=empRoomOne.get("roomTheme") %>
-				</div>
-				
-				<div>
-					<b>위치</b>
-					<%=empRoomOne.get("roomAddress") %>
-				</div>
-				
-				<div>
-					<b>운용 기간</b>
-					<%=empRoomOne.get("operationStart") %> ~ <%=empRoomOne.get("operationEnd") %>
-				</div>
-				
-				<div>
-					<b>최대 수용 인원</b>
-					<%=empRoomOne.get("maxPeople") %>
-				</div>
-				
-				<div>
-					<b>설명</b>
-					<%=empRoomOne.get("roomContent") %>
-				</div>
-				
-				<div>
-					<b>승인 상태</b>
-					<%=empRoomOne.get("approveState") %>
-				</div>
-				
-				<div>
-					<b>숙소 등록일</b>
-					<%=empRoomOne.get("createDate") %>
-				</div>
-				
-				<div>
-					<b>숙소 수정일</b>
-					<%=empRoomOne.get("updateDate") %>
-				</div>
+			<div class="w-50">
+				<!-- 숙소 상세정보 출력 -->
+				<table class="table table-striped">
+					<tr>
+						<th>숙소 이름</th>
+						<td><%=empRoomOne.get("roomName") %></td>
+					</tr>
+					<tr>
+						<th>숙소 타입</th>
+						<td><%=empRoomOne.get("roomCategory") %></td>
+					</tr>
+					<tr>
+						<th>테마</th>
+						<td><%=empRoomOne.get("roomTheme") %></td>
+					</tr>
+					<tr>
+						<th>위치</th>
+						<td><%=empRoomOne.get("roomAddress") %></td>
+					</tr>
+					<tr>
+						<th>운용 기간</th>
+						<td><%=empRoomOne.get("operationStart") %> ~ <%=empRoomOne.get("operationEnd") %></td>
+					</tr>
+					<tr>
+						<th>최대 수용 인원</th>
+						<td><%=empRoomOne.get("maxPeople") %></td>
+					</tr>
+					<tr>
+						<th>승인 상태</th>
+						<td><%=empRoomOne.get("approveState") %></td>
+					</tr>
+					<tr>
+						<th>숙소 등록일</th>
+						<td><%=empRoomOne.get("createDate") %></td>
+					</tr>
+					<tr>
+						<th>숙소 수정일</th>
+						<td><%=empRoomOne.get("updateDate") %></td>
+					</tr>
+				</table>
 			</div>
 		</div>
-
+		
+		<table class="table table-striped">
+			<tr>
+				<th>숙소 상세 내용</th>
+			</tr>
+			<tr>
+				<td>
+					<%=empRoomOne.get("roomContent") %>
+				</td>
+			</tr>
+		</table>
+		
+		
 		<!-- 숙소 리뷰 -->
 		<div>
-			<hr>
+			<hr>			
 			<h2 style="display: inline-block;">리뷰</h2>
+			<table class="table table-striped">
 			<%
 				for(HashMap<String, Object> m : reviewList) {
 			%>
-					<div>
-						<div>
-							<%=m.get("customerId") %>
-						</div>
-						<div>
+				<tr>
+					<td>
+						<%=m.get("customerId") %>		
+					</td>
+					<td>
 							<%
 								for(int i = 1; i <= (int)(m.get("rating")); i++) {
 							%>
@@ -176,44 +204,50 @@
 							<%
 								}
 							%>
-						</div>
-						<div>
-							<%=((String)(m.get("createDate"))).substring(0, 11)%>
-						</div>
-						<div><%=m.get("reviewContent") %></div>
-					</div>	
-					<hr>
+					</td>
+					<td>
+						<%=((String)(m.get("createDate"))).substring(0, 11)%>
+					</td>
+					<td>
+						<%=m.get("reviewContent") %>
+					</td>
+				</tr>
 			<%
 				}
 			%>
+			</table>
 				
 			<!-- 숙소 리뷰 페이징 -->	
 			<div>
-				<%
-					if(currentPage > 1) {
-				%>	
-						<a href="/BeeNb/emp/empRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=1">처음페이지</a>
-						<a href="/BeeNb/emp/empRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=<%=currentPage-1%>">이전페이지</a>
-				<%		
-					} else {
-				%>
-						<a href="/BeeNb/emp/empRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=1">처음페이지</a>
-						<a href="/BeeNb/emp/empRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=1">이전페이지</a>
-				<%		
-					}
-		
-					if(currentPage < lastPage) {
-				%>
-						<a href="/BeeNb/emp/empRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=<%=currentPage+1%>">다음페이지</a>
-						<a href="/BeeNb/emp/empRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=<%=lastPage%>">마지막페이지</a>
-				<%		
-					} else {
-				%>
-						<a href="/BeeNb/emp/empRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=<%=lastPage%>">다음페이지</a>
-						<a href="/BeeNb/emp/empRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=<%=lastPage%>">마지막페이지</a>
-				<%
-					}
-				%>
+				<nav>
+					<ul class="pagination" style="display: flex; justify-content: center;">
+						<%
+							if(currentPage > 1) {
+						%>	
+								<li class="page-item text-dark"><a class="page-link" href="/BeeNb/emp/empRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=1">처음페이지</a></li>
+								<li class="page-item text-dark"><a class="page-link" href="/BeeNb/emp/empRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=<%=currentPage-1%>">이전페이지</a></li>
+						<%		
+							} else {
+						%>
+								<li class="page-item"><a class="page-link" href="/BeeNb/emp/empRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=1">처음페이지</a></li>
+								<li class="page-item"><a class="page-link" href="/BeeNb/emp/empRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=1">이전페이지</a></li>
+						<%		
+							}
+				
+							if(currentPage < lastPage) {
+						%>
+								<li class="page-item text-dark"><a class="page-link" href="/BeeNb/emp/empRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=<%=currentPage+1%>">다음페이지</a></li>
+								<li class="page-item text-dark"><a class="page-link" href="/BeeNb/emp/empRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=<%=lastPage%>">마지막페이지</a></li>
+						<%		
+							} else {
+						%>
+								<li class="page-item"><a class="page-link" href="/BeeNb/emp/empRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=<%=lastPage%>">다음페이지</a></li>
+								<li class="page-item"><a class="page-link" href="/BeeNb/emp/empRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=<%=lastPage%>">마지막페이지</a></li>
+						<%
+							}
+						%>
+					</ul>
+				</nav>	
 			</div>
 		</div>
 		
