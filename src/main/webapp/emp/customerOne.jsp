@@ -33,78 +33,83 @@
 			<a class="btn-close" href="/BeeNb/emp/customerList.jsp"></a>
 		</div>
 		<!-- 고객 상세 정보 -->
-		<table class="table">
-			<tr>
-				<th>고객 ID</th>
-				<td><%=customerOne.get("customerId")%></td>
-			</tr>
-			
-			<tr>
-				<th>고객 E-MAIL</th>
-				<td><%=customerOne.get("customerEmail")%></td>
-			</tr>
-			
-			<tr>
-				<th>고객 이름</th>
-				<td><%=customerOne.get("customerName")%></td>
-			</tr>
-			
-			<tr>
-				<th>고객 생년월일</th>
-				<td><%=customerOne.get("customerBirth")%></td>
-			</tr>
-			
-			<tr>
-				<th>고객 전화번호</th>
-				<td><%=customerOne.get("customerPhone")%></td>
-			</tr>
-			
-			<tr>
-				<th>고객 성별</th>
-				<td>
-				<%
-					if(customerOne.get("customerGender").equals("M")) {
-				%>
-						남자
-				<%
-					} else {
-				%>
-						여자
-				<%
-					}
-				%>
-				</td>
-			</tr>
-			
-			<tr>
-				<th>고객 등급</th>
-				<td>
-					<%
-						if(customerOne.get("customerGrade").equals("0")) {
-					%>
-							게스트
-					<%
-						} else {
-					%>
-							게스트 & 호스트
-					<%
-						}
-					%>
-				</td>
-			</tr>
-			
-			<tr>
-				<th>고객 생성일</th>
-				<td><%=customerOne.get("createDate")%></td>
-			</tr>
-			
-			<tr>
-				<th>고객정보 수정일</th>
-				<td><%=customerOne.get("updateDate")%></td>
-			</tr>
-			
-			
-		</table>
+		<div class="row">
+			<div class="col"></div>
+			<div class="col-10">
+				<table class="table table-hover" style="height: 500px; vertical-align: middle; text-align: center;">
+					<tr>
+						<th>ID</th>
+						<td><%=customerOne.get("customerId")%></td>
+					</tr>
+					
+					<tr>
+						<th>E-MAIL</th>
+						<td><%=customerOne.get("customerEmail")%></td>
+					</tr>
+					
+					<tr>
+						<th>이름</th>
+						<td><%=customerOne.get("customerName")%></td>
+					</tr>
+					
+					<tr>
+						<th>생년월일</th>
+						<td><%=customerOne.get("customerBirth")%></td>
+					</tr>
+					
+					<tr>
+						<th>전화번호</th>
+						<td><%=customerOne.get("customerPhone")%></td>
+					</tr>
+					
+					<tr>
+						<th>성별</th>
+						<td>
+						<%
+							if(customerOne.get("customerGender").equals("M")) {
+						%>
+								남자
+						<%
+							} else {
+						%>
+								여자
+						<%
+							}
+						%>
+						</td>
+					</tr>
+					
+					<tr>
+						<th>등급</th>
+						<td>
+							<%
+								if(customerOne.get("customerGrade").equals("0")) {
+							%>
+									게스트
+							<%
+								} else {
+							%>
+									게스트 & 호스트
+							<%
+								}
+							%>
+						</td>
+					</tr>
+					
+					<tr>
+						<th>생성일</th>
+						<td><%=customerOne.get("createDate")%></td>
+					</tr>
+					
+					<tr>
+						<th>정보 수정일</th>
+						<td><%=customerOne.get("updateDate")%></td>
+					</tr>
+				</table>
+			</div>
+			<div class="col"></div>
+		</div>
+		
 		<!-- 푸터  -->
 		<jsp:include page="/inc/footer.jsp"></jsp:include>
 	</div>

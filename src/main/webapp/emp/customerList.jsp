@@ -148,10 +148,10 @@
 		<!-- 고객 리스트 출력 -->
 		<table class="table table-hover">
 			<tr>
-				<th>고객 ID</th>
-				<th>고객 E-MAIL</th>
-				<th>고객 이름</th>
-				<th>고객 생년월일</th>
+				<th>ID</th>
+				<th>E-MAIL</th>
+				<th>이름</th>
+				<th>생년월일</th>
 			</tr>
 			<%
 				for(HashMap<String, Object> m : customerList) {

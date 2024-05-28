@@ -82,7 +82,7 @@
 		<!-- 관리자 네비게이션 바 -->
 		<jsp:include page="/emp/inc/empNavbar.jsp"></jsp:include>
 		
-		<h1>수익현황 리스트</h1>
+		<h1>수익현황</h1>
 		
 		<!-- rowPerPage 설정 -->
 		<form action="/BeeNb/emp/revenueList.jsp" method="post">
@@ -113,9 +113,9 @@
 		<!-- 수익 리스트 출력 -->
 		<table class="table">
 			<tr>
-				<th>예약번호(bookingNo)</th>
+				<th>예약번호</th>
 				<th>수익</th>
-				<th>수익 발생일</th>
+				<th>예약일(결제일)</th>
 			</tr>
 			<%
 				for(HashMap<String, Object> m : revenueList) {
@@ -130,7 +130,7 @@
 			%>
 			
 			<tr class="table-warning">
-				<td>총 수익</td>
+				<th>총 수익</th>
 				<td><%=String.format("%,d", totalRevenue)%>원</td>
 				<td></td>
 			</tr>

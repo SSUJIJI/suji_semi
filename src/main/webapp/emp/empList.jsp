@@ -88,7 +88,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title></title>
+	<title>관리자 목록</title>
 	<jsp:include page="/inc/bootstrapCDN.jsp"></jsp:include>
 	<link href="/BeeNb/css/style.css" rel="stylesheet" type="text/css">
 </head>
@@ -143,11 +143,11 @@
 		<!-- 관리자 리스트 출력 -->
 		<table class="table">
 			<tr>
-				<th>empNo</th>
-				<th>empName</th>
-				<th>empPhone</th>
-				<th>empBirth</th>
-				<th>createDate</th>
+				<th>사번</th>
+				<th>이름</th>
+				<th>전화번호</th>
+				<th>생년월일</th>
+				<th>등록일</th>
 			</tr>
 			<%
 				for(HashMap<String, Object> m : empList) {

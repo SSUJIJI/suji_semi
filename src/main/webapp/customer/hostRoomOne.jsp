@@ -187,71 +187,84 @@
 		</div>
 		
 		<!-- 숙소 상세정보 출력 -->
-		<div>
-			<!-- 숙소 이미지 -->
-			<div>
-				<%
-					for(String roomImg : roomImgList) {
-				%>
-						<img alt="..." src="/BeeNb/upload/<%=roomImg %>" width="500px;">
-				<%
-					}
-				%>
-				
+		<div style="display: flex; jusify-content: space-between;">
+			<div class="w-50">
+				<!-- 숙소 이미지 캐러셀 -->
+				<div id="carouselExample" class="carousel slide">
+				  <div class="carousel-inner">
+		  				<%
+							for(String roomImg : roomImgList) {
+						%>
+							    <div class="carousel-item active">
+							      <img src="/BeeNb/upload/<%=roomImg %>" class="d-block w-100" alt="..." style="height: 365px;">
+							    </div>
+						<%
+							}
+						%>
+				  </div>
+				  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+				    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				    <span class="visually-hidden">Previous</span>
+				  </button>
+				  <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+				    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+				    <span class="visually-hidden">Next</span>
+				  </button>
+				</div>
 			</div>
-			<!-- 나머지 상세정보 -->
-			<div>
-				<div>
-					<b>숙소 이름</b>
-					<%=hostRoomOne.get("roomName") %>
-				</div>
-				
-				<div>
-					<b>숙소 타입</b>
-					<%=hostRoomOne.get("roomCategory") %>
-				</div>
-				
-				<div>
-					<b>테마</b>
-					<%=hostRoomOne.get("roomTheme") %>
-				</div>
-				
-				<div>
-					<b>위치</b>
-					<%=hostRoomOne.get("roomAddress") %>
-				</div>
-				
-				<div>
-					<b>운용 기간</b>
-					<%=hostRoomOne.get("operationStart") %> ~ <%=hostRoomOne.get("operationEnd") %>
-				</div>
-				
-				<div>
-					<b>최대 수용 인원</b>
-					<%=hostRoomOne.get("maxPeople") %>
-				</div>
-				
-				<div>
-					<b>설명</b>
-					<%=hostRoomOne.get("roomContent") %>
-				</div>
-				
-				<div>
-					<b>승인 상태</b>
-					<%=hostRoomOne.get("approveState") %>
-				</div>
-				
-				<div>
-					<b>숙소 등록일</b>
-					<%=hostRoomOne.get("createDate") %>
-				</div>
-				
-				<div>
-					<b>숙소 수정일</b>
-					<%=hostRoomOne.get("updateDate") %>
-				</div>
+			<div class="w-50">
+				<!-- 숙소 상세정보 출력 -->
+				<table class="table table-striped">
+					<tr>
+						<th>숙소 이름</th>
+						<td><%=hostRoomOne.get("roomName") %></td>
+					</tr>
+					<tr>
+						<th>숙소 타입</th>
+						<td><%=hostRoomOne.get("roomCategory") %></td>
+					</tr>
+					<tr>
+						<th>테마</th>
+						<td><%=hostRoomOne.get("roomTheme") %></td>
+					</tr>
+					<tr>
+						<th>위치</th>
+						<td><%=hostRoomOne.get("roomAddress") %></td>
+					</tr>
+					<tr>
+						<th>운용 기간</th>
+						<td><%=hostRoomOne.get("operationStart") %> ~ <%=hostRoomOne.get("operationEnd") %></td>
+					</tr>
+					<tr>
+						<th>최대 수용 인원</th>
+						<td><%=hostRoomOne.get("maxPeople") %></td>
+					</tr>
+					<tr>
+						<th>승인 상태</th>
+						<td><%=hostRoomOne.get("approveState") %></td>
+					</tr>
+					<tr>
+						<th>숙소 등록일</th>
+						<td><%=hostRoomOne.get("createDate") %></td>
+					</tr>
+					<tr>
+						<th>숙소 수정일</th>
+						<td><%=hostRoomOne.get("updateDate") %></td>
+					</tr>
+				</table>
 			</div>
 		</div>
+		
+		<table class="table table-striped">
+			<tr>
+				<th>숙소 상세 내용</th>
+			</tr>
+			<tr>
+				<td>
+					<%=hostRoomOne.get("roomContent") %>
+				</td>
+			</tr>
+		</table>
 
 		<!-- 숙소 예약일 표시 및 가격 등록 버튼-->
 		<div>
