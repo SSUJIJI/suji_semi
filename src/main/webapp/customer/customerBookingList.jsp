@@ -175,41 +175,40 @@
 	                           <%
 	                               if(((String)m.get("bookingState")).equals("리뷰완료")) {
 	                           %>
-	                               <button class="btn btn-disabled" disabled>리뷰 완료</button>
+	                               		<button class="btn btn-disabled" disabled>리뷰 완료</button>
 	                           <%
 	                               } else {
 	                           %>
-	                               <a href="/BeeNb/customer/customerAddReviewForm.jsp?bookingNo=<%=m.get("bookingNo") %>" class="btn">리뷰 쓰기</a>
+	                               		<a href="/BeeNb/customer/customerAddReviewForm.jsp?bookingNo=<%=m.get("bookingNo") %>" class="btn">리뷰 쓰기</a>
 	                           <%
 	                               }
 	                           %>
 	                       </td>
 							<td>
-							<%
-								// 신고내역 상태 확인 신고는 1건만 등록 가능함
-								//boolean result = ComplainDAO.selectComplainState(customerId);
-								HashMap<String,Object> map= ComplainDAO.selectcomplainStateOne(customerId);
-								
-										if(((String)map.get("complainState")).equals("접수")){
-							%>				
-											<button class="btn btn-disabled" disabled>접수</button>
-								<%				
-											} else if(((String)map.get("complainState")).equals("처리중")){
-								%>			
-												<button class="btn btn-disabled" disabled>처리중</button>
 								<%
-											} else if(((String)map.get("complainState")).equals("처리완료")) {
+									// 신고내역 상태 확인 신고는 1건만 등록 가능함
+									HashMap<String,Object> map= ComplainDAO.selectcomplainStateOne(customerId);
+											System.out.println("map : " + map);
+											if(map.get("complainState") != null){
+												if(((String)map.get("complainState")).equals("접수")){
 								%>				
-												<button class="btn btn-disabled" disabled>처리완료</button>
-								<%
+													<button class="btn btn-disabled" disabled>접수</button>
+													<%				
+														} else if(((String)map.get("complainState")).equals("처리중")){
+													%>			
+															<button class="btn btn-disabled" disabled>처리중</button>
+													<%
+														} else if(((String)map.get("complainState")).equals("처리완료")) {
+													%>				
+															<button class="btn btn-disabled" disabled>처리완료</button>
+													<%
+														}
 											} else{
-								%>				
-												<a href = "/BeeNb/customer/customerComplainBookingForm.jsp?bookingNo=<%=map.get("bookingNo")%>" class="btn">신고하기</a>
-								<%
+												%>
+													<a href = "/BeeNb/customer/customerComplainBookingForm.jsp?bookingNo=<%=map.get("bookingNo")%>" class="btn">신고하기</a>
+												<% 
 											}
-							%>
-														
-								
+												%>																								
 							</td>
 						</tr>
 				<%
