@@ -1,7 +1,10 @@
 <%@page import="java.util.*"%>
 <%@page import="beeNb.dao.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="/customer/inc/customerSessionIsNull.jsp"%>
+<%
+	HashMap<String, Object> loginCustomer = (HashMap<String, Object>)(session.getAttribute("loginCustomer"));
+	System.out.println("loginCustomer : " + loginCustomer);
+%>
 <%
 	System.out.println("==========customerRoomOne.jsp==========");
 
@@ -64,7 +67,8 @@
 	// 디버깅
 	System.out.println("lastPage : " + lastPage);
 	
-	
+	// 이미지 목록 정보
+	ArrayList<String> roomImgList = RoomImgDAO.selectRoomImgList(roomNo);
 	// 호스팅한 숙소의 상세정보
 	HashMap<String, Object> customerRoomOne = RoomDAO.selectHostRoomOne(roomNo);
 	//디버깅
@@ -141,8 +145,35 @@
 					<div class="col">
 											
 						<!-- 숙소 이미지 -->
-						<div>
-							<img alt="..." src="/BeeNb/upload/<%=customerRoomOne.get("roomImg") %>" width="100%">
+<%-- 						<div>
+							<img alt="..." src="/BeeNb/upload/<%=customerRoomOne.get("roomImg") %>"  width="100%">
+						</div> --%>
+						<div id="carouselExample" class="carousel slide">
+						  <div class="carousel-inner">
+							<% 
+								if(!roomImgList.isEmpty()){ 
+									int index=0;
+									for(String s : roomImgList){		
+							%>						  	
+									    <div class="carousel-item <%=(index == 0) ? "active" : "" %> ">
+									      	<img src="/BeeNb/upload/<%=s %>" class="d-block" style="height: 300px;" alt="...">
+									    </div>
+							<% 		
+										index = index + 1;
+									}
+									
+								} 
+							%>
+						    
+						  </div>
+						  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+						    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+						    <span class="visually-hidden">Previous</span>
+						  </button>
+						  <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+						    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+						    <span class="visually-hidden">Next</span>
+						  </button>
 						</div>
 						<hr>
 						<h1><%=customerRoomOne.get("roomName") %></h1>	
@@ -185,7 +216,7 @@
 								<%=customerRoomOne.get("roomContent") %>
 							</div>
 							
-							<div>
+<%-- 							<div>
 								<b>승인 상태</b>
 								<%=customerRoomOne.get("approveState") %>
 							</div>
@@ -198,7 +229,7 @@
 							<div>
 								<b>숙소 수정일</b>
 								<%=customerRoomOne.get("updateDate") %>
-							</div>
+							</div> --%>
 						</div>
 					</div>
 					</div>
@@ -286,14 +317,16 @@
 									</tbody>
 								</table>
 							</div>
+							<%if(loginCustomer != null){ %>
 							<div>
 								인원&nbsp;&nbsp;&nbsp; : &nbsp;&nbsp;&nbsp;
 								<input type="number" class="form-control w-75" style="display: inline-block;" id="usePeople" name="usePeople"><br>
 								<input type="hidden" id="roomNo" name="roomNo" value="<%=customerRoomOne.get("roomNo") %>">
 							</div>
-							<div class="mt-3 d-flex flex-row-reverse">
-								<input type="submit" class=" btn btn-outline-warning btn-width-beenb mx-2" value="예약하기">
-							</div>
+								<div class="mt-3 d-flex flex-row-reverse">
+									<input type="submit" class=" btn btn-outline-warning btn-width-beenb mx-2" value="예약하기">
+								</div>
+							<% } %>
 						</form>
 					</div>
 				</div>
@@ -337,31 +370,36 @@
 				
 			<!-- 숙소 리뷰 페이징 -->	
 			<div>
+							<nav>
+		        	<ul class="pagination" style="display: flex; justify-content: center;">
+		        	
 				<%
 					if(currentPage > 1) {
 				%>	
-						<a href="/BeeNb/customer/customerRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=1">처음페이지</a>
-						<a href="/BeeNb/customer/customerRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=<%=currentPage-1%>">이전페이지</a>
+						<a href="/BeeNb/customer/customerRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=1" class="mx-1">처음페이지</a>
+						<a href="/BeeNb/customer/customerRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=<%=currentPage-1%>"  class="mx-1">이전페이지</a>
 				<%		
 					} else {
 				%>
-						<a href="/BeeNb/customer/customerRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=1">처음페이지</a>
-						<a href="/BeeNb/customer/customerRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=1">이전페이지</a>
+						<a href="/BeeNb/customer/customerRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=1" class="mx-1">처음페이지</a>
+						<a href="/BeeNb/customer/customerRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=1" class="mx-1">이전페이지</a>
 				<%		
 					}
 		
 					if(currentPage < lastPage) {
 				%>
-						<a href="/BeeNb/customer/customerRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=<%=currentPage+1%>">다음페이지</a>
-						<a href="/BeeNb/customer/customerRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=<%=lastPage%>">마지막페이지</a>
+						<a href="/BeeNb/customer/customerRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=<%=currentPage+1%>" class="mx-1">다음페이지</a>
+						<a href="/BeeNb/customer/customerRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=<%=lastPage%>" class="mx-1">마지막페이지</a>
 				<%		
 					} else {
 				%>
-						<a href="/BeeNb/customer/customerRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=<%=lastPage%>">다음페이지</a>
-						<a href="/BeeNb/customer/customerRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=<%=lastPage%>">마지막페이지</a>
+						<a href="/BeeNb/customer/customerRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=<%=lastPage%>" class="mx-1">다음페이지</a>
+						<a href="/BeeNb/customer/customerRoomOne.jsp?roomNo=<%=roomNo%>&currentPage=<%=lastPage%>" class="mx-1">마지막페이지</a>
 				<%
 					}
 				%>
+				</ul>
+		        	</nav>
 			</div>
 		</div>
 		

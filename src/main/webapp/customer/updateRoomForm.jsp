@@ -125,7 +125,7 @@
 					<div class="col-10">
 						<input type="date" id="operationStart" name="operationStart" required="required" value="<%=oneMap.get("operationStart")%>">
 						<span>~</span>
-						<input type="date" id="operationEnd" name="operationEnd" required="required" value="<%=oneMap.get("operationStart")%>">
+						<input type="date" id="operationEnd" name="operationEnd" required="required" value="<%=oneMap.get("operationEnd")%>">
 					</div>
 				</div>
 				
