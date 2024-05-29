@@ -187,7 +187,7 @@
 							<td>
 								<%
 									// 신고내역 상태 확인 신고는 1건만 등록 가능함
-									HashMap<String,Object> map= ComplainDAO.selectcomplainStateOne(customerId);
+									HashMap<String,Object> map = ComplainDAO.selectcomplainStateOne(customerId, Integer.parseInt(""+m.get("bookingNo")));
 											System.out.println("map : " + map);
 											if(map.get("complainState") != null){
 												if(((String)map.get("complainState")).equals("접수")){
@@ -205,7 +205,7 @@
 														}
 											} else{
 												%>
-													<a href = "/BeeNb/customer/customerComplainBookingForm.jsp?bookingNo=<%=map.get("bookingNo")%>" class="btn">신고하기</a>
+													<a href = "/BeeNb/customer/customerComplainBookingForm.jsp?bookingNo=<%=m.get("bookingNo")%>" class="btn">신고하기</a>
 												<% 
 											}
 												%>																								

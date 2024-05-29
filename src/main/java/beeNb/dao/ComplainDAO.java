@@ -232,15 +232,16 @@ public class ComplainDAO {
 	// 설명 : 신고내역 상태 가져오기
 	// 호출 : customerBookingList.jsp
 	// return : HashMap()
-	public static HashMap<String,Object> selectcomplainStateOne (String customerId) throws Exception{
+	public static HashMap<String,Object> selectcomplainStateOne (String customerId, int bookingNo) throws Exception{
 		HashMap<String, Object> m = new HashMap<String,Object>();
 		Connection conn = DBHelper.getConnection();
 		String sql="SELECT cp.complain_state complainState, b.booking_no bookingNo"
 				+ " FROM booking b LEFT JOIN complain cp"
 				+ " ON b.booking_no = cp.booking_no"
-				+ " WHERE b.customer_id = ?";
+				+ " WHERE b.customer_id = ? AND cp.booking_no = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1,customerId);
+		stmt.setInt(2,bookingNo);
 		ResultSet rs = stmt.executeQuery();
 		
 		while(rs.next()) {
