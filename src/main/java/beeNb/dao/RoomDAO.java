@@ -62,7 +62,7 @@ public class RoomDAO {
 		
 		// 해당 호스트의 아이디(customerId)에 해당하는 room 테이블의 room SELECT하는 쿼리
 		String sql = "SELECT r.room_no AS roomNo, r.room_name AS roomName, r.room_address AS roomAddress, r.operation_start AS operationStart,"
-				+ " r.operation_end AS operationEnd, r.room_category AS roomCategory, img.room_img AS roomImg"
+				+ " r.operation_end AS operationEnd, r.room_category AS roomCategory, r.approve_state AS approveState, img.room_img AS roomImg"
 				+ " FROM room AS r INNER JOIN room_img AS img"
 				+ " ON r.room_no = img.room_no"
 				+ " WHERE customer_id = ?"
@@ -76,6 +76,7 @@ public class RoomDAO {
 			m.put("roomNo", rs.getInt("roomNo"));
 			m.put("roomName", rs.getString("roomName"));
 			m.put("roomAddress", rs.getString("roomAddress"));
+			m.put("approveState", rs.getString("approveState"));
 			m.put("operationStart", rs.getString("operationStart"));
 			m.put("operationEnd", rs.getString("operationEnd"));
 			m.put("roomCategory", rs.getString("roomCategory"));

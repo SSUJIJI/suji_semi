@@ -51,6 +51,8 @@
 								<br>
 								<b>위치 : </b><%=(String) (m.get("roomAddress"))%>
 								<br>
+								<b>승인 상태 : </b><%=(String) (m.get("approveState"))%>
+								<br>
 								<b>운용기간 : </b><%=m.get("operationStart") %> ~ <%=m.get("operationEnd") %> 
 								<br><a class="btn btn-warning" href="/BeeNb/customer/hostRoomOne.jsp?roomNo=<%=m.get("roomNo")%>">상세 보기</a>
 							</p>
