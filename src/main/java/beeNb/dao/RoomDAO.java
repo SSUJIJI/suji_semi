@@ -325,7 +325,7 @@ public class RoomDAO {
 				+ "    , o.ott ott"
 				+ "    , o.parking parking"
 				+ "    , o.wifi wifi"
-				+ "FROM  "
+				+ " FROM  "
 				+ "	room AS r INNER JOIN room_option AS o "
 				+ "	ON r.room_no = o.room_no "
 				+ "WHERE r.room_no = ?";  
@@ -369,6 +369,8 @@ public class RoomDAO {
 				+ ", room_theme = ? "
 				+ ", room_address = ? "
 				+ ", room_content = ? "
+				+ ", operation_start = ? "
+				+ ", operation_end = ? "
 				+ ", max_people = ? "
 				+ "WHERE room_no = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
@@ -377,8 +379,10 @@ public class RoomDAO {
 		stmt.setString(3, map.get("roomTheme"));
 		stmt.setString(4, map.get("roomAddress"));
 		stmt.setString(5, map.get("roomContent"));
-		stmt.setString(6, map.get("maxPeople"));
-		stmt.setInt(7, Integer.parseInt(map.get("roomNo")));
+		stmt.setString(6, map.get("operationStart"));
+		stmt.setString(7, map.get("operationEnd"));
+		stmt.setString(8, map.get("maxPeople"));
+		stmt.setInt(9, Integer.parseInt(map.get("roomNo")));
 		row = stmt.executeUpdate();	
 		return row;
 	}	
