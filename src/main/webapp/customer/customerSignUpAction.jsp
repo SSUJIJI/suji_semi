@@ -11,6 +11,14 @@
 	String customerPhone = request.getParameter("customerPhone");
 	String customerGender = request.getParameter("customerGender");
 	
+	
+	 // 검증 로직 추가
+    if (customerId == null || customerId.isEmpty()) {
+    	String errMsg2 = URLEncoder.encode("아이디 중복확인 필요", "UTF-8");
+        response.sendRedirect("/BeeNb/customer/customerSignUpForm.jsp?errMsg2="+errMsg2);
+        return;
+    }
+	 
 	// 디버깅코드
 	System.out.println("customerId : " + customerId);
 	System.out.println("customerPw : " + customerPw);

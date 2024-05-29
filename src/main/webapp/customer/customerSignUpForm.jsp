@@ -4,6 +4,9 @@
 	// 회원가입 실패시 오류 메시지
 	String errMsg = request.getParameter("errMsg");
 
+	// 아이디 중복확인 오류 메시지
+	String errMsg2 = request.getParameter("errMsg2");
+	
 	// 전화번호 입력 오류 메시지
 	String errMsgP = request.getParameter("errMsgP");
 	if(errMsgP == null){
@@ -40,7 +43,14 @@
 		<div class="card mx-auto mt-5" style="max-width: 600px;">
             <div class="card-body">
                 <h1 class="card-title text-center">회원가입</h1>
-                <!-- 아이디 중복 확인 폼 -->
+                <!-- 아이디 회원가입 오류 메시지 -->
+                 <% if (errMsg != null) { %>
+                    <div class="alert alert-danger" role="alert"><%= errMsg %></div>
+                <% } %>
+                <!-- 아이디 중복확인 오류 메시지 -->
+                <% if (errMsg2 != null) { %>
+                    <div class="alert alert-danger" role="alert"><%= errMsg2 %></div>
+                <% } %>
                 <form method="post" action="/BeeNb/customer/customerCheckIdAction.jsp" class="mb-4">
                     <div class="form-group">
                         <!-- 중복 확인 메시지 -->
