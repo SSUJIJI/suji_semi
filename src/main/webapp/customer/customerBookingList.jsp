@@ -59,6 +59,8 @@
 	String errMsg = request.getParameter("errMsg");
 	// 디버깅
 	System.out.println("errMsg : " + errMsg);
+	
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -138,8 +140,7 @@
 					</td>
 				</tr>
 			<%
-				}
-				
+				}				
 			%>
 		</table>
 		<h1>이용 후 예약리스트</h1>
@@ -161,33 +162,58 @@
 				<%
 					for(HashMap<String,Object> m : afterList){
 				%>
-					<tr>
-						<td><%=(Integer)(m.get("bookingNo"))%></td>
-						<td><%=(String)(m.get("customerId"))%></td>
-						<td><%=(String)(m.get("roomName"))%></td>
-						<td><%=(String)(m.get("roomAddress"))%></td>
-						<td><%=(String)(m.get("bookingState"))%></td>
-						<td><%=(String)(m.get("createDate"))%></td>
-						<td><%=(String)(m.get("startRoomDate"))%></td>
-						<td><%=(String)(m.get("endRoomDate"))%></td>
-						  <td>
-                            <%
-                                if(((String)m.get("bookingState")).equals("리뷰완료")) {
-                            %>
-                                <button class="btn btn-disabled" disabled>리뷰 완료</button>
-                            <%
-                                } else {
-                            %>
-                                <a href="/BeeNb/customer/customerAddReviewForm.jsp?bookingNo=<%=m.get("bookingNo") %>" class="btn">리뷰 쓰기</a>
-                            <%
-                                }
-                            %>
-                        </td>
-						<td><a href = "/BeeNb/customer/customerComplainBookingForm.jsp?bookingNo=<%=m.get("bookingNo")%>" class="btn">신고하기</a>
-					</tr>
+						<tr>
+							<td><%=(Integer)(m.get("bookingNo"))%></td>
+							<td><%=(String)(m.get("customerId"))%></td>
+							<td><%=(String)(m.get("roomName"))%></td>
+							<td><%=(String)(m.get("roomAddress"))%></td>
+							<td><%=(String)(m.get("bookingState"))%></td>
+							<td><%=(String)(m.get("createDate"))%></td>
+							<td><%=(String)(m.get("startRoomDate"))%></td>
+							<td><%=(String)(m.get("endRoomDate"))%></td>
+						  	<td>
+	                           <%
+	                               if(((String)m.get("bookingState")).equals("리뷰완료")) {
+	                           %>
+	                               <button class="btn btn-disabled" disabled>리뷰 완료</button>
+	                           <%
+	                               } else {
+	                           %>
+	                               <a href="/BeeNb/customer/customerAddReviewForm.jsp?bookingNo=<%=m.get("bookingNo") %>" class="btn">리뷰 쓰기</a>
+	                           <%
+	                               }
+	                           %>
+	                       </td>
+							<td>
+							<%
+								// 신고내역 상태 확인 신고는 1건만 등록 가능함
+								//boolean result = ComplainDAO.selectComplainState(customerId);
+								HashMap<String,Object> map= ComplainDAO.selectcomplainStateOne(customerId);
+								
+										if(((String)map.get("complainState")).equals("접수")){
+							%>				
+											<button class="btn btn-disabled" disabled>접수</button>
+								<%				
+											} else if(((String)map.get("complainState")).equals("처리중")){
+								%>			
+												<button class="btn btn-disabled" disabled>처리중</button>
+								<%
+											} else if(((String)map.get("complainState")).equals("처리완료")) {
+								%>				
+												<button class="btn btn-disabled" disabled>처리완료</button>
+								<%
+											} else{
+								%>				
+												<a href = "/BeeNb/customer/customerComplainBookingForm.jsp?bookingNo=<%=map.get("bookingNo")%>" class="btn">신고하기</a>
+								<%
+											}
+							%>
+														
+								
+							</td>
+						</tr>
 				<%
-					}
-					
+					}				
 				%>
 			</table>
 			<!-- 페이징 버튼 -->

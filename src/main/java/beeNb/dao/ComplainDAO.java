@@ -227,4 +227,48 @@ public class ComplainDAO {
 		conn.close();
 		return row;
 	}
+	// 설명 : 신고내역 상태 확인
+	// 호출 : customerBookingList.jsp
+	// return : boolean(true면 신고내역 유, false면 신고내역 무)
+	public static boolean selectComplainState(String customerId) throws Exception {
+		boolean result = false;
+		Connection conn = DBHelper.getConnection();
+		String sql="SELECT cp.complain_state complainState"
+				+ " FROM booking b iNNER JOIN complain cp"
+				+ " ON b.booking_no = cp.booking_no"
+				+ " WHERE b.customer_id = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1,customerId);
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) {
+			result = true;
+		}
+		
+		conn.close();
+		return result;
+		
+	}
+	
+	// 설명 : 신고내역 상태 가져오기
+	// 호출 : customerBookingList.jsp
+	// return : HashMap()
+	public static HashMap<String,Object> selectcomplainStateOne (String customerId) throws Exception{
+		HashMap<String, Object> m = new HashMap<String,Object>();
+		Connection conn = DBHelper.getConnection();
+		String sql="SELECT cp.complain_state complainState, b.booking_no bookingNo"
+				+ " FROM booking b LEFT JOIN complain cp"
+				+ " ON b.booking_no = cp.booking_no"
+				+ " WHERE b.customer_id = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1,customerId);
+		ResultSet rs = stmt.executeQuery();
+		
+		while(rs.next()) {
+			m.put("complainState", rs.getString("complainState"));
+			m.put("bookingNo", rs.getInt("bookingNo"));
+		}
+		conn.close();
+		return m;
+		
+	}
 }
