@@ -40,18 +40,18 @@
 		target.set(Calendar.MONTH, Integer.parseInt(targetMonth));
 	}
 	
+	// 달력 1일 시작 전 공백 개수 구하기 -> 1일의 요일이 필요 -> target의 날짜를 1일로 변경
+	target.set(Calendar.DATE, 1);
+	int firstDayNum = target.get(Calendar.DAY_OF_WEEK);	//1일의 요일 (일 : 1 / 월 : 2 / ... / 토 : 7)
+	// 디버깅
+	System.out.println("firstDayNum : " + firstDayNum);
+	
 	// 페이지에 출력할 달력 년 월 변수
 	int calendarYear = target.get(Calendar.YEAR);
 	int calendarMonth = target.get(Calendar.MONTH);
 	// 디버깅
 	System.out.println("calendarYear : " + calendarYear);
 	System.out.println("calendarMonth : " + calendarMonth);
-	
-	// 달력 1일 시작 전 공백 개수 구하기 -> 1일의 요일이 필요 -> target의 날짜를 1일로 변경
-	target.set(Calendar.DATE, 1);
-	int firstDayNum = target.get(Calendar.DAY_OF_WEEK);	//1일의 요일 (일 : 1 / 월 : 2 / ... / 토 : 7)
-	// 디버깅
-	System.out.println("firstDayNum : " + firstDayNum);
 	
 	int firstDayBeforeBlank = firstDayNum - 1;	// 1일 시작 전 공백 개수 Ex) 1일이 일요일 -> 0개 / 1일이 월요일 -> 1개 / .... / 1일이 토요일 -> 6개
 	int lastDay = target.getActualMaximum(Calendar.DATE);	// target달의 마지막 날짜 반환
@@ -73,6 +73,25 @@
 	<title></title>
 	<jsp:include page="/inc/bootstrapCDN.jsp"></jsp:include>
 	<link href="/BeeNb/css/style.css" rel="stylesheet" type="text/css">
+	<script type="text/javascript">
+		function toggleCheckboxes() {
+		       var checkboxes = document.getElementsByName('roomDate');
+		       var allChecked = true;
+		
+		       for (var i = 0; i < checkboxes.length; i++) {
+		           if (!checkboxes[i].checked) {
+		               allChecked = false;
+		               break;
+		           }
+		       }
+		
+		       for (var i = 0; i < checkboxes.length; i++) {
+		           checkboxes[i].checked = !allChecked;
+		       }
+		
+		       document.getElementById('toggleButton').textContent = allChecked ? '전체 선택' : '전체 해제';
+		   }
+	</script>
 </head>
 <body>
 	<div class="container">
@@ -97,6 +116,9 @@
 		<div>
 			<hr>
 			<div class="row" style="text-align: center; justify-content: center;">
+				<div class="col-1">
+					<button class="btn btn-warning" type="button" id="toggleButton" onclick="toggleCheckboxes()">전체 선택</button>
+				</div>
 				<div class="col-auto">
 					<a class="text-decoration-none fs-5 text-dark" href="/BeeNb/customer/addOneDayPriceForm.jsp?roomNo=<%=roomNo %>&targetYear=<%=calendarYear%>&targetMonth=<%=calendarMonth - 1%>" style="display: block;">
 						이전 달

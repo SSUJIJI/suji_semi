@@ -104,18 +104,19 @@
 		target.set(Calendar.MONTH, Integer.parseInt(targetMonth));
 	}
 	
+	// 달력 1일 시작 전 공백 개수 구하기 -> 1일의 요일이 필요 -> target의 날짜를 1일로 변경
+	target.set(Calendar.DATE, 1);
+	int firstDayNum = target.get(Calendar.DAY_OF_WEEK);	//1일의 요일 (일 : 1 / 월 : 2 / ... / 토 : 7)
+	// 디버깅
+	System.out.println("firstDayNum : " + firstDayNum);
+	
+	
 	// 페이지에 출력할 달력 년 월 변수
 	int calendarYear = target.get(Calendar.YEAR);
 	int calendarMonth = target.get(Calendar.MONTH);
 	// 디버깅
 	System.out.println("calendarYear : " + calendarYear);
 	System.out.println("calendarMonth : " + calendarMonth);
-	
-	// 달력 1일 시작 전 공백 개수 구하기 -> 1일의 요일이 필요 -> target의 날짜를 1일로 변경
-	target.set(Calendar.DATE, 1);
-	int firstDayNum = target.get(Calendar.DAY_OF_WEEK);	//1일의 요일 (일 : 1 / 월 : 2 / ... / 토 : 7)
-	// 디버깅
-	System.out.println("firstDayNum : " + firstDayNum);
 	
 	int firstDayBeforeBlank = firstDayNum - 1;	// 1일 시작 전 공백 개수 Ex) 1일이 일요일 -> 0개 / 1일이 월요일 -> 1개 / .... / 1일이 토요일 -> 6개
 	int lastDay = target.getActualMaximum(Calendar.DATE);	// target달의 마지막 날짜 반환
