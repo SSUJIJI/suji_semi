@@ -54,9 +54,14 @@
                 <form method="post" action="/BeeNb/customer/customerCheckIdAction.jsp" class="mb-4">
                     <div class="form-group">
                         <!-- 중복 확인 메시지 -->
-                        <div class="alert alert-warning" role="alert">
-                            <%= msg %>
-                        </div>
+                        <%
+                        	if(msg != null && !msg.equals("")) {
+                        %>
+                        		<div class="alert alert-warning" role="alert"><%= msg %></div>
+                        <%
+                        	}
+                        %>
+                        
                         <label for="customerId">아이디</label>
                         <div class="input-group">
                             <input type="text" id="customerId" name="customerId" class="form-control" required="required" value="<%= customerId %>">

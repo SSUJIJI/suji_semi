@@ -44,7 +44,7 @@
 					<form method = "post" action = "/BeeNb/customer/customerEditPwAction.jsp">
 						<div class="mb-3">
 	                        <label for="customerId" class="form-label">아이디: </label>
-	                        <input type="text" class="form-control" id="customerId" name="customerId" required>
+	                        <input type="text" class="form-control" id="customerId" name="customerId" value="<%=customerId %>" required readonly="readonly">
                     	</div>
                     	<div class="mb-3">
 	                        <label for="newCustomerPw" class="form-label">새 비밀번호: </label>
