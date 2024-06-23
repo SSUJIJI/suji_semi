@@ -1,4 +1,5 @@
 # BeeNb Project
+![image](https://github.com/TEAM-beeNb/BeeNb/assets/145954981/92a87e34-f57c-4caf-b192-ea3a41370276)
 
 ## 🖥️ 프로젝트 소개
 
